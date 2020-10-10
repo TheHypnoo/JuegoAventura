@@ -22,6 +22,13 @@ public class Tripulantes extends Personas{
         //Tripulantes.this.setObjetosTripulante();
     }
 
+    public void InfoTripulantes(){
+        System.out.println("Nombre del Tripulante: "+Tripulantes.super.getNombrePersona());
+        System.out.println("Posicion del Tripulante: "+Tripulantes.super.getPosicion());
+        System.out.println("MuertoVivo del Tripulante: "+Tripulantes.super.getVivoMuerto());
+        System.out.println("DormidoDespierto del Tripulante: "+Tripulantes.this.getDormidoDespierto());
+    }
+
 
     //Establece Si el tripulante esta dormido o despierto
     public void setDormidoDespierto(Boolean DormidoDespierto){

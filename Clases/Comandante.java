@@ -22,9 +22,19 @@ public class Comandante extends Personas{
     }
 
     public void infoComandante(){
-        Comandante.super.getNombrePersona();
-        Comandante.super.getPosicion();
-        Comandante.super.getVivoMuerto();
+        System.out.println("Nombre del Comandante: "+Comandante.super.getNombrePersona());
+        System.out.println("Posicion del Comandante: "+Comandante.super.getPosicion());
+        System.out.println("Estado del Comandante: "+Comandante.super.getVivoMuerto());
+        /*for(int i=0;i<Mochila.crearMochila().getMochila().size();i++)
+        {
+            if(InventarioComandante.get(i) != null)
+            {
+                System.out.println(InventarioComandante.get(i));
+            }
+            else {
+                System.out.println("Inventario del Comandante: Vacio");
+            }
+        }*/
     }
 
     //Establezco los objetos del comandante

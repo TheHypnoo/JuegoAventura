@@ -11,6 +11,8 @@ public class menuSecundario {
     static final String ANSI_WHITE = "\u001B[37m";
     static final String ANSI_BOLD = "\u001b[1m";
     AccionIR AccionIR = new AccionIR();
+    Habitaciones Habitaciones = new Habitaciones();
+    Comandante Comandante = new Comandante();
 
     public void Menu() {
         String opcion;
@@ -27,7 +29,7 @@ public class menuSecundario {
                 opcion = sc.next();
                 switch (opcion.toUpperCase()) {
                     case "IR" -> AccionIR.ir();
-                    case "IR2" -> System.out.println("Esto no funciona");//Creditos.Creditos();
+                    case "INFO" -> Habitaciones.infoHabitacion(Comandante.getPosicion());
                     case "IR3" -> {
                         salir = true;
                         System.out.println("El Juego de Aventura a Finalizado correctamente.");
@@ -36,7 +38,7 @@ public class menuSecundario {
                     default -> System.out.println(ANSI_RED + ANSI_BOLD + "Error, vuelve a introducir el modo nuevamente.");
                 }
 
-            } catch (InputMismatchException e) {
+            } catch (InputMismatchException | InterruptedException e) {
                 System.out.println(ANSI_RED + ANSI_BOLD + "Debes insertar un número correspondiente al que se te indica.");
                 sc.next();
             }

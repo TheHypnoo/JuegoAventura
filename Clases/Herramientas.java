@@ -18,13 +18,13 @@ public class Herramientas {
 
     public ArrayList<Herramientas> crearHerramientas(){
 
-        Herramientas Taller = new Herramientas("Taller", "Descripción");
-        Herramientas Linterna = new Herramientas("Linterna","Descripción");
-        Herramientas VestidoEspacial = new Herramientas("Vestido Espacial","Descripción");
-        Herramientas TarjetaIdentificadora = new Herramientas("Tarjeta Identificadora","Descripción");
-        Herramientas TarjetaTripulante = new Herramientas("Tarjeta Tripulante","Descripción");
-        Herramientas Donuts = new Herramientas("Donuts","Descripción");
-        ArrHerramientas.add(Taller);
+        Herramientas Destornillador = new Herramientas("Destornillador", "Sirve para reparar la nave o incluso atacar a alguien...");
+        Herramientas Linterna = new Herramientas("Linterna","Sirve para ver a oscuras en una habitación sin luz");
+        Herramientas VestidoEspacial = new Herramientas("Vestido Espacial","El Uniforme mas indispensable para salir de la nave");
+        Herramientas TarjetaIdentificadora = new Herramientas("Tarjeta Identificadora","Tarjeta para abrir las puertas de la nave");
+        Herramientas TarjetaTripulante = new Herramientas("Tarjeta Tripulante","Tarjeta que tienen los tripulantes para abrir las puertas de la nave");
+        Herramientas Donuts = new Herramientas("Donuts","Es el alimento favorito del Alien, si le damos Donuts el Alien se tranquilizara");
+        ArrHerramientas.add(Destornillador);
         ArrHerramientas.add(Linterna);
         ArrHerramientas.add(VestidoEspacial);
         ArrHerramientas.add(TarjetaIdentificadora);

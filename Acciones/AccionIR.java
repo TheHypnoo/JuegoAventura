@@ -2,11 +2,7 @@ import java.util.Scanner;
 
 public class AccionIR {
     Comandante Comandante = new Comandante();
-    Herramientas Herramientas = new Herramientas();
     Habitaciones Habitaciones = new Habitaciones();
-    Nave Nave = new Nave();
-    Alien Alien = new Alien();
-    Tripulantes Tripulantes = new Tripulantes();
     Scanner sc = new Scanner(System.in);
 
     /*

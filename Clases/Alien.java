@@ -21,6 +21,12 @@ public class Alien extends Personas {
     }
 
 
+    public void InfoAlien(){
+        System.out.println("Nombre del Alien: "+Alien.super.getNombrePersona());
+        System.out.println("Posicion del Alien: "+Alien.super.getPosicion());
+        System.out.println("Estado del Alien: "+Alien.super.getVivoMuerto());
+    }
+
     //Establezco el contador de cuantas veces ha encontrado un aliado
     public void setContadorEncontradoAliado(int ContadorEncontradoAliado){
         this.ContadorEncontradoAliado = ContadorEncontradoAliado;
