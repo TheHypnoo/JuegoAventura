@@ -21,7 +21,6 @@ public class menuSecundario {
             System.out.println(ANSI_CYAN + "-------------------------------------");
             System.out.println(ANSI_GREEN + "Escoge el modo: ");
             System.out.println(ANSI_BLACK + "IR");
-            System.out.println("BUSCAR");
             System.out.println("INFO");
             System.out.println(ANSI_CYAN + "-------------------------------------");
             try {

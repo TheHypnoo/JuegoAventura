@@ -13,6 +13,7 @@ public class Inicializar {
         Nave.crearNave();
         Comandante.crearComandante();
         Alien.crearAlien();
+        Alien.PosAlien();
         Tripulantes.crearTripulantes();
         Comandante.infoComandante();
         Alien.InfoAlien();

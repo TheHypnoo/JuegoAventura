@@ -38,21 +38,21 @@ public class AccionIR {
 
             if(pregunta.equalsIgnoreCase("Banyos") || pregunta.equalsIgnoreCase("Baños")){
                 if(Comandante.getPosicion() == Habitaciones.ArrHabitaciones.get(0).getZona()){
-                    System.out.println("Estas en la habitacion");
                     if(Habitaciones.ArrHabitaciones.get(1).getPuerta() == true){
-                        System.out.println("La puerta esta abierta puedes pasar");
+                        System.out.println("Te has movido a Baños");
                         Comandante.setPosicion(1);
-                        System.out.println(Comandante.getPosicion());
+                    } else {
+                        System.out.println("La puerta esta cerrada.");
                     }
                 }
             } else {
                 if (pregunta.equalsIgnoreCase("Comedor")) {
                     if(Comandante.getPosicion() == Habitaciones.ArrHabitaciones.get(0).getZona()) {
-                    System.out.println("Estas en la habitacion");
                     if (Habitaciones.ArrHabitaciones.get(7).getPuerta() == true) {
-                        System.out.println("La puerta esta abierta puedes pasar");
+                        System.out.println("Te has movido al Comedor");
                         Comandante.setPosicion(7);
-                        System.out.println(Comandante.getPosicion());
+                    } else {
+                        System.out.println("La puerta esta cerrada");
                     }
                 }
             }
@@ -69,21 +69,21 @@ public class AccionIR {
 
             if(pregunta.equalsIgnoreCase("Oficina") || pregunta.equalsIgnoreCase("Oficinas")){
                 if(Comandante.getPosicion() == Habitaciones.ArrHabitaciones.get(1).getZona()){
-                    System.out.println("Estas en la habitacion");
                     if(Habitaciones.ArrHabitaciones.get(2).getPuerta() == true){
-                        System.out.println("La puerta esta abierta puedes pasar");
+                        System.out.println("Te has movido a la Oficina");
                         Comandante.setPosicion(2);
-                        System.out.println(Comandante.getPosicion());
+                    } else {
+                        System.out.println("La puerta esta cerrada");
                     }
                 }
             } else {
                 if (pregunta.equalsIgnoreCase("Dormitorio")) {
                     if(Comandante.getPosicion() == Habitaciones.ArrHabitaciones.get(1).getZona()){
-                        System.out.println("Estas en la habitacion");
-                    System.out.println("Estas en la habitacion");
                     if (Habitaciones.ArrHabitaciones.get(0).getPuerta() == true) {
-                        System.out.println("La puerta esta abierta puedes pasar");
+                        System.out.println("Te has movido al Dormitorio");
                         Comandante.setPosicion(0);
+                    } else {
+                        System.out.println("La puerta esta cerrada");
                     }
                 }
             }
@@ -102,41 +102,41 @@ public class AccionIR {
 
         if (pregunta.equalsIgnoreCase("Taller")) {
             if (Comandante.getPosicion() == Habitaciones.ArrHabitaciones.get(2).getZona()) {
-                System.out.println("Estas en la habitacion");
                 if (Habitaciones.ArrHabitaciones.get(3).getPuerta() == true) {
-                    System.out.println("La puerta esta abierta puedes pasar");
+                    System.out.println("Te has movido al Taller");
                     Comandante.setPosicion(3);
-                    System.out.println(Comandante.getPosicion());
+                } else {
+                    System.out.println("La puerta esta cerrada.");
                 }
             }
         } else {
             if (pregunta.equalsIgnoreCase("Comandamiento")) {
                 if (Comandante.getPosicion() == Habitaciones.ArrHabitaciones.get(2).getZona()) {
-                    System.out.println("Estas en la habitacion");
                     if (Habitaciones.ArrHabitaciones.get(4).getPuerta() == true) {
-                        System.out.println("La puerta esta abierta puedes pasar");
+                        System.out.println("Te has movido al Comandamiento");
                         Comandante.setPosicion(4);
-                        System.out.println(Comandante.getPosicion());
+                    } else {
+                        System.out.println("La puerta esta cerrada.");
                     }
                 }
             } else {
                 if (pregunta.equalsIgnoreCase("Vestuario")) {
                     if (Comandante.getPosicion() == Habitaciones.ArrHabitaciones.get(2).getZona()) {
-                        System.out.println("Estas en la habitacion");
                         if (Habitaciones.ArrHabitaciones.get(5).getPuerta() == true) {
-                            System.out.println("La puerta esta abierta puedes pasar");
+                            System.out.println("Te has movido al Vestuario");
                             Comandante.setPosicion(5);
-                            System.out.println(Comandante.getPosicion());
+                        } else {
+                            System.out.println("La puerta esta cerrada");
                         }
                     }
                 } else {
                     if (pregunta.equalsIgnoreCase("Baños")) {
                         if (Comandante.getPosicion() == Habitaciones.ArrHabitaciones.get(2).getZona()) {
-                            System.out.println("Estas en la habitacion");
                             if (Habitaciones.ArrHabitaciones.get(1).getPuerta() == true) {
-                                System.out.println("La puerta esta abierta puedes pasar");
+                                System.out.println("Te has movido a Baños");
                                 Comandante.setPosicion(1);
-                                System.out.println(Comandante.getPosicion());
+                            } else {
+                                System.out.println("La puerta esta cerrada");
                             }
                         }
                     }
@@ -155,11 +155,11 @@ public class AccionIR {
 
         if(pregunta.equalsIgnoreCase("Oficina") || pregunta.equalsIgnoreCase("Oficinas")){
             if(Comandante.getPosicion() == Habitaciones.ArrHabitaciones.get(3).getZona()){
-                System.out.println("Estas en la habitacion");
                 if(Habitaciones.ArrHabitaciones.get(2).getPuerta() == true){
-                    System.out.println("La puerta esta abierta puedes pasar");
+                    System.out.println("Te has movido a la Oficina");
                     Comandante.setPosicion(2);
-                    System.out.println(Comandante.getPosicion());
+                } else {
+                    System.out.println("La puerta esta cerrada");
                 }
             }
         }
@@ -175,11 +175,11 @@ public class AccionIR {
 
         if(pregunta.equalsIgnoreCase("Oficina") || pregunta.equalsIgnoreCase("Oficinas")){
             if(Comandante.getPosicion() == Habitaciones.ArrHabitaciones.get(4).getZona()){
-                System.out.println("Estas en la habitacion");
                 if(Habitaciones.ArrHabitaciones.get(2).getPuerta() == true){
-                    System.out.println("La puerta esta abierta puedes pasar");
+                    System.out.println("Te has movido a la Oficina");
                     Comandante.setPosicion(2);
-                    System.out.println(Comandante.getPosicion());
+                } else {
+                    System.out.println("La puerta esta cerrada");
                 }
             }
         }
@@ -196,21 +196,21 @@ public class AccionIR {
 
         if(pregunta.equalsIgnoreCase("Cocina") || pregunta.equalsIgnoreCase("Baños")){
             if(Comandante.getPosicion() == Habitaciones.ArrHabitaciones.get(5).getZona()){
-                System.out.println("Estas en la habitacion");
                 if(Habitaciones.ArrHabitaciones.get(6).getPuerta() == true){
-                    System.out.println("La puerta esta abierta puedes pasar");
+                    System.out.println("Te has movido a Baños");
                     Comandante.setPosicion(6);
-                    System.out.println(Comandante.getPosicion());
+                } else {
+                    System.out.println("La puerta esta cerrada");
                 }
             }
         } else {
             if (pregunta.equalsIgnoreCase("Oficinas")) {
                 if(Comandante.getPosicion() == Habitaciones.ArrHabitaciones.get(5).getZona()) {
-                    System.out.println("Estas en la habitacion");
                     if (Habitaciones.ArrHabitaciones.get(2).getPuerta() == true) {
-                        System.out.println("La puerta esta abierta puedes pasar");
+                        System.out.println("Te has movido a Oficinas");
                         Comandante.setPosicion(2);
-                        System.out.println(Comandante.getPosicion());
+                    } else {
+                        System.out.println("La puerta esta cerrada");
                     }
                 }
             }
@@ -227,21 +227,21 @@ public class AccionIR {
 
         if(pregunta.equalsIgnoreCase("Comedor")){
             if(Comandante.getPosicion() == Habitaciones.ArrHabitaciones.get(6).getZona()){
-                System.out.println("Estas en la habitacion");
                 if(Habitaciones.ArrHabitaciones.get(7).getPuerta() == true){
-                    System.out.println("La puerta esta abierta puedes pasar");
+                    System.out.println("Te has movido al Comedor");
                     Comandante.setPosicion(7);
-                    System.out.println(Comandante.getPosicion());
+                } else {
+                    System.out.println("La puerta esta cerrada");
                 }
             }
         } else {
             if (pregunta.equalsIgnoreCase("Vestuario")) {
                 if(Comandante.getPosicion() == Habitaciones.ArrHabitaciones.get(6).getZona()) {
-                    System.out.println("Estas en la habitacion");
                     if (Habitaciones.ArrHabitaciones.get(5).getPuerta() == true) {
-                        System.out.println("La puerta esta abierta puedes pasar");
+                        System.out.println("Te has movido al Vestuario");
                         Comandante.setPosicion(5);
-                        System.out.println(Comandante.getPosicion());
+                    } else {
+                        System.out.println("La puerta esta cerrada");
                     }
                 }
             }
@@ -259,31 +259,31 @@ public class AccionIR {
 
         if (pregunta.equalsIgnoreCase("Salida")) {
             if (Comandante.getPosicion() == Habitaciones.ArrHabitaciones.get(7).getZona()) {
-                System.out.println("Estas en la habitacion");
                 if (Habitaciones.ArrHabitaciones.get(8).getPuerta() == true) {
-                    System.out.println("La puerta esta abierta puedes pasar");
+                    System.out.println("Te has movido a la Salida");
                     Comandante.setPosicion(8);
-                    System.out.println(Comandante.getPosicion());
+                } else {
+                    System.out.println("La puerta esta cerrada");
                 }
             }
         } else {
             if (pregunta.equalsIgnoreCase("Dormitorio")) {
                 if (Comandante.getPosicion() == Habitaciones.ArrHabitaciones.get(7).getZona()) {
-                    System.out.println("Estas en la habitacion");
                     if (Habitaciones.ArrHabitaciones.get(0).getPuerta() == true) {
-                        System.out.println("La puerta esta abierta puedes pasar");
+                        System.out.println("Te has movido al Dormitorio");
                         Comandante.setPosicion(0);
-                        System.out.println(Comandante.getPosicion());
+                    } else {
+                        System.out.println("La puerta esta cerrada");
                     }
                 }
             } else {
                 if (pregunta.equalsIgnoreCase("Cocina")) {
                     if (Comandante.getPosicion() == Habitaciones.ArrHabitaciones.get(7).getZona()) {
-                        System.out.println("Estas en la habitacion");
                         if (Habitaciones.ArrHabitaciones.get(6).getPuerta() == true) {
-                            System.out.println("La puerta esta abierta puedes pasar");
+                            System.out.println("Te has movido a la Cocina");
                             Comandante.setPosicion(6);
-                            System.out.println(Comandante.getPosicion());
+                        } else {
+                            System.out.println("La puerta esta cerrada");
                         }
                     }
                 }
@@ -301,11 +301,11 @@ public class AccionIR {
 
         if(pregunta.equalsIgnoreCase("Comedor")){
             if(Comandante.getPosicion() == Habitaciones.ArrHabitaciones.get(8).getZona()){
-                System.out.println("Estas en la habitacion");
                 if(Habitaciones.ArrHabitaciones.get(7).getPuerta() == true){
-                    System.out.println("La puerta esta abierta puedes pasar");
+                    System.out.println("Te has movido al Comedor");
                     Comandante.setPosicion(7);
-                    System.out.println(Comandante.getPosicion());
+                } else {
+                    System.out.println("La puerta esta cerrada");
                 }
             }
         }

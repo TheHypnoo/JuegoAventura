@@ -37,7 +37,7 @@ public class Habitaciones {
     public ArrayList<Habitaciones> crearHabitaciones(){
         //Solucionar problema con objetos de herramientas!!
         Habitaciones Dormitorio = new Habitaciones("Dormitorio",Herramientas.ArrHerramientas.get(0).crearHerramientas(),true,0,1,-1,-1,1,true,"La sala donde duerme la tripulacion");
-        Habitaciones Banyos = new Habitaciones("Banyos",null,true,1,-1,1,-1,1,true,"Son los unicos baños de la nave y no estan muy limpios...");
+        Habitaciones Banyos = new Habitaciones("Baños",null,true,1,-1,1,-1,1,true,"Son los unicos baños de la nave y no estan muy limpios...");
         Habitaciones Oficinas = new Habitaciones("Oficinas",null,false,2,1,1,1,1,true,"La sala donde estan todos los documentos de la nave");
         Habitaciones Taller = new Habitaciones("Taller",null,false,3,-1,1,-1,-1,true,"Zona donde estan las herramientas de la nave");
         Habitaciones Comandamiento = new Habitaciones("Comandamiento",null,true,4,1,-1,-1,-1,true,"Sala donde se controla totalmente toda la nave");
@@ -62,12 +62,13 @@ public class Habitaciones {
     public void infoHabitacion(int pos) throws InterruptedException {
         if(pos == Habitaciones.ArrHabitaciones.get(0).getZona()){
             System.out.println("Estas en el Dormitorio");
-            System.out.println("Objetos dentro de Dormitorio: "+ArrHabitaciones.get(0).getObjetos().get(0).getNombreHerramienta());
+            System.out.println("Objetos dentro de Dormitorio: "+null);
             if(Habitaciones.ArrHabitaciones.get(0).getLuzHabitacion() == true){
                 System.out.println("La luz esta encendida");
             } else {
                 System.out.println("La luz esta apagada");
             }
+            //En proceso de creación..
         }
 
         Thread.sleep(2500);
