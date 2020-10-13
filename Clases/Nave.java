@@ -2,21 +2,27 @@ import java.util.ArrayList;
 
 public class Nave {
     private String NombreNave = "";
-    protected ArrayList<Habitaciones> Mapa = new ArrayList<Habitaciones>();
+    private ArrayList<Habitaciones> mapaHabitaciones = new ArrayList<Habitaciones>();
+    public ArrayList<Nave> ArrNave = new ArrayList<Nave>();
     Habitaciones Habitaciones = new Habitaciones();
 
-    public Nave (String NombreNave, ArrayList<Habitaciones> Mapa)
+    public Nave (String NombreNave, ArrayList<Habitaciones> mapaHabitaciones)
     {
         this.NombreNave = NombreNave;
-        this.Mapa = Mapa;
+        this.mapaHabitaciones = mapaHabitaciones;
     }
 
     public Nave(){
 
     }
 
-    public void crearNave(){
-        Nave PiaXXI = new Nave("PiaXXI",Habitaciones.ArrHabitaciones);
+    public ArrayList<Nave> crearNave(){
+        Nave PiaXXI = null;
+        Nave.this.setNombreNave("PiaXXI");
+        Nave.this.setMapa(Habitaciones.ArrHabitaciones);
+        ArrNave.add(PiaXXI);
+        //System.out.println(Nave.this.getNombreNave());
+        return ArrNave;
     }
 
     //Establece el nombre de la nave
@@ -29,12 +35,12 @@ public class Nave {
     }
 
     //Establece el mapa
-    public void setMapa (ArrayList<Habitaciones> Mapa){
-        this.Mapa = Mapa;
+    public void setMapa (ArrayList<Habitaciones> mapaHabitaciones){
+        this.mapaHabitaciones = mapaHabitaciones;
     }
     //Consigue el mapa
     public ArrayList<Habitaciones> getMapa (){
-        return this.Mapa;
+        return this.mapaHabitaciones;
     }
 
 

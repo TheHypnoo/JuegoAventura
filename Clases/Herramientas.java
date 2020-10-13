@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Herramientas {
+public class Herramientas extends ArrayList<Herramientas> {
 
     private String NombreHerramienta = "";
     private String DescripcionHerramienta = "";

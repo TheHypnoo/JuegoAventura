@@ -7,6 +7,10 @@ public class Mochila {
         this.Inventario=Inventario;
     }
 
+    public Mochila(){
+
+    }
+
     public static Mochila crearMochila(){
         Mochila InventarioComandante = new Mochila(null);
         return InventarioComandante;

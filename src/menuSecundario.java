@@ -22,6 +22,7 @@ public class menuSecundario {
             System.out.println(ANSI_GREEN + "Escoge el modo: ");
             System.out.println(ANSI_BLACK + "IR");
             System.out.println("INFO");
+            System.out.println("BUSCAR");
             System.out.println(ANSI_CYAN + "-------------------------------------");
             try {
                 System.out.println(ANSI_WHITE + "Escribe una de las opciones");
@@ -29,7 +30,8 @@ public class menuSecundario {
                 switch (opcion.toUpperCase()) {
                     case "IR" -> AccionIR.ir();
                     case "INFO" -> Habitaciones.infoHabitacion(Comandante.getPosicion());
-                    case "IR3" -> {
+                    case "BUSCAR" -> Comandante.buscarObjetos(Comandante.getPosicion());
+                    case "SALIR" -> {
                         salir = true;
                         System.out.println("El Juego de Aventura a Finalizado correctamente.");
                         return;

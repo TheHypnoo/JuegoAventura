@@ -1,7 +1,7 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class menuPrincipal {
+public class menuPrincipal  {
 
     static Scanner sc = new Scanner(System.in);
     Creditos Creditos = new Creditos();
@@ -22,7 +22,7 @@ public class menuPrincipal {
                 System.out.println(Colores.ANSI_WHITE + "Escribe una de las opciones");
                 opcion = sc.nextInt();
                 switch (opcion) {
-                    case 1 -> Start.StartGame();
+                    case 1 -> Start.IniciaClases();
                     case 2 -> Creditos.Creditos();
                     case 3 -> {
                         salir = true;

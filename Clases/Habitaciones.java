@@ -7,24 +7,27 @@ public class Habitaciones {
     private ArrayList<Herramientas> ObjetosHabitacion = new ArrayList<Herramientas>();
     public static ArrayList<Habitaciones> ArrHabitaciones = new ArrayList<Habitaciones>();
     private int Zona = 0;
+    /*
     private int Arriba = 0;
     private int Abajo = 0;
     private int Derecha = 0;
-    private int Izquierda = 0;
+    private int Izquierda = 0;*/
     private boolean Puerta = true;
     private String DescripcionHabitacion = "";
 
 
-    public Habitaciones (String NombreHabitacion, ArrayList<Herramientas> ObjetosHabitacion, Boolean Luz, int Zona, int Arriba, int Abajo, int Derecha, int Izquierda, boolean Puerta , String DescripcionHabitacion)
+    public Habitaciones (String NombreHabitacion, Herramientas ObjetosHabitacion, Boolean Luz, int Zona, int Arriba, int Abajo, int Derecha, int Izquierda, boolean Puerta , String DescripcionHabitacion)
     {
         this.NombreHabitacion = NombreHabitacion;
         this.ObjetosHabitacion = ObjetosHabitacion;
         this.Luz = Luz;
         this.Zona = Zona;
+        /*
         this.Arriba = Arriba;
         this.Abajo = Abajo;
         this.Derecha = Derecha;
         this.Izquierda = Izquierda;
+         */
         this.Puerta = Puerta;
         this.DescripcionHabitacion = DescripcionHabitacion;
     }
@@ -34,15 +37,15 @@ public class Habitaciones {
 
     }
 
+
     public ArrayList<Habitaciones> crearHabitaciones(){
-        //Solucionar problema con objetos de herramientas!!
-        Habitaciones Dormitorio = new Habitaciones("Dormitorio",Herramientas.ArrHerramientas.get(0).crearHerramientas(),true,0,1,-1,-1,1,true,"La sala donde duerme la tripulacion");
+        Habitaciones Dormitorio = new Habitaciones("Dormitorio",null,true,0,1,-1,-1,1,true,"La sala donde duerme la tripulacion");
         Habitaciones Banyos = new Habitaciones("Baños",null,true,1,-1,1,-1,1,true,"Son los unicos baños de la nave y no estan muy limpios...");
-        Habitaciones Oficinas = new Habitaciones("Oficinas",null,false,2,1,1,1,1,true,"La sala donde estan todos los documentos de la nave");
-        Habitaciones Taller = new Habitaciones("Taller",null,false,3,-1,1,-1,-1,true,"Zona donde estan las herramientas de la nave");
+        Habitaciones Oficinas = new Habitaciones("Oficinas",Herramientas.ArrHerramientas.get(3),false,2,1,1,1,1,true,"La sala donde estan todos los documentos de la nave");
+        Habitaciones Taller = new Habitaciones("Taller",Herramientas.ArrHerramientas.get(0),false,3,-1,1,-1,-1,false,"Zona donde estan las herramientas de la nave");
         Habitaciones Comandamiento = new Habitaciones("Comandamiento",null,true,4,1,-1,-1,-1,true,"Sala donde se controla totalmente toda la nave");
-        Habitaciones Vestuario = new Habitaciones("Vestuario",null,false,5,-1,1,1,-1,true,"Lugar donde se cambia la tripulación");
-        Habitaciones Cocina = new Habitaciones("Cocina",null,false,6,1,-1,1,-1,true,"Zona donde se cocina para los tripulantes");
+        Habitaciones Vestuario = new Habitaciones("Vestuario",Herramientas.ArrHerramientas.get(2),false,5,-1,1,1,-1,true,"Lugar donde se cambia la tripulación");
+        Habitaciones Cocina = new Habitaciones("Cocina",Herramientas.ArrHerramientas.get(5),false,6,1,-1,1,-1,true,"Zona donde se cocina para los tripulantes");
         Habitaciones Comedor = new Habitaciones("Comedor",null,true,7,-1,1,1,1,true,"Sala donde la tripulación come");
         Habitaciones Salida = new Habitaciones("Salida",null,true,8,1,-1,-1,-1,true,"La salida de la nave");
 
@@ -60,16 +63,24 @@ public class Habitaciones {
     }
 
     public void infoHabitacion(int pos) throws InterruptedException {
-        if(pos == Habitaciones.ArrHabitaciones.get(0).getZona()){
-            System.out.println("Estas en el Dormitorio");
-            System.out.println("Objetos dentro de Dormitorio: "+null);
-            if(Habitaciones.ArrHabitaciones.get(0).getLuzHabitacion() == true){
-                System.out.println("La luz esta encendida");
+        for(int x = 0; x < Habitaciones.ArrHabitaciones.size(); x++) {
+            if(pos == Habitaciones.ArrHabitaciones.get(x).getZona()) {
+                System.out.println("Estas en: "+Habitaciones.ArrHabitaciones.get(x).getNombreHabitacions());
+                if(Habitaciones.ArrHabitaciones.get(x).getObjetos() == null) {
+                    System.out.println("No hay ninguna herramienta");
+                } else {
+                    System.out.println("Objetos dentro de la habitación: "+Habitaciones.ArrHabitaciones.get(x).getObjetos());
+                }
+                if(Habitaciones.ArrHabitaciones.get(x).getLuzHabitacion() == true){
+                    System.out.println("La luz esta encendida");
+                } else {
+                    System.out.println("La luz esta apagada");
+                }
             } else {
-                System.out.println("La luz esta apagada");
+                System.out.println("error");
             }
-            //En proceso de creación..
         }
+
 
         Thread.sleep(2500);
     }
@@ -110,7 +121,7 @@ public class Habitaciones {
     public int getZona(){
         return this.Zona;
     }
-
+/*
     //Establece ir arriba
     public void setArriba(int Arriba) {
         this.Arriba = Arriba;
@@ -146,7 +157,7 @@ public class Habitaciones {
     public int getIzquierda(){
         return this.Izquierda;
     }
-
+*/
     public void setPuerta(boolean Puerta){
         this.Puerta = Puerta;
     }
