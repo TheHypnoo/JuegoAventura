@@ -10,6 +10,11 @@ public class Tripulantes extends Personas{
         this.ObjetosTripulante = ObjetosTripulante;
     }
 
+    public Tripulantes(String NombrePersona, int VivoMuerto, int Posicion, Boolean DormidoDespierto) {
+        super(NombrePersona, VivoMuerto, Posicion);
+        this.DormidoDespierto = DormidoDespierto;
+    }
+
     public Tripulantes(){
 
     }

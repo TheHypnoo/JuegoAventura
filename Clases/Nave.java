@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Nave {
     private String NombreNave = "";
     private ArrayList<Habitaciones> mapaHabitaciones = new ArrayList<Habitaciones>();
-    public ArrayList<Nave> ArrNave = new ArrayList<Nave>();
+    //public ArrayList<Nave> ArrNave = new ArrayList<Nave>();
     Habitaciones Habitaciones = new Habitaciones();
 
     public Nave (String NombreNave, ArrayList<Habitaciones> mapaHabitaciones)
@@ -15,7 +15,7 @@ public class Nave {
     public Nave(){
 
     }
-
+/*
     public ArrayList<Nave> crearNave(){
         Nave PiaXXI = null;
         Nave.this.setNombreNave("PiaXXI");
@@ -24,7 +24,7 @@ public class Nave {
         //System.out.println(Nave.this.getNombreNave());
         return ArrNave;
     }
-
+*/
     //Establece el nombre de la nave
     public void setNombreNave(String NombreNave) {
         this.NombreNave = NombreNave;

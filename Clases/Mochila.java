@@ -10,12 +10,11 @@ public class Mochila {
     public Mochila(){
 
     }
-
+/*
     public static Mochila crearMochila(){
         Mochila InventarioComandante = new Mochila(null);
         return InventarioComandante;
     }
-    /*
 
      */
 

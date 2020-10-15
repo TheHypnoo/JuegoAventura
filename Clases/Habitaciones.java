@@ -5,7 +5,7 @@ public class Habitaciones {
     private String NombreHabitacion = "";
     private Boolean Luz = false;
     private ArrayList<Herramientas> ObjetosHabitacion = new ArrayList<Herramientas>();
-    public static ArrayList<Habitaciones> ArrHabitaciones = new ArrayList<Habitaciones>();
+    //public static ArrayList<Habitaciones> ArrHabitaciones = new ArrayList<Habitaciones>();
     private int Zona = 0;
     /*
     private int Arriba = 0;
@@ -16,8 +16,7 @@ public class Habitaciones {
     private String DescripcionHabitacion = "";
 
 
-    public Habitaciones (String NombreHabitacion, Herramientas ObjetosHabitacion, Boolean Luz, int Zona, int Arriba, int Abajo, int Derecha, int Izquierda, boolean Puerta , String DescripcionHabitacion)
-    {
+    public Habitaciones(String NombreHabitacion, ArrayList<Herramientas> ObjetosHabitacion, Boolean Luz, int Zona, int Arriba, int Abajo, int Derecha, int Izquierda, boolean Puerta, String DescripcionHabitacion) {
         this.NombreHabitacion = NombreHabitacion;
         this.ObjetosHabitacion = ObjetosHabitacion;
         this.Luz = Luz;
@@ -33,56 +32,8 @@ public class Habitaciones {
     }
 
 
-    public Habitaciones(){
+    public Habitaciones() {
 
-    }
-
-
-    public ArrayList<Habitaciones> crearHabitaciones(){
-        Habitaciones Dormitorio = new Habitaciones("Dormitorio",null,true,0,1,-1,-1,1,true,"La sala donde duerme la tripulacion");
-        Habitaciones Banyos = new Habitaciones("Baños",null,true,1,-1,1,-1,1,true,"Son los unicos baños de la nave y no estan muy limpios...");
-        Habitaciones Oficinas = new Habitaciones("Oficinas",Herramientas.ArrHerramientas.get(3),false,2,1,1,1,1,true,"La sala donde estan todos los documentos de la nave");
-        Habitaciones Taller = new Habitaciones("Taller",Herramientas.ArrHerramientas.get(0),false,3,-1,1,-1,-1,false,"Zona donde estan las herramientas de la nave");
-        Habitaciones Comandamiento = new Habitaciones("Comandamiento",null,true,4,1,-1,-1,-1,true,"Sala donde se controla totalmente toda la nave");
-        Habitaciones Vestuario = new Habitaciones("Vestuario",Herramientas.ArrHerramientas.get(2),false,5,-1,1,1,-1,true,"Lugar donde se cambia la tripulación");
-        Habitaciones Cocina = new Habitaciones("Cocina",Herramientas.ArrHerramientas.get(5),false,6,1,-1,1,-1,true,"Zona donde se cocina para los tripulantes");
-        Habitaciones Comedor = new Habitaciones("Comedor",null,true,7,-1,1,1,1,true,"Sala donde la tripulación come");
-        Habitaciones Salida = new Habitaciones("Salida",null,true,8,1,-1,-1,-1,true,"La salida de la nave");
-
-        ArrHabitaciones.add(Dormitorio);
-        ArrHabitaciones.add(Banyos);
-        ArrHabitaciones.add(Oficinas);
-        ArrHabitaciones.add(Taller);
-        ArrHabitaciones.add(Comandamiento);
-        ArrHabitaciones.add(Vestuario);
-        ArrHabitaciones.add(Cocina);
-        ArrHabitaciones.add(Comedor);
-        ArrHabitaciones.add(Salida);
-
-        return ArrHabitaciones;
-    }
-
-    public void infoHabitacion(int pos) throws InterruptedException {
-        for(int x = 0; x < Habitaciones.ArrHabitaciones.size(); x++) {
-            if(pos == Habitaciones.ArrHabitaciones.get(x).getZona()) {
-                System.out.println("Estas en: "+Habitaciones.ArrHabitaciones.get(x).getNombreHabitacions());
-                if(Habitaciones.ArrHabitaciones.get(x).getObjetos() == null) {
-                    System.out.println("No hay ninguna herramienta");
-                } else {
-                    System.out.println("Objetos dentro de la habitación: "+Habitaciones.ArrHabitaciones.get(x).getObjetos());
-                }
-                if(Habitaciones.ArrHabitaciones.get(x).getLuzHabitacion() == true){
-                    System.out.println("La luz esta encendida");
-                } else {
-                    System.out.println("La luz esta apagada");
-                }
-            } else {
-                System.out.println("error");
-            }
-        }
-
-
-        Thread.sleep(2500);
     }
 
 

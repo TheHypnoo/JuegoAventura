@@ -13,6 +13,13 @@ public class Personas {
         this.Posicion = Posicion;
     }
 
+    public Personas(String NombrePersona, int VivoMuerto, int Posicion){
+        this.NombrePersona = NombrePersona;
+        this.VivoMuerto = VivoMuerto;
+        //this.FrasesPersonas = FrasesPersonas;
+        this.Posicion = Posicion;
+    }
+
     public Personas() {
     }
 

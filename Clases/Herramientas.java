@@ -4,7 +4,7 @@ public class Herramientas extends ArrayList<Herramientas> {
 
     private String NombreHerramienta = "";
     private String DescripcionHerramienta = "";
-    public static ArrayList<Herramientas> ArrHerramientas = new ArrayList<Herramientas>();
+    //public static ArrayList<Herramientas> ArrHerramientas = new ArrayList<Herramientas>();
 
     public Herramientas (String NombreHerramienta, String DescripcionHerramienta)
     {
@@ -15,7 +15,7 @@ public class Herramientas extends ArrayList<Herramientas> {
     public Herramientas(){
 
     }
-
+/*
     public ArrayList<Herramientas> crearHerramientas(){
 
         Herramientas Destornillador = new Herramientas("Destornillador", "Sirve para reparar la nave o incluso atacar a alguien...");
@@ -34,7 +34,7 @@ public class Herramientas extends ArrayList<Herramientas> {
         return ArrHerramientas;
     }
 
-
+*/
     //Establece el nombre de la herramienta
     public void setNombreHerramienta(String NombreHerramienta) {
         this.NombreHerramienta = NombreHerramienta;

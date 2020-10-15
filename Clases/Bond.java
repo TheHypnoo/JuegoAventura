@@ -1,31 +1,35 @@
 import java.util.ArrayList;
 
-public class Comandante extends Personas{
+public class Bond extends Personas{
 
     protected ArrayList<Mochila> InventarioComandante = new ArrayList<Mochila>();
     protected ArrayList<String> FrasesComandante = new ArrayList<String>();
     Mochila Mochila = new Mochila();
 
-    public Comandante(String NombrePersona, int VivoMuerto, ArrayList<String> FrasesPersonas, int Posicion, ArrayList<Mochila> InventarioComandante) {
+    public Bond(String NombrePersona, int VivoMuerto, ArrayList<String> FrasesPersonas, int Posicion, ArrayList<Mochila> InventarioComandante) {
         super(NombrePersona, VivoMuerto, FrasesPersonas, Posicion);
         this.InventarioComandante = InventarioComandante;
         this.FrasesComandante = FrasesPersonas;
     }
-    public Comandante(){
+    public Bond(){
 
     }
 
+    public Bond(String NombrePersona, int VivoMuerto, int Posicion) {
+        super(NombrePersona, VivoMuerto, Posicion);
+    }
+/*
     public void crearComandante(){
-        Comandante.super.setNombrePersona("Bond");
-        Comandante.super.setPosicion(0);
-        Comandante.super.setVivoMuerto(1);
-        //Comandante.this.setInventarioComandante();
+        Bond.super.setNombrePersona("Bond");
+        Bond.super.setPosicion(0);
+        Bond.super.setVivoMuerto(1);
+        //Bond.this.setInventarioComandante();
     }
 
     public void infoComandante(){
-        System.out.println("Nombre del Comandante: "+Comandante.super.getNombrePersona());
-        System.out.println("Posicion del Comandante: "+Comandante.super.getPosicion());
-        System.out.println("Estado del Comandante: "+Comandante.super.getVivoMuerto());
+        System.out.println("Nombre del Bond: "+Bond.super.getNombrePersona());
+        System.out.println("Posicion del Bond: "+Bond.super.getPosicion());
+        System.out.println("Estado del Bond: "+Bond.super.getVivoMuerto());
 
         for(int i=0;i<Mochila.getMochila().size();i++)
         {
@@ -34,7 +38,7 @@ public class Comandante extends Personas{
                 System.out.println(InventarioComandante.get(i));
             }
             else {
-                System.out.println("Inventario del Comandante: Vacio");
+                System.out.println("Inventario del Bond: Vacio");
             }
         }
     }
@@ -52,7 +56,7 @@ public class Comandante extends Personas{
             }
         }
     }
-
+*/
     //Establezco los objetos del comandante
     public void setInventarioComandante(ArrayList<Mochila> InventarioComandante){
         this.InventarioComandante = InventarioComandante;
