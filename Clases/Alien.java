@@ -3,7 +3,6 @@ import java.util.ArrayList;
 public class Alien extends Personas {
     protected int ContadorEncontradoAliado = 0;
     protected Boolean AlteradoTranquilo = false;
-    Bond Comandante = new Bond();
 
     public Alien(String NombrePersona, int VivoMuerto, ArrayList<String> FrasesPersonas, int Posicion, int ContadorEncontradoAlien, Boolean AlteradoTranquilo) {
         super(NombrePersona, VivoMuerto, FrasesPersonas, Posicion);

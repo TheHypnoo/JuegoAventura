@@ -3,7 +3,8 @@ import java.util.ArrayList;
 public class HiHall {
     protected ArrayList<String> FrasesHiHall = new ArrayList<String>();
 
-    public HiHall() {
+    public HiHall(ArrayList<String> FrasesHiHall) {
+        this.FrasesHiHall = FrasesHiHall;
 
     }
 

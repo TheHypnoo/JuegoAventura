@@ -2,17 +2,22 @@ import java.util.ArrayList;
 
 public class Bond extends Personas{
 
-    protected ArrayList<Mochila> InventarioComandante = new ArrayList<Mochila>();
+    protected ArrayList<Herramientas> InventarioComandante = new ArrayList<Herramientas>();
     protected ArrayList<String> FrasesComandante = new ArrayList<String>();
-    Mochila Mochila = new Mochila();
 
-    public Bond(String NombrePersona, int VivoMuerto, ArrayList<String> FrasesPersonas, int Posicion, ArrayList<Mochila> InventarioComandante) {
+    public Bond(String NombrePersona, int VivoMuerto, ArrayList<String> FrasesPersonas, int Posicion, ArrayList<Herramientas> InventarioComandante) {
         super(NombrePersona, VivoMuerto, FrasesPersonas, Posicion);
         this.InventarioComandante = InventarioComandante;
         this.FrasesComandante = FrasesPersonas;
     }
     public Bond(){
 
+    }
+    //Sin frases
+    public Bond(String NombrePersona, int VivoMuerto, int Posicion, ArrayList<Herramientas> InventarioComandante) {
+        super(NombrePersona, VivoMuerto, Posicion);
+        this.InventarioComandante = InventarioComandante;
+        this.FrasesComandante = FrasesPersonas;
     }
 
     public Bond(String NombrePersona, int VivoMuerto, int Posicion) {
@@ -58,11 +63,11 @@ public class Bond extends Personas{
     }
 */
     //Establezco los objetos del comandante
-    public void setInventarioComandante(ArrayList<Mochila> InventarioComandante){
+    public void setInventarioComandante(ArrayList<Herramientas> InventarioComandante){
         this.InventarioComandante = InventarioComandante;
     }
     //Consigo saber los objetos del comandante
-    public ArrayList<Mochila> getInventarioComandante() {
+    public ArrayList<Herramientas> getInventarioComandante() {
         return InventarioComandante;
     }
 }

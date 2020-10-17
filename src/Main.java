@@ -8,8 +8,10 @@ public class Main {
     Personas Personas = new Personas();
     ArrayList<Habitaciones> ArrHabitaciones = new ArrayList<Habitaciones>();
     ArrayList<Herramientas> ArrHerramientas = new ArrayList<Herramientas>();
+    ArrayList<Mochila> ArrInventario = new ArrayList<Mochila>();
     ArrayList<Nave> ArrNave = new ArrayList<Nave>();
     ArrayList<Personas> ArrPersonas = new ArrayList<Personas>();
+    ArrayList<HiHall> ArrFrasesHiHall = new ArrayList<HiHall>();
     Alien Bargalian;
     Bond Bond;
     Tripulantes Dormilon;
@@ -64,6 +66,7 @@ public class Main {
             System.out.println(Colores.ANSI_BLACK + "IR");
             System.out.println("INFO");
             System.out.println("BUSCAR");
+            System.out.println("LUZ");
             System.out.println(Colores.ANSI_CYAN + "-------------------------------------");
             try {
                 System.out.println(Colores.ANSI_WHITE + "Escribe una de las opciones");
@@ -71,7 +74,8 @@ public class Main {
                 switch (opcion.toUpperCase()) {
                     case "IR" -> moveComandante();
                     case "INFO" ->  infoComandante();
-                    case "BUSCAR" ->  buscarObjetos(Bond.getPosicion());
+                    case "BUSCAR" ->  buscarObjetos();
+                    case "LUZ" -> ApagaEnciendeLuz();
                     case "SALIR" -> {
                         salir = true;
                         System.out.println("El Juego de Aventura a Finalizado correctamente.");
@@ -95,6 +99,9 @@ public class Main {
         Bargalian = crearAlien();
         Dormilon = crearTripulantes();
         PiaXXI = crearNave();
+        crearMochila().get(0).setMochila(crearHerramientas().get(0));
+        //System.out.println("Mochilon: "+crearHerramientas().get(0).getNombreHerramienta()+"JEJE"+crearMochila().get(0).getMochila().get(0).getNombreHerramienta());
+        System.out.println("TEST");
         //Alien.PosAlien();
         //Alien.InfoAlien();
         menuSecundario();
@@ -102,9 +109,16 @@ public class Main {
 
     //Creacion
 
-    public static Mochila crearMochila(){
-        Mochila InventarioComandante = new Mochila(null);
-        return InventarioComandante;
+    /*public HiHall crearFrases(){
+        HiHall HiHall = new HiHall(ArrFrasesHiHall.get(0)));
+        return null;
+    }*/
+
+    public ArrayList<Mochila> crearMochila(){
+
+        Mochila InventarioComandante = new Mochila(crearHerramientas().get(0));
+        ArrInventario.add(InventarioComandante);
+        return ArrInventario;
     }
 
     public ArrayList<Herramientas> crearHerramientas(){
@@ -115,24 +129,24 @@ public class Main {
         Herramientas TarjetaIdentificadora = new Herramientas("Tarjeta Identificadora","Tarjeta para abrir las puertas de la nave");
         Herramientas TarjetaTripulante = new Herramientas("Tarjeta Tripulante","Tarjeta que tienen los tripulantes para abrir las puertas de la nave");
         Herramientas Donuts = new Herramientas("Donuts","Es el alimento favorito del Alien, si le damos Donuts el Alien se tranquilizara");
-        ArrHerramientas.add(Destornillador);
-        ArrHerramientas.add(Linterna);
-        ArrHerramientas.add(VestidoEspacial);
-        ArrHerramientas.add(TarjetaIdentificadora);
-        ArrHerramientas.add(TarjetaTripulante);
-        ArrHerramientas.add(Donuts);
+        ArrHerramientas.add(0,Destornillador);
+        ArrHerramientas.add(1,Linterna);
+        ArrHerramientas.add(2,VestidoEspacial);
+        ArrHerramientas.add(3,TarjetaIdentificadora);
+        ArrHerramientas.add(4,TarjetaTripulante);
+        ArrHerramientas.add(5,Donuts);
 
         return ArrHerramientas;
     }
 
     public ArrayList<Habitaciones> crearHabitaciones() {
-        Habitaciones Dormitorio = new Habitaciones("Dormitorio", null, true, 0, 1, -1, -1, 1, true, "La sala donde duerme la tripulacion");
+        Habitaciones Dormitorio = new Habitaciones("Dormitorio", crearHerramientas().get(1), true, 0, 1, -1, -1, 1, true, "La sala donde duerme la tripulacion");
         Habitaciones Banyos = new Habitaciones("Baños", null, true, 1, -1, 1, -1, 1, true, "Son los unicos baños de la nave y no estan muy limpios...");
-        Habitaciones Oficinas = new Habitaciones("Oficinas", ArrHerramientas.get(3), false, 2, 1, 1, 1, 1, true, "La sala donde estan todos los documentos de la nave");
-        Habitaciones Taller = new Habitaciones("Taller", ArrHerramientas.get(0), false, 3, -1, 1, -1, -1, false, "Zona donde estan las herramientas de la nave");
+        Habitaciones Oficinas = new Habitaciones("Oficinas", crearHerramientas().get(3), false, 2, 1, 1, 1, 1, true, "La sala donde estan todos los documentos de la nave");
+        Habitaciones Taller = new Habitaciones("Taller", crearHerramientas().get(0), false, 3, -1, 1, -1, -1, false, "Zona donde estan las herramientas de la nave");
         Habitaciones Comandamiento = new Habitaciones("Comandamiento", null, true, 4, 1, -1, -1, -1, true, "Sala donde se controla totalmente toda la nave");
-        Habitaciones Vestuario = new Habitaciones("Vestuario", ArrHerramientas.get(2), false, 5, -1, 1, 1, -1, true, "Lugar donde se cambia la tripulación");
-        Habitaciones Cocina = new Habitaciones("Cocina", ArrHerramientas.get(5), false, 6, 1, -1, 1, -1, true, "Zona donde se cocina para los tripulantes");
+        Habitaciones Vestuario = new Habitaciones("Vestuario", crearHerramientas().get(2), false, 5, -1, 1, 1, -1, true, "Lugar donde se cambia la tripulación");
+        Habitaciones Cocina = new Habitaciones("Cocina", crearHerramientas().get(5), false, 6, 1, -1, 1, -1, true, "Zona donde se cocina para los tripulantes");
         Habitaciones Comedor = new Habitaciones("Comedor", null, true, 7, -1, 1, 1, 1, true, "Sala donde la tripulación come");
         Habitaciones Salida = new Habitaciones("Salida", null, true, 8, 1, -1, -1, -1, true, "La salida de la nave");
 
@@ -155,7 +169,7 @@ public class Main {
     }
 
     public Bond crearComandante(){
-        Bond Comandante = new Bond("Bond",1,0);
+        Bond Comandante = new Bond("Bond",1,0,crearHerramientas().get(0));
         return Comandante;
     }
 
@@ -165,7 +179,7 @@ public class Main {
     }
 
     public Alien crearAlien(){
-        Alien Alien = new Alien("Bergalian",1,0,0,true);
+        Alien Alien = new Alien("Bergalian",1,8,0,true);
         return Alien;
     }
 
@@ -197,11 +211,13 @@ public class Main {
 
         if(pregunta.equalsIgnoreCase("Banyos") || pregunta.equalsIgnoreCase("Baños")){
             if(Bond.getPosicion() == PiaXXI.getMapa().get(0).getZona()){
-                if(PiaXXI.getMapa().get(1).getPuerta() == true){
-                    System.out.println("Te has movido a Baños");
-                    Bond.setPosicion(1);
-                } else {
-                    System.out.println("La puerta esta cerrada.");
+                if(PiaXXI.getMapa().get(1).getLuzHabitacion() == true) {
+                    if(PiaXXI.getMapa().get(1).getPuerta() == true){
+                        System.out.println("Te has movido a Baños");
+                        Bond.setPosicion(1);
+                    } else {
+                        System.out.println("La puerta esta cerrada.");
+                    }
                 }
             }
         } else {
@@ -248,7 +264,6 @@ public class Main {
             }
         }
     }
-
 
     public void desdeOficinas() {
         System.out.println("Lugares donde puedes ir:");
@@ -473,14 +488,14 @@ public class Main {
 
     //Lo ziguiente...
 
-    public void buscarObjetos(int pos) throws InterruptedException {
+    public void buscarObjetos() throws InterruptedException {
         boolean encontrado = false;
         for(int x = 0; x < PiaXXI.getMapa().size() && !encontrado; x++){
-            if(pos == PiaXXI.getMapa().get(x).getZona()){
+            if(Bond.getPosicion() == PiaXXI.getMapa().get(x).getZona()){
                 System.out.println("Buscando objetos dentro de la habitación..");
                 Thread.sleep(3500);
                 if(PiaXXI.getMapa().get(x).getObjetos() != null) {
-                    System.out.println("Hay estos objetos: "+PiaXXI.getMapa().get(x).getObjetos());
+                    System.out.println("Hay estos objetos: "+PiaXXI.getMapa().get(x).getObjetos().get(x).getNombreHerramienta());
                     encontrado = true;
                 } else {
                     System.out.println("No hay objetos en esta habitación");
@@ -489,22 +504,86 @@ public class Main {
         }
     }
 
-    public void infoComandante(){
-        System.out.println("Nombre del Bond: "+ Bond.getNombrePersona());
-        System.out.println("Posicion del Bond: "+ Bond.getPosicion());
-        System.out.println("Estado del Bond: "+ Bond.getVivoMuerto());
-        for(int i = 0; i < Bond.InventarioComandante.size(); i++) {
-            if(Bond.InventarioComandante.get(i) != null)
-            {
-                System.out.println(Bond.InventarioComandante.get(i));
+    public void infoComandante() {
+        System.out.println("Nombre del Bond: " + Bond.getNombrePersona());
+        //Lo siguiente sera por vidas..
+        if (Bond.getVivoMuerto() == 1) {
+            System.out.println("Estado del Bond: Vivo");
+        } else {
+            System.out.println("Estado del Bond: Muerto");
+        }
+
+        System.out.println("Lugar: " + PiaXXI.getMapa().get(Bond.getPosicion()).getNombreHabitacions());
+        if (PiaXXI.getMapa().get(Bond.getPosicion()).getLuzHabitacion() == true) {
+            System.out.println("Luz: encendida");
+        } else {
+            System.out.println("Luz: apagada");
+        }
+        //INVENTARIOOO ARREGLAR!
+
+        for(int x = 0; x < 3; x++){
+            //Bond.setInventarioComandante();
+            if(Bond.getInventarioComandante() != null){
+                System.out.println("Hay cositas"+Bond.getInventarioComandante());
+            } else {
+                System.out.println("No hay nada");
             }
-            else {
+        }
+
+
+
+        //System.out.println(Bond.getInventarioComandante().get(0));
+        //Bond.setInventarioComandante(crearHerramientas().get(0));
+/*
+        for(int i = 0; i < crearHerramientas().size(); i++) {
+            if(Bond.InventarioComandante.get(i).getMochila().get(i) != null)
+            {
+                System.out.println(crearMochila().get(i).getMochila().get(i).getNombreHerramienta());
+            }
+            else if(crearMochila().get(i).getMochila().get(i) == null){
                 System.out.println("Inventario del Bond: Vacio");
             }
         }
+*/
     }
-
-
+    public void ApagaEnciendeLuz() throws InterruptedException {
+        System.out.println(Colores.ANSI_BLACK+"APAGAR");
+        System.out.println(Colores.ANSI_BLACK+"ENCENDER");
+        String option = sc.next();
+        switch (option.toUpperCase()) {
+            case "APAGAR" -> {
+                for(int x = 0; x < PiaXXI.getMapa().size(); x++) {
+                    if(PiaXXI.getMapa().get(x).getZona() == Bond.getPosicion()) {
+                        if(PiaXXI.getMapa().get(x).getLuzHabitacion() == true){
+                            System.out.println("Apagando luz...");
+                            Thread.sleep(1500);
+                            System.out.println("Luz apagada");
+                            PiaXXI.getMapa().get(x).setLuzHabitacion(false);
+                        } else if(PiaXXI.getMapa().get(x).getLuzHabitacion() == false) {
+                            System.out.println("La luz estaba apagada... La dejamos igual");
+                            Thread.sleep(1500);
+                        }
+                    }
+                }
+            }
+            case "ENCENDER" -> {
+                for(int x = 0; x < PiaXXI.getMapa().size(); x++) {
+                    if (PiaXXI.getMapa().get(x).getZona() == Bond.getPosicion()) {
+                        if (PiaXXI.getMapa().get(x).getLuzHabitacion() == false) {
+                            System.out.println("Encendiendo luz...");
+                            Thread.sleep(1500);
+                            System.out.println("Luz encendida");
+                            PiaXXI.getMapa().get(x).setLuzHabitacion(true);
+                        } else if (PiaXXI.getMapa().get(x).getLuzHabitacion() == true) {
+                            System.out.println("La luz estaba encendida... La dejamos igual");
+                            Thread.sleep(1500);
+                        }
+                    }
+                }
+            }
+            default -> System.out.println("Error,vuelve a introducirlo nuevamente");
+        }
+    }
 
     public ArrayList<Nave> crearNave1(){
         Nave Nave = new Nave("PiaXXI",ArrHabitaciones);

@@ -7,26 +7,12 @@ public class Mochila {
         this.Inventario=Inventario;
     }
 
-    public Mochila(){
-
-    }
-/*
-    public static Mochila crearMochila(){
-        Mochila InventarioComandante = new Mochila(null);
-        return InventarioComandante;
-    }
-
-     */
-
-    public void Mochila (ArrayList<Herramientas> Inventario){
-        this.Inventario = Inventario;
-    }
     //Establezco lo que hay dentro de la Mochila
     public void setMochila(ArrayList<Herramientas> Inventario){
         this.Inventario = Inventario;
     }
     //Consigo saber que hay dentro de la mochila
     public ArrayList<Herramientas> getMochila(){
-        return Inventario;
+        return this.Inventario;
     }
 }
