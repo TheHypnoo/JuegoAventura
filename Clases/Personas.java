@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Personas {
     protected String NombrePersona = "";
     protected int VivoMuerto = 0;
-    protected ArrayList<String> FrasesPersonas = new ArrayList<String>();
+    protected ArrayList<String> FrasesPersonas = new ArrayList<>();
     protected int Posicion = 0;
 
     public Personas(String NombrePersona, int VivoMuerto, ArrayList<String> FrasesPersonas, int Posicion){
@@ -16,7 +16,6 @@ public class Personas {
     public Personas(String NombrePersona, int VivoMuerto, int Posicion){
         this.NombrePersona = NombrePersona;
         this.VivoMuerto = VivoMuerto;
-        //this.FrasesPersonas = FrasesPersonas;
         this.Posicion = Posicion;
     }
 
