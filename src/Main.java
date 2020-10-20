@@ -62,6 +62,7 @@ public class Main {
             System.out.println(Colores.ANSI_BLACK + "IR");
             System.out.println("INFO");
             System.out.println("COJER");
+            System.out.println("DEJAR");
             System.out.println("LUZ");
             System.out.println(Colores.ANSI_CYAN + "-------------------------------------");
             try {
@@ -73,6 +74,7 @@ public class Main {
                     case "BUSCAR" ->  buscarObjetos();
                     case "LUZ" -> ApagaEnciendeLuz();
                     case "COJER" -> CojeObjeto();
+                    case "DEJAR" -> dejaObjeto();
                     case "SALIR" -> {
                         salir = true;
                         System.out.println("El Juego de Aventura a Finalizado correctamente.");
@@ -580,6 +582,38 @@ public class Main {
                 System.out.println("No has cogido el objeto");
             }
             Thread.sleep(3500);
+        }
+    }
+
+    public void dejaObjeto(){
+        int aux = 0;
+        String buscadejar;
+        if(Bond.getInventarioComandante() == null) {
+            System.out.println("No puedes dejar nada que no tienes");
+        }
+        if(PiaXXI.getMapa().get(Bond.getPosicion()).getObjetos() == null) {
+            for(int x = 0; x < Bond.getInventarioComandante().size(); x++){
+                if(Bond.getInventarioComandante().get(x) != null) {
+                    System.out.println(Colores.ANSI_BLACK+"Puedes dejar estos objetos: "+Colores.ANSI_WHITE+Bond.getInventarioComandante().get(x).getNombreHerramienta());
+                    aux = x;
+                }
+            }
+            if(PiaXXI.getMapa().get(Bond.getPosicion()).getObjetos() == null) {
+                if(Bond.getInventarioComandante().size() == 0) {
+                    System.out.println(Colores.ANSI_WHITE+"No hay nada en el Inventario que podamos dejar");
+                } else {
+                    buscadejar = sc.next();
+                    if(Bond.getInventarioComandante().get(aux).getNombreHerramienta().equalsIgnoreCase(buscadejar)) {
+                        System.out.println("Has dejado "+Bond.getInventarioComandante().get(aux).getNombreHerramienta()+ " En "+PiaXXI.getMapa().get(Bond.getPosicion()).getNombreHabitacions());
+                        PiaXXI.getMapa().get(aux).setObjetos(Bond.getInventarioComandante().get(aux));
+                        ArrInventario.remove(Bond.getInventarioComandante().get(aux));
+                    } else {
+                        System.out.println("No es igual a lo que tienes en tu mochila");
+                    }
+                }
+            }
+        } else {
+            System.out.println("Dentro de la habitación hay cosas, no podemos meter mas cosas");
         }
     }
 
