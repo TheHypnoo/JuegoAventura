@@ -8,7 +8,9 @@ public class Main {
     ArrayList<Herramientas> ArrHerramientas = new ArrayList<>();
     ArrayList<Herramientas> ArrInventario = new ArrayList<>();
     ArrayList<String> ArrFrasesBond = new ArrayList<>();
-    Alien Bargalian;
+    int posComandante;
+    int cuentaAtras;
+    Alien Bargalien;
     Bond Bond;
     Tripulantes Dormilon;
     Nave PiaXXI;
@@ -63,18 +65,32 @@ public class Main {
             System.out.println("INFO");
             System.out.println("COJER");
             System.out.println("DEJAR");
-            System.out.println("LUZ");
+            System.out.println("USAR");
             System.out.println(Colores.ANSI_CYAN + "-------------------------------------");
             try {
                 System.out.println(Colores.ANSI_WHITE + "Escribe una de las opciones");
                 opcion = sc.next();
                 switch (opcion.toUpperCase()) {
-                    case "IR" -> moveComandante();
-                    case "INFO" ->  infoComandante();
-                    case "BUSCAR" ->  buscarObjetos();
-                    case "LUZ" -> ApagaEnciendeLuz();
-                    case "COJER" -> CojeObjeto();
-                    case "DEJAR" -> dejaObjeto();
+                    case "IR" -> {moveComandante();
+                        if (Bargalien.getAlteradoTranquilo()){
+                            ++cuentaAtras;
+                        }}
+                    case "INFO" -> {infoComandante();
+                        if (Bargalien.getAlteradoTranquilo()){
+                            ++cuentaAtras;
+                        }}
+                    case "USAR" -> {usaObjeto();
+                        if (Bargalien.getAlteradoTranquilo()){
+                            ++cuentaAtras;
+                        }}
+                    case "COJER" -> {cojeObjeto();
+                        if (Bargalien.getAlteradoTranquilo()){
+                            ++cuentaAtras;
+                        }}
+                    case "DEJAR" -> {dejaObjeto();
+                        if (Bargalien.getAlteradoTranquilo()){
+                            ++cuentaAtras;
+                        }}
                     case "SALIR" -> {
                         salir = true;
                         System.out.println("El Juego de Aventura a Finalizado correctamente.");
@@ -95,9 +111,10 @@ public class Main {
         crearHerramientas();
         crearHabitaciones();
         Bond = crearComandante();
-        Bargalian = crearAlien();
+        Bargalien = crearAlien();
         Dormilon = crearTripulantes();
         PiaXXI = crearNave();
+        posLinterna();
 /*
         //Texto en modo prueba
             System.out.println(Colores.ANSI_BLACK+"Any 2120 D.C.\n" +
@@ -132,25 +149,25 @@ public class Main {
         return null;
     }*/
 
-    public void crearMochila(){
+    public void crearMochila() {
 
         new Mochila(crearHerramientas());
     }
 
-    public ArrayList<Herramientas> crearHerramientas(){
+    public ArrayList<Herramientas> crearHerramientas() {
 
         Herramientas Destornillador = new Herramientas("Destornillador", "Sirve para reparar la nave o incluso atacar a alguien...");
-        Herramientas Linterna = new Herramientas("Linterna","Sirve para ver a oscuras en una habitación sin luz");
-        Herramientas VestidoEspacial = new Herramientas("VestidoEspacial","El Uniforme mas indispensable para salir de la nave");
-        Herramientas TarjetaIdentificadora = new Herramientas("TarjetaIdentificadora","Tarjeta para abrir las puertas de la nave");
-        Herramientas TarjetaTripulante = new Herramientas("TarjetaTripulante","Tarjeta que tienen los tripulantes para abrir las puertas de la nave");
-        Herramientas Donuts = new Herramientas("Donuts","Es el alimento favorito del Alien, si le damos Donuts el Alien se tranquilizara");
-        ArrHerramientas.add(0,Destornillador);
-        ArrHerramientas.add(1,Linterna);
-        ArrHerramientas.add(2,VestidoEspacial);
-        ArrHerramientas.add(3,TarjetaIdentificadora);
-        ArrHerramientas.add(4,TarjetaTripulante);
-        ArrHerramientas.add(5,Donuts);
+        Herramientas Linterna = new Herramientas("Linterna", "Sirve para ver a oscuras en una habitación sin luz");
+        Herramientas Traje = new Herramientas("Traje", "El Uniforme mas indispensable para salir de la nave");
+        Herramientas Tarjeta = new Herramientas("Tarjeta", "Tarjeta para abrir las puertas de la nave");
+        Herramientas TarjetaTripulante = new Herramientas("TarjetaTripulante", "Tarjeta que tienen los tripulantes para abrir las puertas de la nave");
+        Herramientas Donuts = new Herramientas("Donuts", "Es el alimento favorito del Alien, si le damos Donuts el Alien se tranquilizara");
+        ArrHerramientas.add(0, Destornillador);
+        ArrHerramientas.add(1, Linterna);
+        ArrHerramientas.add(2, Traje);
+        ArrHerramientas.add(3, Tarjeta);
+        ArrHerramientas.add(4, TarjetaTripulante);
+        ArrHerramientas.add(5, Donuts);
 
         return ArrHerramientas;
     }
@@ -167,40 +184,40 @@ public class Main {
         Habitaciones Comedor = new Habitaciones("Comedor", null, true, 7, -1, 1, 1, 1, true, "Sala donde la tripulación come");
         Habitaciones Salida = new Habitaciones("Salida", null, true, 8, 1, -1, -1, -1, true, "La salida de la nave");
 
-        ArrHabitaciones.add(Dormitorio);
-        ArrHabitaciones.add(Banyos);
-        ArrHabitaciones.add(Oficinas);
-        ArrHabitaciones.add(Taller);
-        ArrHabitaciones.add(Comandamiento);
-        ArrHabitaciones.add(Vestuario);
-        ArrHabitaciones.add(Cocina);
-        ArrHabitaciones.add(Comedor);
-        ArrHabitaciones.add(Salida);
+        ArrHabitaciones.add(0, Dormitorio);
+        ArrHabitaciones.add(1, Banyos);
+        ArrHabitaciones.add(2, Oficinas);
+        ArrHabitaciones.add(3, Taller);
+        ArrHabitaciones.add(4, Comandamiento);
+        ArrHabitaciones.add(5, Vestuario);
+        ArrHabitaciones.add(6, Cocina);
+        ArrHabitaciones.add(7, Comedor);
+        ArrHabitaciones.add(8, Salida);
 
     }
 
-    public Nave crearNave(){
-        return new Nave("PiaXXI",ArrHabitaciones);
+    public Nave crearNave() {
+        return new Nave("PiaXXI", ArrHabitaciones,false);
     }
 
-    public Bond crearComandante(){
-        return new Bond("Bond",1,ArrFrasesBond,0);
+    public Bond crearComandante() {
+        return new Bond("Bond", 1, ArrFrasesBond, 0);
     }
 
     //En modo prueba el tripulante
-    public Tripulantes crearTripulantes(){
-        return new Tripulantes("Tripulante",1,ArrFrasesBond,0,false,ArrHerramientas);
+    public Tripulantes crearTripulantes() {
+        return new Tripulantes("Tripulante", 1, ArrFrasesBond, 0, false, ArrHerramientas);
     }
 
     //En modo prueba el Alien
-    public Alien crearAlien(){
-        return new Alien("Bergalian",1,ArrFrasesBond,8,0,true);
+    public Alien crearAlien() {
+        return new Alien("Bergalian", 1, ArrFrasesBond, 8, 0, true);
     }
 
     //Movimiento
 
     public void moveComandante() throws InterruptedException {
-        switch(Bond.getPosicion()){
+        switch (Bond.getPosicion()) {
             case 0 -> desdeDormitorio();
             case 1 -> desdeBanyos();
             case 2 -> desdeOficinas();
@@ -222,12 +239,14 @@ public class Main {
         String pregunta = sc.next();
 
 
-        if(pregunta.equalsIgnoreCase("Banyos") || pregunta.equalsIgnoreCase("Baños")){
-            if(Bond.getPosicion() == PiaXXI.getMapa().get(0).getZona()){
-                if(PiaXXI.getMapa().get(1).getLuzHabitacion()) {
-                    if(PiaXXI.getMapa().get(1).getPuerta()){
+        if (pregunta.equalsIgnoreCase("Banyos") || pregunta.equalsIgnoreCase("Baños")) {
+            if (Bond.getPosicion() == PiaXXI.getMapa().get(0).getZona()) {
+                if (PiaXXI.getMapa().get(1).getLuzHabitacion()) {
+                    if (PiaXXI.getMapa().get(1).getPuerta()) {
                         System.out.println("Te has movido a Baños");
                         Bond.setPosicion(1);
+                        ++posComandante;
+                        moveAlien();
                         Thread.sleep(3750);
                     } else {
                         System.out.println("La puerta esta cerrada.");
@@ -237,10 +256,12 @@ public class Main {
             }
         } else {
             if (pregunta.equalsIgnoreCase("Comedor")) {
-                if(Bond.getPosicion() == PiaXXI.getMapa().get(0).getZona()) {
+                if (Bond.getPosicion() == PiaXXI.getMapa().get(0).getZona()) {
                     if (PiaXXI.getMapa().get(7).getPuerta()) {
                         System.out.println("Te has movido al Comedor");
                         Bond.setPosicion(7);
+                        ++posComandante;
+                        moveAlien();
                         Thread.sleep(3750);
                     } else {
                         System.out.println("La puerta esta cerrada");
@@ -258,11 +279,13 @@ public class Main {
 
         String pregunta = sc.next();
 
-        if(pregunta.equalsIgnoreCase("Oficina") || pregunta.equalsIgnoreCase("Oficinas")){
-            if(Bond.getPosicion() == PiaXXI.getMapa().get(1).getZona()){
-                if(PiaXXI.getMapa().get(2).getPuerta()){
+        if (pregunta.equalsIgnoreCase("Oficina") || pregunta.equalsIgnoreCase("Oficinas")) {
+            if (Bond.getPosicion() == PiaXXI.getMapa().get(1).getZona()) {
+                if (PiaXXI.getMapa().get(2).getPuerta()) {
                     System.out.println("Te has movido a la Oficina");
                     Bond.setPosicion(2);
+                    ++posComandante;
+                    moveAlien();
                     Thread.sleep(3750);
                 } else {
                     System.out.println("La puerta esta cerrada");
@@ -271,10 +294,12 @@ public class Main {
             }
         } else {
             if (pregunta.equalsIgnoreCase("Dormitorio")) {
-                if(Bond.getPosicion() == PiaXXI.getMapa().get(1).getZona()){
+                if (Bond.getPosicion() == PiaXXI.getMapa().get(1).getZona()) {
                     if (PiaXXI.getMapa().get(0).getPuerta()) {
                         System.out.println("Te has movido al Dormitorio");
                         Bond.setPosicion(0);
+                        ++posComandante;
+                        moveAlien();
                         Thread.sleep(3750);
                     } else {
                         System.out.println("La puerta esta cerrada");
@@ -300,6 +325,8 @@ public class Main {
                 if (PiaXXI.getMapa().get(3).getPuerta()) {
                     System.out.println("Te has movido al Taller");
                     Bond.setPosicion(3);
+                    ++posComandante;
+                    moveAlien();
                     Thread.sleep(3750);
                 } else {
                     System.out.println("La puerta esta cerrada.");
@@ -356,11 +383,13 @@ public class Main {
         String pregunta = sc.next();
 
 
-        if(pregunta.equalsIgnoreCase("Oficina") || pregunta.equalsIgnoreCase("Oficinas")){
-            if(Bond.getPosicion() == PiaXXI.getMapa().get(3).getZona()){
-                if(PiaXXI.getMapa().get(2).getPuerta()){
+        if (pregunta.equalsIgnoreCase("Oficina") || pregunta.equalsIgnoreCase("Oficinas")) {
+            if (Bond.getPosicion() == PiaXXI.getMapa().get(3).getZona()) {
+                if (PiaXXI.getMapa().get(2).getPuerta()) {
                     System.out.println("Te has movido a la Oficina");
                     Bond.setPosicion(2);
+                    ++posComandante;
+                    moveAlien();
                     Thread.sleep(3750);
                 } else {
                     System.out.println("La puerta esta cerrada");
@@ -378,11 +407,13 @@ public class Main {
         String pregunta = sc.next();
 
 
-        if(pregunta.equalsIgnoreCase("Oficina") || pregunta.equalsIgnoreCase("Oficinas")){
-            if(Bond.getPosicion() == PiaXXI.getMapa().get(4).getZona()){
-                if(PiaXXI.getMapa().get(2).getPuerta()){
+        if (pregunta.equalsIgnoreCase("Oficina") || pregunta.equalsIgnoreCase("Oficinas")) {
+            if (Bond.getPosicion() == PiaXXI.getMapa().get(4).getZona()) {
+                if (PiaXXI.getMapa().get(2).getPuerta()) {
                     System.out.println("Te has movido a la Oficina");
                     Bond.setPosicion(2);
+                    ++posComandante;
+                    moveAlien();
                     Thread.sleep(3750);
                 } else {
                     System.out.println("La puerta esta cerrada");
@@ -401,11 +432,13 @@ public class Main {
         String pregunta = sc.next();
 
 
-        if(pregunta.equalsIgnoreCase("Cocina") || pregunta.equalsIgnoreCase("Baños")){
-            if(Bond.getPosicion() == PiaXXI.getMapa().get(5).getZona()){
-                if(PiaXXI.getMapa().get(6).getPuerta()){
-                    System.out.println("Te has movido a Baños");
+        if (pregunta.equalsIgnoreCase("Cocina")) {
+            if (Bond.getPosicion() == PiaXXI.getMapa().get(5).getZona()) {
+                if (PiaXXI.getMapa().get(6).getPuerta()) {
+                    System.out.println("Te has movido a Cocina");
                     Bond.setPosicion(6);
+                    ++posComandante;
+                    moveAlien();
                     Thread.sleep(3750);
                 } else {
                     System.out.println("La puerta esta cerrada");
@@ -414,10 +447,12 @@ public class Main {
             }
         } else {
             if (pregunta.equalsIgnoreCase("Oficinas")) {
-                if(Bond.getPosicion() == PiaXXI.getMapa().get(5).getZona()) {
+                if (Bond.getPosicion() == PiaXXI.getMapa().get(5).getZona()) {
                     if (PiaXXI.getMapa().get(2).getPuerta()) {
                         System.out.println("Te has movido a Oficinas");
                         Bond.setPosicion(2);
+                        ++posComandante;
+                        moveAlien();
                         Thread.sleep(3750);
                     } else {
                         System.out.println("La puerta esta cerrada");
@@ -436,11 +471,13 @@ public class Main {
         String pregunta = sc.next();
 
 
-        if(pregunta.equalsIgnoreCase("Comedor")){
-            if(Bond.getPosicion() == PiaXXI.getMapa().get(6).getZona()){
-                if(PiaXXI.getMapa().get(7).getPuerta()){
+        if (pregunta.equalsIgnoreCase("Comedor")) {
+            if (Bond.getPosicion() == PiaXXI.getMapa().get(6).getZona()) {
+                if (PiaXXI.getMapa().get(7).getPuerta()) {
                     System.out.println("Te has movido al Comedor");
                     Bond.setPosicion(7);
+                    ++posComandante;
+                    moveAlien();
                     Thread.sleep(3750);
                 } else {
                     System.out.println("La puerta esta cerrada");
@@ -449,10 +486,12 @@ public class Main {
             }
         } else {
             if (pregunta.equalsIgnoreCase("Vestuario")) {
-                if(Bond.getPosicion() == PiaXXI.getMapa().get(6).getZona()) {
+                if (Bond.getPosicion() == PiaXXI.getMapa().get(6).getZona()) {
                     if (PiaXXI.getMapa().get(5).getPuerta()) {
                         System.out.println("Te has movido al Vestuario");
                         Bond.setPosicion(5);
+                        ++posComandante;
+                        moveAlien();
                         Thread.sleep(3750);
                     } else {
                         System.out.println("La puerta esta cerrada");
@@ -477,6 +516,8 @@ public class Main {
                 if (PiaXXI.getMapa().get(8).getPuerta()) {
                     System.out.println("Te has movido a la Salida");
                     Bond.setPosicion(8);
+                    ++posComandante;
+                    moveAlien();
                     Thread.sleep(3750);
                 } else {
                     System.out.println("La puerta esta cerrada");
@@ -489,6 +530,7 @@ public class Main {
                     if (PiaXXI.getMapa().get(0).getPuerta()) {
                         System.out.println("Te has movido al Dormitorio");
                         Bond.setPosicion(0);
+                        posComandante++;
                         Thread.sleep(3750);
                     } else {
                         System.out.println("La puerta esta cerrada");
@@ -501,6 +543,7 @@ public class Main {
                         if (PiaXXI.getMapa().get(6).getPuerta()) {
                             System.out.println("Te has movido a la Cocina");
                             Bond.setPosicion(6);
+                            posComandante++;
                             Thread.sleep(3750);
                         } else {
                             System.out.println("La puerta esta cerrada");
@@ -520,11 +563,13 @@ public class Main {
         String pregunta = sc.next();
 
 
-        if(pregunta.equalsIgnoreCase("Comedor")){
-            if(Bond.getPosicion() == PiaXXI.getMapa().get(8).getZona()){
-                if(PiaXXI.getMapa().get(7).getPuerta()){
+        if (pregunta.equalsIgnoreCase("Comedor")) {
+            if (Bond.getPosicion() == PiaXXI.getMapa().get(8).getZona()) {
+                if (PiaXXI.getMapa().get(7).getPuerta()) {
                     System.out.println("Te has movido al Comedor");
                     Bond.setPosicion(7);
+                    ++posComandante;
+                    moveAlien();
                     Thread.sleep(3750);
                 } else {
                     System.out.println("La puerta esta cerrada");
@@ -538,11 +583,11 @@ public class Main {
 
     public boolean buscarObjetos() throws InterruptedException {
         boolean encontrado = false;
-        for(int x = 0; x < PiaXXI.getMapa().size() && !encontrado; x++){
-            if(Bond.getPosicion() == PiaXXI.getMapa().get(x).getZona()){
+        for (int x = 0; x < PiaXXI.getMapa().size() && !encontrado; x++) {
+            if (Bond.getPosicion() == PiaXXI.getMapa().get(x).getZona()) {
                 //System.out.println("Buscando objetos dentro de la habitación..");
                 //Thread.sleep(3500);
-                if(PiaXXI.getMapa().get(x).getObjetos() != null) {
+                if (PiaXXI.getMapa().get(x).getObjetos() != null) {
                     //System.out.println("Hay estos objetos: "+PiaXXI.getMapa().get(x).getObjetos().getNombreHerramienta());
                     encontrado = true;
                 } else {
@@ -554,28 +599,39 @@ public class Main {
         return encontrado;
     }
 
-    public void CojeObjeto() throws InterruptedException {
-        if(buscarObjetos()) {
+    public void cojeObjeto() throws InterruptedException {
+        if (buscarObjetos()) {
             boolean encontrado = false;
             int aux = 0;
-            String coger;
-            String objeto;
-            for(int x = 0; x < PiaXXI.getMapa().size() && !encontrado; x++) {
+            String coger = "";
+            String objeto = "";
+            boolean coje = true;
+            for (int x = 0; x < PiaXXI.getMapa().size() && !encontrado; x++) {
                 if (PiaXXI.getMapa().get(x).getObjetos() != null) {
-                    if(Bond.getPosicion() == PiaXXI.getMapa().get(x).getZona()) {
-                        System.out.println("Hay estos objetos: " + PiaXXI.getMapa().get(x).getObjetos().getNombreHerramienta());
-                        aux = x;
-                        encontrado = true;
+                    if (Bond.getPosicion() == PiaXXI.getMapa().get(x).getZona()) {
+                        if (PiaXXI.getMapa().get(x).getLuzHabitacion()) {
+                            System.out.println("Hay estos objetos: " + PiaXXI.getMapa().get(x).getObjetos().getNombreHerramienta());
+                            aux = x;
+                            encontrado = true;
+                        } else {
+                            System.out.println("Como vas a cojer algo sin ver nada");
+                            coje = false;
+                        }
                     }
                 }
             }
-            System.out.println("Elige que objeto quieres coger");
-            coger = sc.next();
-            objeto = PiaXXI.getMapa().get(aux).getObjetos().getNombreHerramienta();
-
-            if(coger.equalsIgnoreCase(objeto)) {
-                System.out.println("Has cogido "+PiaXXI.getMapa().get(aux).getObjetos().getNombreHerramienta());
-                ArrInventario.add(0,PiaXXI.getMapa().get(aux).getObjetos());
+            if (PiaXXI.getMapa().get(Bond.getPosicion()).getObjetos() == null) {
+                System.out.println("No puedes cojer algo que no hay");
+                coje = false;
+            }
+            if (coje) {
+                System.out.println("Elige que objeto quieres coger");
+                coger = sc.next();
+                objeto = PiaXXI.getMapa().get(aux).getObjetos().getNombreHerramienta();
+            }
+            if (coger.equalsIgnoreCase(objeto) && coje) {
+                System.out.println("Has cogido " + PiaXXI.getMapa().get(aux).getObjetos().getNombreHerramienta());
+                ArrInventario.add(0, PiaXXI.getMapa().get(aux).getObjetos());
                 Bond.setInventarioComandante(ArrInventario);
                 PiaXXI.getMapa().get(aux).setObjetos(null);
             } else {
@@ -585,26 +641,26 @@ public class Main {
         }
     }
 
-    public void dejaObjeto(){
+    public void dejaObjeto() {
         int aux = 0;
         String buscadejar;
-        if(Bond.getInventarioComandante() == null) {
+        if (Bond.getInventarioComandante() == null) {
             System.out.println("No puedes dejar nada que no tienes");
         }
-        if(PiaXXI.getMapa().get(Bond.getPosicion()).getObjetos() == null) {
-            for(int x = 0; x < Bond.getInventarioComandante().size(); x++){
-                if(Bond.getInventarioComandante().get(x) != null) {
-                    System.out.println(Colores.ANSI_BLACK+"Puedes dejar estos objetos: "+Colores.ANSI_WHITE+Bond.getInventarioComandante().get(x).getNombreHerramienta());
+        if (PiaXXI.getMapa().get(Bond.getPosicion()).getObjetos() == null) {
+            for (int x = 0; x < Bond.getInventarioComandante().size(); x++) {
+                if (Bond.getInventarioComandante().get(x) != null) {
+                    System.out.println(Colores.ANSI_BLACK + "Puedes dejar estos objetos: " + Colores.ANSI_WHITE + Bond.getInventarioComandante().get(x).getNombreHerramienta());
                     aux = x;
                 }
             }
-            if(PiaXXI.getMapa().get(Bond.getPosicion()).getObjetos() == null) {
-                if(Bond.getInventarioComandante().size() == 0) {
-                    System.out.println(Colores.ANSI_WHITE+"No hay nada en el Inventario que podamos dejar");
+            if (PiaXXI.getMapa().get(Bond.getPosicion()).getObjetos() == null) {
+                if (Bond.getInventarioComandante().size() == 0) {
+                    System.out.println(Colores.ANSI_WHITE + "No hay nada en el Inventario que podamos dejar");
                 } else {
                     buscadejar = sc.next();
-                    if(Bond.getInventarioComandante().get(aux).getNombreHerramienta().equalsIgnoreCase(buscadejar)) {
-                        System.out.println("Has dejado "+Bond.getInventarioComandante().get(aux).getNombreHerramienta()+ " En "+PiaXXI.getMapa().get(Bond.getPosicion()).getNombreHabitacions());
+                    if (Bond.getInventarioComandante().get(aux).getNombreHerramienta().equalsIgnoreCase(buscadejar)) {
+                        System.out.println("Has dejado " + Bond.getInventarioComandante().get(aux).getNombreHerramienta() + " En " + PiaXXI.getMapa().get(Bond.getPosicion()).getNombreHabitacions());
                         PiaXXI.getMapa().get(aux).setObjetos(Bond.getInventarioComandante().get(aux));
                         ArrInventario.remove(Bond.getInventarioComandante().get(aux));
                     } else {
@@ -618,99 +674,157 @@ public class Main {
     }
 
     public void infoComandante() throws InterruptedException {
-        System.out.println(Colores.ANSI_BLACK+"Nombre del Comandante: " +Colores.ANSI_WHITE+ Bond.getNombrePersona());
+        System.out.println(Colores.ANSI_BLACK + "Nombre del Comandante: " + Colores.ANSI_WHITE + Bond.getNombrePersona());
         //Lo siguiente sera por vidas..
         if (Bond.getVivoMuerto() == 1) {
-            System.out.println(Colores.ANSI_BLACK+"Estado del Comandante:"+Colores.ANSI_WHITE+" Vivo");
+            System.out.println(Colores.ANSI_BLACK + "Estado del Comandante:" + Colores.ANSI_WHITE + " Vivo");
         } else {
-            System.out.println(Colores.ANSI_BLACK+"Estado del Comandante:"+Colores.ANSI_WHITE+" Muerto");
+            System.out.println(Colores.ANSI_BLACK + "Estado del Comandante:" + Colores.ANSI_WHITE + " Muerto");
         }
 
-        System.out.println(Colores.ANSI_BLACK+"Lugar: " +Colores.ANSI_WHITE+ PiaXXI.getMapa().get(Bond.getPosicion()).getNombreHabitacions());
+        System.out.println(Colores.ANSI_BLACK + "Lugar: " + Colores.ANSI_WHITE + PiaXXI.getMapa().get(Bond.getPosicion()).getNombreHabitacions());
         if (PiaXXI.getMapa().get(Bond.getPosicion()).getLuzHabitacion()) {
-            System.out.println(Colores.ANSI_BLACK+"Luz:"+Colores.ANSI_WHITE+" Encendida");
+            System.out.println(Colores.ANSI_BLACK + "Luz:" + Colores.ANSI_WHITE + " Encendida");
         } else {
-            System.out.println(Colores.ANSI_BLACK+"Luz:"+Colores.ANSI_WHITE+" Apagada");
+            System.out.println(Colores.ANSI_BLACK + "Luz:" + Colores.ANSI_WHITE + " Apagada");
         }
 
-        for(int x = 0; x < Bond.getInventarioComandante().size(); x++){
-            if(Bond.getInventarioComandante().get(x) != null) {
-                System.out.println(Colores.ANSI_BLACK+"Inventario del Bond: "+Colores.ANSI_WHITE+Bond.getInventarioComandante().get(x).getNombreHerramienta());
+        for (int x = 0; x < Bond.getInventarioComandante().size(); x++) {
+            if (Bond.getInventarioComandante().get(x) != null) {
+                System.out.println(Colores.ANSI_BLACK + "Inventario del Bond: " + Colores.ANSI_WHITE + Bond.getInventarioComandante().get(x).getNombreHerramienta());
             }
         }
-        if(Bond.getInventarioComandante().size() == 0) {
-            System.out.println(Colores.ANSI_WHITE+"No hay nada en el Inventario del Comandante");
+        if (Bond.getInventarioComandante().size() == 0) {
+            System.out.println(Colores.ANSI_WHITE + "No hay nada en el Inventario del Comandante");
         }
+        System.out.println("T-MoveAlien: " + posComandante);
         Thread.sleep(4750);
     }
 
-    public void ApagaEnciendeLuz() throws InterruptedException {
-        System.out.println(Colores.ANSI_BLACK +"APAGAR");
-        System.out.println(Colores.ANSI_BLACK+"ENCENDER");
-        String option = sc.next();
-        switch (option.toUpperCase()) {
-            case "APAGAR" -> {
-                for(int x = 0; x < PiaXXI.getMapa().size(); x++) {
-                    if(PiaXXI.getMapa().get(x).getZona() == Bond.getPosicion()) {
-                        if(PiaXXI.getMapa().get(x).getLuzHabitacion()){
-                            System.out.println("Apagando luz...");
+    public void moveAlien() {
+        if (posComandante % 2 == 0) {
+            int posR = (int) (Math.random() * 8);
+            Bargalien.setPosicion(posR);
+            System.out.println("T-Alien movido");
+        }
+        if (Bargalien.getPosicion() == Bond.getPosicion()) {
+            System.out.println("T-Alien en el mismo lugar que el Comandante");
+        }
+    }
+
+    public void posLinterna() {
+        int posR = (int) (Math.random() * 8);
+        if (PiaXXI.getMapa().get(posR).getObjetos() == null) {
+            PiaXXI.getMapa().get(posR).setObjetos(crearHerramientas().get(1));
+        }
+    }
+
+    public void usaObjeto() throws InterruptedException {
+        boolean usar = true;
+        String usarobjeto;
+        ArrayList<Integer> Aux = new ArrayList<>();
+
+        //Muestra el interior de la mochila
+        for (int x = 0; x < Bond.getInventarioComandante().size(); x++) {
+            if (Bond.getInventarioComandante().get(x) != null) {
+                System.out.println(Colores.ANSI_BLACK + "Mochila: " + Colores.ANSI_WHITE + Bond.getInventarioComandante().get(x).getNombreHerramienta());
+                Aux.add(x);
+            }
+        }
+
+        //Posibles errores que pueden suceder
+        if (Bond.getInventarioComandante() == null) {
+            System.out.println("No puedes utilizar nada que no tienes");
+            usar = false;
+        }
+        if (Bond.getInventarioComandante().size() == 0) {
+            System.out.println(Colores.ANSI_WHITE + "No hay nada en el Inventario que podamos utilizar");
+            usar = false;
+        }
+        //Sino, se usa...
+        if (usar) {
+            usarobjeto = sc.next();
+            for (int i = 0; i < Aux.size(); i++) {
+                if (Bond.getInventarioComandante().get(i).getNombreHerramienta().equalsIgnoreCase(usarobjeto)) {
+                    if (usarobjeto.equalsIgnoreCase("Tarjeta") || usarobjeto.equalsIgnoreCase("tarjetatripulante")) {
+                        if (Bond.getPosicion() == PiaXXI.getMapa().get(2).getZona()) {
+                            System.out.println("Puedes abrir:" + PiaXXI.getMapa().get(3).getNombreHabitacions());
+                            Thread.sleep(3500);
+                            if (!PiaXXI.getMapa().get(3).getPuerta()) {
+                                System.out.println("Abriendo puerta...");
+                                PiaXXI.getMapa().get(3).setPuerta(true);
+                                Thread.sleep(1500);
+                            } else {
+                                System.out.println("La puerta ya esta abierta");
+                                Thread.sleep(1500);
+                            }
+                        } else {
+                            System.out.println("No hay nada que puedas utilizar con la tarjeta");
                             Thread.sleep(1500);
-                            System.out.println("Luz apagada");
-                            PiaXXI.getMapa().get(x).setLuzHabitacion(false);
-                        } else if(!PiaXXI.getMapa().get(x).getLuzHabitacion()) {
-                            System.out.println("La luz estaba apagada... La dejamos igual");
+                        }
+                    }
+                    if (usarobjeto.equalsIgnoreCase("linterna")) {
+                        for (int x = 0; x < PiaXXI.getMapa().size(); x++) {
+                            if (PiaXXI.getMapa().get(x).getZona() == Bond.getPosicion()) {
+                                if (!PiaXXI.getMapa().get(x).getLuzHabitacion()) {
+                                    System.out.println("Encendiendo luz...");
+                                    Thread.sleep(1500);
+                                    System.out.println("Luz encendida");
+                                    PiaXXI.getMapa().get(x).setLuzHabitacion(true);
+                                    Thread.sleep(1500);
+                                } else {
+                                    System.out.println("La luz ya esta encendida");
+                                    Thread.sleep(1500);
+                                }
+                            }
+                        }
+                    }
+                    if (usarobjeto.equalsIgnoreCase("Traje")) {
+                        if(!Bond.getVestido()) {
+                            System.out.println("Vistiendote...");
+                            Bond.setVestido(true);
                             Thread.sleep(1500);
+                            System.out.println("Vestido");
+                            Thread.sleep(1500);
+                        }
+                    }
+                    if (usarobjeto.equalsIgnoreCase("Donuts")) {
+                        if(Bargalien.getPosicion() == Bond.getPosicion()) {
+                            if(!Bargalien.getAlteradoTranquilo()) {
+                                System.out.println("Das de comer al Alien para que se tranquilize...");
+                                Bargalien.setAlteradoTranquilo(true);
+                                Thread.sleep(1500);
+                            }
+                        }
+                    }
+                    if (usarobjeto.equalsIgnoreCase("Destornillador")) {
+                        if(Bargalien.getPosicion() == Bond.getPosicion()) {
+                            //True si esta alterado
+                            if (Bargalien.getAlteradoTranquilo()) {
+                                System.out.println("El alien esta en la misma posición que tu y esta muy alterado");
+                                if(Bond.getInventarioComandante().get(i).getNombreHerramienta().equalsIgnoreCase("Donuts")){
+                                    System.out.println("Puedes darle los donuts para que se tranquilice");
+                                }
+                                System.out.println("No puedes huir, deberas atacarle con el destornillador");
+                                Thread.sleep(1500);
+                                System.out.println("Atacando...");
+                                Thread.sleep(3500);
+                                System.out.println("El alien se ha colado por tu garganta...");
+                                Thread.sleep(2500);
+                                cuentaAtras = 0;
+                            }
+                        }
+                        if(Bond.getPosicion() == PiaXXI.getMapa().get(8).getZona()) {
+                            for(int traje = 0; traje < Bond.getInventarioComandante().size(); traje++) {
+                                if (Bond.getInventarioComandante().get(traje).getNombreHerramienta().equalsIgnoreCase("Traje")) {
+                                    System.out.println("Saliendo a reparar los motores...");
+                                    PiaXXI.setReparado(true);
+                                }
+                            }
                         }
                     }
                 }
             }
-            case "ENCENDER" -> {
-                for(int x = 0; x < PiaXXI.getMapa().size(); x++) {
-                    if (PiaXXI.getMapa().get(x).getZona() == Bond.getPosicion()) {
-                        if (!PiaXXI.getMapa().get(x).getLuzHabitacion()) {
-                            System.out.println("Encendiendo luz...");
-                            Thread.sleep(1500);
-                            System.out.println("Luz encendida");
-                            PiaXXI.getMapa().get(x).setLuzHabitacion(true);
-                        } else if (PiaXXI.getMapa().get(x).getLuzHabitacion()) {
-                            System.out.println("La luz estaba encendida... La dejamos igual");
-                            Thread.sleep(1500);
-                        }
-                    }
-                }
-            }
-            default -> System.out.println("Error,vuelve a introducirlo nuevamente");
         }
     }
-
-    /*public void alienMove() {
-        if(MoveComandante == 2) {
-            while(MoveComandante > 2) {
-            int PosAleatoria = (int) Math.floor(Math.random() * (0 - (9 + 1)) + (9));
-            crearAlien().setPosicion(PosAleatoria);
-            if(crearComandante().getPosicion() < crearAlien().getPosicion()) {
-                System.out.println("Tienes cerca a alguien... Debes ir con precaución.");
-            }
-            }
-        }
-    }
-
-    /*
-    public void Movimiento(){
-        if(crearHabitaciones().get(Bond.getPosicion()).getArriba() == 1) {
-            System.out.println("Te puedes mover arriba");
-            if(crearHabitaciones().get(Bond.getPosicion() + 1).getPuerta() == true) {
-                System.out.println("Puedes pasar");
-                Bond.setPosicion(Bond.getPosicion() + 1);
-            }
-        } else if(crearHabitaciones().get(Bond.getPosicion()).getAbajo() == 1) {
-            System.out.println("Te puedes mover abajo");
-        } else if(crearHabitaciones().get(Bond.getPosicion()).getIzquierda() == 1) {
-            System.out.println("Te puedes mover a la izquierda");
-        } else if(crearHabitaciones().get(Bond.getPosicion()).getDerecha() == 1) {
-            System.out.println("Te puedes mover a la derecha");
-        }
-    }
- */
-
 }

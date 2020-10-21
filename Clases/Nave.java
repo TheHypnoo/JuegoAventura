@@ -3,11 +3,13 @@ import java.util.ArrayList;
 public class Nave {
     private String NombreNave;
     private ArrayList<Habitaciones> mapaHabitaciones = new ArrayList<>();
+    private boolean Reparado;
 
-    public Nave (String NombreNave, ArrayList<Habitaciones> mapaHabitaciones)
+    public Nave (String NombreNave, ArrayList<Habitaciones> mapaHabitaciones, boolean Reparado)
     {
         this.NombreNave = NombreNave;
         this.mapaHabitaciones = mapaHabitaciones;
+        this.Reparado = Reparado;
     }
 
     //Establece el nombre de la nave
@@ -28,4 +30,11 @@ public class Nave {
         return this.mapaHabitaciones;
     }
 
+    public boolean getReparado() {
+        return Reparado;
+    }
+
+    public void setReparado(boolean reparado) {
+        Reparado = reparado;
+    }
 }
