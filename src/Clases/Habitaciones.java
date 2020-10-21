@@ -1,3 +1,7 @@
+package Clases;
+
+import Clases.Herramientas;
+
 public class Habitaciones {
 
     private String NombreHabitacion;

@@ -1,3 +1,5 @@
+package Clases;
+
 import java.util.ArrayList;
 
 public class Mochila {
@@ -7,7 +9,7 @@ public class Mochila {
         this.Inventario=Inventario;
     }
 
-    //Establezco lo que hay dentro de la Mochila
+    //Establezco lo que hay dentro de la Clases.Mochila
     public void setMochila(ArrayList<Herramientas> Inventario){
         this.Inventario = Inventario;
     }

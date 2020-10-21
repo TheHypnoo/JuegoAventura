@@ -1,3 +1,5 @@
+package Clases;
+
 import java.util.ArrayList;
 
 public class HiHall {
@@ -8,7 +10,7 @@ public class HiHall {
 
     }
 
-    //Establece las frases del HiHall
+    //Establece las frases del Clases.HiHall
     public void setFrasesHiHall(ArrayList<String> FrasesHiHall){
         this.FrasesHiHall = FrasesHiHall;
     }

@@ -1,10 +1,14 @@
+package Clases;
+
+import Clases.Personas;
+
 import java.util.ArrayList;
 
-public class Tripulantes extends Personas{
+public class Tripulantes extends Personas {
     protected Boolean DormidoDespierto;
-    protected ArrayList<Herramientas> ObjetosTripulante = new ArrayList<>();
+    protected Herramientas ObjetosTripulante;
 
-    public Tripulantes(String NombrePersona, int VivoMuerto, ArrayList<String> FrasesPersonas, int Posicion, Boolean DormidoDespierto, ArrayList<Herramientas> ObjetosTripulante) {
+    public Tripulantes(String NombrePersona, int VivoMuerto, ArrayList<String> FrasesPersonas, int Posicion, Boolean DormidoDespierto, Herramientas ObjetosTripulante) {
         super(NombrePersona, VivoMuerto, FrasesPersonas, Posicion);
         this.DormidoDespierto = DormidoDespierto;
         this.ObjetosTripulante = ObjetosTripulante;
@@ -24,11 +28,11 @@ public class Tripulantes extends Personas{
         return DormidoDespierto;
     }
     //Establezco los objetos del tripulante
-    public void setObjetosTripulante(ArrayList<Herramientas> ObjetosTripulante){
+    public void setObjetosTripulante(Herramientas ObjetosTripulante){
         this.ObjetosTripulante = ObjetosTripulante;
     }
     //Consigo saber los objetos del tripulante
-    public ArrayList<Herramientas> getObjetosTripulante() {
+    public Herramientas getObjetosTripulante() {
         return ObjetosTripulante;
     }
 }

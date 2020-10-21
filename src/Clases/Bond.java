@@ -1,6 +1,11 @@
+package Clases;
+
+import Clases.Herramientas;
+import Clases.Personas;
+
 import java.util.ArrayList;
 
-public class Bond extends Personas{
+public class Bond extends Personas {
 
     protected ArrayList<Herramientas> InventarioComandante = new ArrayList<>();
     protected ArrayList<String> FrasesComandante = new ArrayList<>();
@@ -12,7 +17,7 @@ public class Bond extends Personas{
     }
     /*
     //Sin frases
-    public Bond(String NombrePersona, int VivoMuerto, int Posicion, ArrayList<Herramientas> InventarioComandante) {
+    public Clases.Bond(String NombrePersona, int VivoMuerto, int Posicion, ArrayList<Clases.Herramientas> InventarioComandante) {
         super(NombrePersona, VivoMuerto, Posicion);
         this.InventarioComandante = InventarioComandante;
         this.FrasesComandante = FrasesPersonas;

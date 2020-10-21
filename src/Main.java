@@ -1,3 +1,5 @@
+import Clases.*;
+
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -8,6 +10,8 @@ public class Main {
     ArrayList<Herramientas> ArrHerramientas = new ArrayList<>();
     ArrayList<Herramientas> ArrInventario = new ArrayList<>();
     ArrayList<String> ArrFrasesBond = new ArrayList<>();
+    ArrayList<String> ArrFrasesDormilon = new ArrayList<>();
+    ArrayList<String> ArrFrasesHiHall = new ArrayList<>();
     int posComandante;
     int cuentaAtras;
     Alien Bargalien;
@@ -26,30 +30,28 @@ public class Main {
         int opcion;
         boolean salir = false;
         while (!salir) {
-            System.out.println(Colores.ANSI_CYAN + "-------------------------------------");
-            System.out.println(Colores.ANSI_GREEN + "Escoge el modo: ");
-            System.out.println(Colores.ANSI_BLACK + "1.Empezar videojuego");
+            System.out.println(Ansi.CYAN + "-------------------------------------");
+            System.out.println(Ansi.GREEN + "Escoge el modo: ");
+            System.out.println(Ansi.BLACK + "1.Empezar videojuego");
             System.out.println("2.Creditos");
             System.out.println("3.Salir");
-            System.out.println(Colores.ANSI_CYAN + "-------------------------------------");
+            System.out.println(Ansi.CYAN + "-------------------------------------");
             try {
-                System.out.println(Colores.ANSI_WHITE + "Escribe una de las opciones");
+                System.out.println(Ansi.WHITE + "Escribe una de las opciones");
                 opcion = sc.nextInt();
                 switch (opcion) {
-                    case 1 -> //ArrInventario.set(0,ArrHerramientas.get(0));
-                            //System.out.println("Inventario:" +ArrInventario.get(0));
-                            IniciaClases();
+                    case 1 -> IniciaClases();
                     case 2 -> System.out.println("Null");
                     case 3 -> {
                         salir = true;
                         System.out.println("El Juego de Aventura a Finalizado correctamente.");
                         return;
                     }
-                    default -> System.out.println(Colores.ANSI_RED + Colores.ANSI_BOLD + "Error, vuelve a introducir el modo nuevamente.");
+                    default -> System.out.println(Ansi.RED + Ansi.HIGH_INTENSITY + "Error, vuelve a introducir el modo nuevamente.");
                 }
 
             } catch (InputMismatchException e) {
-                System.out.println(Colores.ANSI_RED + Colores.ANSI_BOLD + "Debes insertar un número correspondiente al que se te indica.");
+                System.out.println(Ansi.RED + Ansi.HIGH_INTENSITY + "Debes insertar un número correspondiente al que se te indica.");
                 sc.next();
             }
         }
@@ -59,16 +61,22 @@ public class Main {
         String opcion;
         boolean salir = false;
         while (!salir) {
-            System.out.println(Colores.ANSI_CYAN + "-------------------------------------");
-            System.out.println(Colores.ANSI_GREEN + "Escoge el modo: ");
-            System.out.println(Colores.ANSI_BLACK + "IR");
+            System.out.println(Ansi.CYAN + "-------------------------------------");
+            System.out.println(Ansi.GREEN + "Escoge el modo: ");
+            System.out.println(Ansi.BLACK + "IR");
             System.out.println("INFO");
             System.out.println("COJER");
             System.out.println("DEJAR");
             System.out.println("USAR");
-            System.out.println(Colores.ANSI_CYAN + "-------------------------------------");
+            if(Bond.getPosicion() == PiaXXI.getMapa().get(4).getZona()) {
+                if (PiaXXI.getReparado()){
+                    System.out.println("INICIAR");
+                }
+            }
+            System.out.println("HABLAR");
+            System.out.println(Ansi.CYAN + "-------------------------------------");
             try {
-                System.out.println(Colores.ANSI_WHITE + "Escribe una de las opciones");
+                System.out.println(Ansi.WHITE + "Escribe una de las opciones");
                 opcion = sc.next();
                 switch (opcion.toUpperCase()) {
                     case "IR" -> {moveComandante();
@@ -91,16 +99,21 @@ public class Main {
                         if (Bargalien.getAlteradoTranquilo()){
                             ++cuentaAtras;
                         }}
+                    case "INICIAR" -> {
+                        System.out.println("Has terminado la partida");
+                        salir = true;
+                    }
+                    case "HABLAR" -> menuHablar();
                     case "SALIR" -> {
                         salir = true;
                         System.out.println("El Juego de Aventura a Finalizado correctamente.");
                         return;
                     }
-                    default -> System.out.println(Colores.ANSI_RED + Colores.ANSI_BOLD + "Error, vuelve a introducir el modo nuevamente.");
+                    default -> System.out.println(Ansi.RED + Ansi.HIGH_INTENSITY + "Error, vuelve a introducir el modo nuevamente.");
                 }
 
             } catch (InputMismatchException | InterruptedException e) {
-                System.out.println(Colores.ANSI_RED + Colores.ANSI_BOLD + "Debes insertar un número correspondiente al que se te indica.");
+                System.out.println(Ansi.RED + Ansi.HIGH_INTENSITY + "Debes insertar un número correspondiente al que se te indica.");
                 sc.next();
             }
         }
@@ -140,6 +153,38 @@ public class Main {
         //Alien.PosAlien();
         //Alien.InfoAlien();
         menuSecundario();
+    }
+
+    public void menuHablar() {
+        String opcion;
+        boolean salir = false;
+        while (!salir) {
+            System.out.println(Ansi.CYAN + "-------------------------------------");
+            System.out.println(Ansi.GREEN + "Escoge el modo: ");
+            System.out.println(Ansi.BLACK + "HiHall");
+            if(Bond.getPosicion() == Dormilon.getPosicion()) {
+                System.out.println("Tripulante");
+            }
+            System.out.println(Ansi.CYAN + "-------------------------------------");
+            try {
+                System.out.println(Ansi.WHITE + "Escribe una de las opciones");
+                opcion = sc.next();
+                switch (opcion.toUpperCase()) {
+                    case "HIHALL" -> System.out.println("Null");
+                    case "Tripulante" -> System.out.println("Null");
+                    case "SALIR" -> {
+                        salir = true;
+                        System.out.println("El Juego de Aventura a Finalizado correctamente.");
+                        return;
+                    }
+                    default -> System.out.println(Ansi.RED + Ansi.HIGH_INTENSITY + "Error, vuelve a introducir el modo nuevamente.");
+                }
+
+            } catch (InputMismatchException e) {
+                System.out.println(Ansi.RED + Ansi.HIGH_INTENSITY + "Debes insertar una palabra correspondiente al que se te indica.");
+                sc.next();
+            }
+        }
     }
 
     //Creacion
@@ -206,7 +251,7 @@ public class Main {
 
     //En modo prueba el tripulante
     public Tripulantes crearTripulantes() {
-        return new Tripulantes("Tripulante", 1, ArrFrasesBond, 0, false, ArrHerramientas);
+        return new Tripulantes("Tripulante", 1, ArrFrasesBond, 0, false, crearHerramientas().get(4));
     }
 
     //En modo prueba el Alien
@@ -585,14 +630,11 @@ public class Main {
         boolean encontrado = false;
         for (int x = 0; x < PiaXXI.getMapa().size() && !encontrado; x++) {
             if (Bond.getPosicion() == PiaXXI.getMapa().get(x).getZona()) {
-                //System.out.println("Buscando objetos dentro de la habitación..");
-                //Thread.sleep(3500);
                 if (PiaXXI.getMapa().get(x).getObjetos() != null) {
-                    //System.out.println("Hay estos objetos: "+PiaXXI.getMapa().get(x).getObjetos().getNombreHerramienta());
                     encontrado = true;
                 } else {
-                    System.out.println("No hay objetos en esta habitación");
-                    Thread.sleep(4500);
+                    System.out.println(Ansi.SANE+Ansi.RED+"No hay objetos en esta habitación");
+                    Thread.sleep(1750);
                 }
             }
         }
@@ -610,92 +652,100 @@ public class Main {
                 if (PiaXXI.getMapa().get(x).getObjetos() != null) {
                     if (Bond.getPosicion() == PiaXXI.getMapa().get(x).getZona()) {
                         if (PiaXXI.getMapa().get(x).getLuzHabitacion()) {
-                            System.out.println("Hay estos objetos: " + PiaXXI.getMapa().get(x).getObjetos().getNombreHerramienta());
+                            System.out.println(Ansi.BLUE+"Hay estos objetos: " +Ansi.HIGH_INTENSITY+Ansi.YELLOW+Ansi.UNDERLINE+ PiaXXI.getMapa().get(x).getObjetos().getNombreHerramienta());
                             aux = x;
                             encontrado = true;
                         } else {
-                            System.out.println("Como vas a cojer algo sin ver nada");
+                            System.out.println(Ansi.SANE+Ansi.RED+"Como vas a cojer algo sin ver nada");
+                            Thread.sleep(1750);
                             coje = false;
                         }
                     }
                 }
             }
             if (PiaXXI.getMapa().get(Bond.getPosicion()).getObjetos() == null) {
-                System.out.println("No puedes cojer algo que no hay");
+                System.out.println(Ansi.SANE+Ansi.RED+"No puedes cojer algo que no hay");
+                Thread.sleep(1750);
                 coje = false;
             }
             if (coje) {
-                System.out.println("Elige que objeto quieres coger");
+                System.out.println(Ansi.SANE+Ansi.MAGENTA+"Elige que objeto quieres coger");
                 coger = sc.next();
                 objeto = PiaXXI.getMapa().get(aux).getObjetos().getNombreHerramienta();
             }
             if (coger.equalsIgnoreCase(objeto) && coje) {
-                System.out.println("Has cogido " + PiaXXI.getMapa().get(aux).getObjetos().getNombreHerramienta());
+                System.out.println(Ansi.BLUE+"Has cogido " +Ansi.HIGH_INTENSITY+Ansi.YELLOW+Ansi.UNDERLINE+PiaXXI.getMapa().get(aux).getObjetos().getNombreHerramienta());
                 ArrInventario.add(0, PiaXXI.getMapa().get(aux).getObjetos());
                 Bond.setInventarioComandante(ArrInventario);
                 PiaXXI.getMapa().get(aux).setObjetos(null);
-            } else {
-                System.out.println("No has cogido el objeto");
             }
-            Thread.sleep(3500);
+            Thread.sleep(1750);
         }
+        System.out.println(Ansi.SANE);
     }
 
-    public void dejaObjeto() {
+    public void dejaObjeto() throws InterruptedException {
         int aux = 0;
         String buscadejar;
         if (Bond.getInventarioComandante() == null) {
             System.out.println("No puedes dejar nada que no tienes");
+            Thread.sleep(1750);
         }
         if (PiaXXI.getMapa().get(Bond.getPosicion()).getObjetos() == null) {
             for (int x = 0; x < Bond.getInventarioComandante().size(); x++) {
                 if (Bond.getInventarioComandante().get(x) != null) {
-                    System.out.println(Colores.ANSI_BLACK + "Puedes dejar estos objetos: " + Colores.ANSI_WHITE + Bond.getInventarioComandante().get(x).getNombreHerramienta());
+                    System.out.println(Ansi.BLUE+"Hay estos objetos: " +Ansi.HIGH_INTENSITY+Ansi.YELLOW+Ansi.UNDERLINE+ Bond.getInventarioComandante().get(x).getNombreHerramienta());
                     aux = x;
                 }
             }
             if (PiaXXI.getMapa().get(Bond.getPosicion()).getObjetos() == null) {
                 if (Bond.getInventarioComandante().size() == 0) {
-                    System.out.println(Colores.ANSI_WHITE + "No hay nada en el Inventario que podamos dejar");
+                    System.out.println(Ansi.SANE+Ansi.RED+"No hay nada en el Inventario que podamos dejar");
+                    Thread.sleep(1750);
                 } else {
+                    System.out.println(Ansi.SANE+Ansi.MAGENTA+"Elige que objeto quieres dejar");
                     buscadejar = sc.next();
                     if (Bond.getInventarioComandante().get(aux).getNombreHerramienta().equalsIgnoreCase(buscadejar)) {
-                        System.out.println("Has dejado " + Bond.getInventarioComandante().get(aux).getNombreHerramienta() + " En " + PiaXXI.getMapa().get(Bond.getPosicion()).getNombreHabitacions());
+                        System.out.println(Ansi.SANE+Ansi.BLUE+"Has dejado " +Ansi.HIGH_INTENSITY+Ansi.YELLOW+Ansi.UNDERLINE+ Bond.getInventarioComandante().get(aux).getNombreHerramienta());
+                        Thread.sleep(1750);
                         PiaXXI.getMapa().get(aux).setObjetos(Bond.getInventarioComandante().get(aux));
                         ArrInventario.remove(Bond.getInventarioComandante().get(aux));
                     } else {
-                        System.out.println("No es igual a lo que tienes en tu mochila");
+                        System.out.println(Ansi.SANE+Ansi.RED+"No es igual a lo que tienes en tu mochila");
+                        Thread.sleep(1750);
                     }
                 }
             }
         } else {
-            System.out.println("Dentro de la habitación hay cosas, no podemos meter mas cosas");
+            System.out.println(Ansi.SANE+Ansi.RED+"Dentro de la habitación hay cosas, no podemos meter mas cosas");
+            Thread.sleep(1750);
         }
+        System.out.println(Ansi.SANE);
     }
 
     public void infoComandante() throws InterruptedException {
-        System.out.println(Colores.ANSI_BLACK + "Nombre del Comandante: " + Colores.ANSI_WHITE + Bond.getNombrePersona());
+        System.out.println(Ansi.BLACK + "Nombre del Comandante: " + Ansi.WHITE + Bond.getNombrePersona());
         //Lo siguiente sera por vidas..
         if (Bond.getVivoMuerto() == 1) {
-            System.out.println(Colores.ANSI_BLACK + "Estado del Comandante:" + Colores.ANSI_WHITE + " Vivo");
+            System.out.println(Ansi.BLACK + "Estado del Comandante:" + Ansi.WHITE + " Vivo");
         } else {
-            System.out.println(Colores.ANSI_BLACK + "Estado del Comandante:" + Colores.ANSI_WHITE + " Muerto");
+            System.out.println(Ansi.BLACK + "Estado del Comandante:" + Ansi.WHITE + " Muerto");
         }
 
-        System.out.println(Colores.ANSI_BLACK + "Lugar: " + Colores.ANSI_WHITE + PiaXXI.getMapa().get(Bond.getPosicion()).getNombreHabitacions());
+        System.out.println(Ansi.BLACK + "Lugar: " + Ansi.WHITE + PiaXXI.getMapa().get(Bond.getPosicion()).getNombreHabitacions());
         if (PiaXXI.getMapa().get(Bond.getPosicion()).getLuzHabitacion()) {
-            System.out.println(Colores.ANSI_BLACK + "Luz:" + Colores.ANSI_WHITE + " Encendida");
+            System.out.println(Ansi.BLACK + "Luz:" + Ansi.WHITE + " Encendida");
         } else {
-            System.out.println(Colores.ANSI_BLACK + "Luz:" + Colores.ANSI_WHITE + " Apagada");
+            System.out.println(Ansi.BLACK + "Luz:" + Ansi.WHITE + " Apagada");
         }
 
         for (int x = 0; x < Bond.getInventarioComandante().size(); x++) {
             if (Bond.getInventarioComandante().get(x) != null) {
-                System.out.println(Colores.ANSI_BLACK + "Inventario del Bond: " + Colores.ANSI_WHITE + Bond.getInventarioComandante().get(x).getNombreHerramienta());
+                System.out.println(Ansi.BLACK + "Inventario del Bond: " + Ansi.WHITE + Bond.getInventarioComandante().get(x).getNombreHerramienta());
             }
         }
         if (Bond.getInventarioComandante().size() == 0) {
-            System.out.println(Colores.ANSI_WHITE + "No hay nada en el Inventario del Comandante");
+            System.out.println(Ansi.WHITE + "No hay nada en el Inventario del Comandante");
         }
         System.out.println("T-MoveAlien: " + posComandante);
         Thread.sleep(4750);
@@ -705,10 +755,10 @@ public class Main {
         if (posComandante % 2 == 0) {
             int posR = (int) (Math.random() * 8);
             Bargalien.setPosicion(posR);
-            System.out.println("T-Alien movido");
+            System.out.println("Test-Alien movido");
         }
         if (Bargalien.getPosicion() == Bond.getPosicion()) {
-            System.out.println("T-Alien en el mismo lugar que el Comandante");
+            System.out.println("Test-Alien en el mismo lugar que el Comandante");
         }
     }
 
@@ -727,7 +777,7 @@ public class Main {
         //Muestra el interior de la mochila
         for (int x = 0; x < Bond.getInventarioComandante().size(); x++) {
             if (Bond.getInventarioComandante().get(x) != null) {
-                System.out.println(Colores.ANSI_BLACK + "Mochila: " + Colores.ANSI_WHITE + Bond.getInventarioComandante().get(x).getNombreHerramienta());
+                System.out.println(Ansi.BLACK + "Mochila: " + Ansi.WHITE + Bond.getInventarioComandante().get(x).getNombreHerramienta());
                 Aux.add(x);
             }
         }
@@ -738,7 +788,7 @@ public class Main {
             usar = false;
         }
         if (Bond.getInventarioComandante().size() == 0) {
-            System.out.println(Colores.ANSI_WHITE + "No hay nada en el Inventario que podamos utilizar");
+            System.out.println(Ansi.WHITE + "No hay nada en el Inventario que podamos utilizar");
             usar = false;
         }
         //Sino, se usa...
@@ -826,5 +876,25 @@ public class Main {
                 }
             }
         }
+    }
+
+    public void Hablar(){
+        //Conversación entre Tripulante y Comandante
+        ArrFrasesDormilon.add(0,"Espero que me hayas despertado para algo razonable");
+        ArrFrasesDormilon.add(1,"Que quieres? dejame seguir durmiendo!");
+        ArrFrasesDormilon.add(2,"Mi tarjeta? Para que?");
+        ArrFrasesDormilon.add(3,"Espero que soluciones esto, anda toma, que me marcho a dar vueltas por la nave");
+        ArrFrasesDormilon.add(4,"Ya te he dado lo que necesitabas, no quiero hablar más necesito aire libre");
+        ArrFrasesBond.add(0,"Despierta,Despierta,Despierta. Necesito de tu ayuda!!");
+        ArrFrasesBond.add(1,"Necesito tu tarjeta y te dejare en paz");
+        ArrFrasesBond.add(2,"No encuentro mi tarjeta y necesito abrir las puertas, tengo un encargo pendiente en la nave");
+        ArrFrasesBond.add(3,"Gracias, ya te dejo tranquilo! Voy a seguir con mi encargo");
+        ArrFrasesBond.add(4,"Vale, vale. Tranquilo");
+        //Conversación entre HiHall y Comandante
+        ArrFrasesHiHall.add(0,"Bond, Bond,Bond!! Despierta, esto es una emergencia!!");
+        ArrFrasesBond.add(5,"Que pasa HiHall? Que necesitas de mi, espero que me hayas despertado por una buena razón");
+        ArrFrasesHiHall.add(1,"Hay un problema con la nave, necesitamos de ti para que puedas repararlo");
+        ArrFrasesBond.add(6,"Espero que sea verdad lo que digas, guiame!");
+        ArrFrasesHiHall.add(2,"Creeme, sin ti esto no podria solucionarse");
     }
 }
