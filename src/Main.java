@@ -12,8 +12,9 @@ public class Main {
     ArrayList<String> ArrFrasesBond = new ArrayList<>();
     ArrayList<String> ArrFrasesDormilon = new ArrayList<>();
     ArrayList<String> ArrFrasesHiHall = new ArrayList<>();
-    int posComandante;
-    int cuentaAtras;
+    int cuentaMoveAlien;
+    int cuentaAtrasAlien = -1;
+    int cuentaMoveTripulante;
     Alien Bargalien;
     Bond Bond;
     Tripulantes Dormilon;
@@ -40,7 +41,7 @@ public class Main {
                 System.out.println(Ansi.WHITE + "Escribe una de las opciones");
                 opcion = sc.nextInt();
                 switch (opcion) {
-                    case 1 -> IniciaClases();
+                    case 1 -> startGame();
                     case 2 -> System.out.println("Null");
                     case 3 -> {
                         salir = true;
@@ -81,26 +82,26 @@ public class Main {
                 switch (opcion.toUpperCase()) {
                     case "IR" -> {moveComandante();
                         if (Bargalien.getAlteradoTranquilo()){
-                            ++cuentaAtras;
+                            ++cuentaAtrasAlien;
                         }}
                     case "INFO" -> {infoComandante();
                         if (Bargalien.getAlteradoTranquilo()){
-                            ++cuentaAtras;
+                            ++cuentaAtrasAlien;
                         }}
                     case "USAR" -> {usaObjeto();
                         if (Bargalien.getAlteradoTranquilo()){
-                            ++cuentaAtras;
+                            ++cuentaAtrasAlien;
                         }}
                     case "COJER" -> {cojeObjeto();
                         if (Bargalien.getAlteradoTranquilo()){
-                            ++cuentaAtras;
+                            ++cuentaAtrasAlien;
                         }}
                     case "DEJAR" -> {dejaObjeto();
                         if (Bargalien.getAlteradoTranquilo()){
-                            ++cuentaAtras;
+                            ++cuentaAtrasAlien;
                         }}
                     case "INICIAR" -> {
-                        System.out.println("Has terminado la partida");
+                        finalJuego();
                         salir = true;
                     }
                     case "HABLAR" -> menuHablar();
@@ -119,14 +120,13 @@ public class Main {
         }
     }
 
-    public void IniciaClases() {
-        crearMochila();
+    public void startGame() {
         crearHerramientas();
         crearHabitaciones();
-        Bond = crearComandante();
-        Bargalien = crearAlien();
-        Dormilon = crearTripulantes();
-        PiaXXI = crearNave();
+        Bond = creaComandante();
+        Bargalien = creaAlien();
+        Dormilon = creaTripulantes();
+        PiaXXI = creaNave();
         posLinterna();
 /*
         //Texto en modo prueba
@@ -165,22 +165,25 @@ public class Main {
             if(Bond.getPosicion() == Dormilon.getPosicion()) {
                 System.out.println("Tripulante");
             }
+            System.out.println(Ansi.RED+"SALIR");
             System.out.println(Ansi.CYAN + "-------------------------------------");
             try {
                 System.out.println(Ansi.WHITE + "Escribe una de las opciones");
                 opcion = sc.next();
                 switch (opcion.toUpperCase()) {
-                    case "HIHALL" -> System.out.println("Null");
-                    case "Tripulante" -> System.out.println("Null");
-                    case "SALIR" -> {
+                    case "HIHALL" -> {
+                        System.out.println("Mira no funciona y punto.");
                         salir = true;
-                        System.out.println("El Juego de Aventura a Finalizado correctamente.");
-                        return;
                     }
+                    case "TRIPULANTE" -> {
+                        charlaDormilon();
+                        salir = true;
+                    }
+                    case "SALIR" -> salir = true;
                     default -> System.out.println(Ansi.RED + Ansi.HIGH_INTENSITY + "Error, vuelve a introducir el modo nuevamente.");
                 }
 
-            } catch (InputMismatchException e) {
+            } catch (InputMismatchException | InterruptedException e) {
                 System.out.println(Ansi.RED + Ansi.HIGH_INTENSITY + "Debes insertar una palabra correspondiente al que se te indica.");
                 sc.next();
             }
@@ -188,16 +191,6 @@ public class Main {
     }
 
     //Creacion
-
-    /*public HiHall crearFrases(){
-        HiHall HiHall = new HiHall(ArrFrasesHiHall.get(0)));
-        return null;
-    }*/
-
-    public void crearMochila() {
-
-        new Mochila(crearHerramientas());
-    }
 
     public ArrayList<Herramientas> crearHerramientas() {
 
@@ -241,21 +234,21 @@ public class Main {
 
     }
 
-    public Nave crearNave() {
+    public Nave creaNave() {
         return new Nave("PiaXXI", ArrHabitaciones,false);
     }
 
-    public Bond crearComandante() {
+    public Bond creaComandante() {
         return new Bond("Bond", 1, ArrFrasesBond, 0);
     }
 
     //En modo prueba el tripulante
-    public Tripulantes crearTripulantes() {
-        return new Tripulantes("Tripulante", 1, ArrFrasesBond, 0, false, crearHerramientas().get(4));
+    public Tripulantes creaTripulantes() {
+        return new Tripulantes("Tripulante", 1, ArrFrasesDormilon, 0, false, crearHerramientas().get(4));
     }
 
     //En modo prueba el Alien
-    public Alien crearAlien() {
+    public Alien creaAlien() {
         return new Alien("Bergalian", 1, ArrFrasesBond, 8, 0, true);
     }
 
@@ -290,8 +283,11 @@ public class Main {
                     if (PiaXXI.getMapa().get(1).getPuerta()) {
                         System.out.println("Te has movido a Baños");
                         Bond.setPosicion(1);
-                        ++posComandante;
-                        moveAlien();
+                        cuentaMoveAlien++;
+                        if(Dormilon.getDormidoDespierto()) {
+                            ++cuentaMoveTripulante;
+                        }
+                        moveAlienTripulante();
                         Thread.sleep(3750);
                     } else {
                         System.out.println("La puerta esta cerrada.");
@@ -305,8 +301,11 @@ public class Main {
                     if (PiaXXI.getMapa().get(7).getPuerta()) {
                         System.out.println("Te has movido al Comedor");
                         Bond.setPosicion(7);
-                        ++posComandante;
-                        moveAlien();
+                        cuentaMoveAlien++;
+                        if(Dormilon.getDormidoDespierto()) {
+                            ++cuentaMoveTripulante;
+                        }
+                        moveAlienTripulante();
                         Thread.sleep(3750);
                     } else {
                         System.out.println("La puerta esta cerrada");
@@ -329,8 +328,11 @@ public class Main {
                 if (PiaXXI.getMapa().get(2).getPuerta()) {
                     System.out.println("Te has movido a la Oficina");
                     Bond.setPosicion(2);
-                    ++posComandante;
-                    moveAlien();
+                    cuentaMoveAlien++;
+                    if(Dormilon.getDormidoDespierto()) {
+                        ++cuentaMoveTripulante;
+                    }
+                    moveAlienTripulante();
                     Thread.sleep(3750);
                 } else {
                     System.out.println("La puerta esta cerrada");
@@ -343,8 +345,11 @@ public class Main {
                     if (PiaXXI.getMapa().get(0).getPuerta()) {
                         System.out.println("Te has movido al Dormitorio");
                         Bond.setPosicion(0);
-                        ++posComandante;
-                        moveAlien();
+                        cuentaMoveAlien++;
+                        if(Dormilon.getDormidoDespierto()) {
+                            ++cuentaMoveTripulante;
+                        }
+                        moveAlienTripulante();
                         Thread.sleep(3750);
                     } else {
                         System.out.println("La puerta esta cerrada");
@@ -370,8 +375,11 @@ public class Main {
                 if (PiaXXI.getMapa().get(3).getPuerta()) {
                     System.out.println("Te has movido al Taller");
                     Bond.setPosicion(3);
-                    ++posComandante;
-                    moveAlien();
+                    cuentaMoveAlien++;
+                    if(Dormilon.getDormidoDespierto()) {
+                        ++cuentaMoveTripulante;
+                    }
+                    moveAlienTripulante();
                     Thread.sleep(3750);
                 } else {
                     System.out.println("La puerta esta cerrada.");
@@ -384,6 +392,11 @@ public class Main {
                     if (PiaXXI.getMapa().get(4).getPuerta()) {
                         System.out.println("Te has movido al Comandamiento");
                         Bond.setPosicion(4);
+                        cuentaMoveAlien++;
+                        if(Dormilon.getDormidoDespierto()) {
+                            ++cuentaMoveTripulante;
+                        }
+                        moveAlienTripulante();
                         Thread.sleep(3750);
                     } else {
                         System.out.println("La puerta esta cerrada.");
@@ -396,6 +409,11 @@ public class Main {
                         if (PiaXXI.getMapa().get(5).getPuerta()) {
                             System.out.println("Te has movido al Vestuario");
                             Bond.setPosicion(5);
+                            cuentaMoveAlien++;
+                            if(Dormilon.getDormidoDespierto()) {
+                                ++cuentaMoveTripulante;
+                            }
+                            moveAlienTripulante();
                             Thread.sleep(3750);
                         } else {
                             System.out.println("La puerta esta cerrada");
@@ -408,6 +426,11 @@ public class Main {
                             if (PiaXXI.getMapa().get(1).getPuerta()) {
                                 System.out.println("Te has movido a Baños");
                                 Bond.setPosicion(1);
+                                cuentaMoveAlien++;
+                                if(Dormilon.getDormidoDespierto()) {
+                                    ++cuentaMoveTripulante;
+                                }
+                                moveAlienTripulante();
                                 Thread.sleep(3750);
                             } else {
                                 System.out.println("La puerta esta cerrada");
@@ -433,8 +456,11 @@ public class Main {
                 if (PiaXXI.getMapa().get(2).getPuerta()) {
                     System.out.println("Te has movido a la Oficina");
                     Bond.setPosicion(2);
-                    ++posComandante;
-                    moveAlien();
+                    cuentaMoveAlien++;
+                    if(Dormilon.getDormidoDespierto()) {
+                        ++cuentaMoveTripulante;
+                    }
+                    moveAlienTripulante();
                     Thread.sleep(3750);
                 } else {
                     System.out.println("La puerta esta cerrada");
@@ -457,8 +483,11 @@ public class Main {
                 if (PiaXXI.getMapa().get(2).getPuerta()) {
                     System.out.println("Te has movido a la Oficina");
                     Bond.setPosicion(2);
-                    ++posComandante;
-                    moveAlien();
+                    cuentaMoveAlien++;
+                    if(Dormilon.getDormidoDespierto()) {
+                        ++cuentaMoveTripulante;
+                    }
+                    moveAlienTripulante();
                     Thread.sleep(3750);
                 } else {
                     System.out.println("La puerta esta cerrada");
@@ -482,8 +511,11 @@ public class Main {
                 if (PiaXXI.getMapa().get(6).getPuerta()) {
                     System.out.println("Te has movido a Cocina");
                     Bond.setPosicion(6);
-                    ++posComandante;
-                    moveAlien();
+                    cuentaMoveAlien++;
+                    if(Dormilon.getDormidoDespierto()) {
+                        ++cuentaMoveTripulante;
+                    }
+                    moveAlienTripulante();
                     Thread.sleep(3750);
                 } else {
                     System.out.println("La puerta esta cerrada");
@@ -496,8 +528,11 @@ public class Main {
                     if (PiaXXI.getMapa().get(2).getPuerta()) {
                         System.out.println("Te has movido a Oficinas");
                         Bond.setPosicion(2);
-                        ++posComandante;
-                        moveAlien();
+                        cuentaMoveAlien++;
+                        if(Dormilon.getDormidoDespierto()) {
+                            ++cuentaMoveTripulante;
+                        }
+                        moveAlienTripulante();
                         Thread.sleep(3750);
                     } else {
                         System.out.println("La puerta esta cerrada");
@@ -521,8 +556,11 @@ public class Main {
                 if (PiaXXI.getMapa().get(7).getPuerta()) {
                     System.out.println("Te has movido al Comedor");
                     Bond.setPosicion(7);
-                    ++posComandante;
-                    moveAlien();
+                    cuentaMoveAlien++;
+                    if(Dormilon.getDormidoDespierto()) {
+                        ++cuentaMoveTripulante;
+                    }
+                    moveAlienTripulante();
                     Thread.sleep(3750);
                 } else {
                     System.out.println("La puerta esta cerrada");
@@ -535,8 +573,11 @@ public class Main {
                     if (PiaXXI.getMapa().get(5).getPuerta()) {
                         System.out.println("Te has movido al Vestuario");
                         Bond.setPosicion(5);
-                        ++posComandante;
-                        moveAlien();
+                        cuentaMoveAlien++;
+                        if(Dormilon.getDormidoDespierto()) {
+                            ++cuentaMoveTripulante;
+                        }
+                        moveAlienTripulante();
                         Thread.sleep(3750);
                     } else {
                         System.out.println("La puerta esta cerrada");
@@ -561,8 +602,11 @@ public class Main {
                 if (PiaXXI.getMapa().get(8).getPuerta()) {
                     System.out.println("Te has movido a la Salida");
                     Bond.setPosicion(8);
-                    ++posComandante;
-                    moveAlien();
+                    cuentaMoveAlien++;
+                    if(Dormilon.getDormidoDespierto()) {
+                        ++cuentaMoveTripulante;
+                    }
+                    moveAlienTripulante();
                     Thread.sleep(3750);
                 } else {
                     System.out.println("La puerta esta cerrada");
@@ -575,7 +619,10 @@ public class Main {
                     if (PiaXXI.getMapa().get(0).getPuerta()) {
                         System.out.println("Te has movido al Dormitorio");
                         Bond.setPosicion(0);
-                        posComandante++;
+                        cuentaMoveAlien++;
+                        if(Dormilon.getDormidoDespierto()) {
+                            ++cuentaMoveTripulante;
+                        }
                         Thread.sleep(3750);
                     } else {
                         System.out.println("La puerta esta cerrada");
@@ -588,7 +635,10 @@ public class Main {
                         if (PiaXXI.getMapa().get(6).getPuerta()) {
                             System.out.println("Te has movido a la Cocina");
                             Bond.setPosicion(6);
-                            posComandante++;
+                            cuentaMoveAlien++;
+                            if(Dormilon.getDormidoDespierto()) {
+                                ++cuentaMoveTripulante;
+                            }
                             Thread.sleep(3750);
                         } else {
                             System.out.println("La puerta esta cerrada");
@@ -613,8 +663,11 @@ public class Main {
                 if (PiaXXI.getMapa().get(7).getPuerta()) {
                     System.out.println("Te has movido al Comedor");
                     Bond.setPosicion(7);
-                    ++posComandante;
-                    moveAlien();
+                    cuentaMoveAlien++;
+                    if(Dormilon.getDormidoDespierto()) {
+                        ++cuentaMoveTripulante;
+                    }
+                    moveAlienTripulante();
                     Thread.sleep(3750);
                 } else {
                     System.out.println("La puerta esta cerrada");
@@ -747,18 +800,56 @@ public class Main {
         if (Bond.getInventarioComandante().size() == 0) {
             System.out.println(Ansi.WHITE + "No hay nada en el Inventario del Comandante");
         }
-        System.out.println("T-MoveAlien: " + posComandante);
+        System.out.println("T-MoveAlien: " + cuentaMoveAlien);
         Thread.sleep(4750);
     }
 
-    public void moveAlien() {
-        if (posComandante % 2 == 0) {
+    public void moveAlienTripulante() throws InterruptedException {
+        //Solucionar Movimiento del Tripulante
+        /*
+         El company es mourà de forma aleatòria
+         entre sales però el seu moviment serà d’una sala per tirada i només pot anar a les sales que estan al costat de la que es trobi en aquell moment.
+         */
+        //Solucionar Movimiento Alien
+        if (cuentaMoveTripulante % 1 == 0) {
+            int posR = (int) (Math.random() * 8);
+            Dormilon.setPosicion(posR);
+            System.out.println("Test-Tripulante movido");
+            System.out.println(Dormilon.getPosicion());
+        }
+        if (Bargalien.getPosicion() == Dormilon.getPosicion()) {
+            System.out.println("El Alien ha encontrado al Tripulante, ha terminado la partida.");
+            menuPrincipal();
+        }
+
+        if (Dormilon.getPosicion() == PiaXXI.getMapa().get(6).getZona()) {
+            if (PiaXXI.getMapa().get(6).getObjetos() != null) {
+                System.out.println("El tripulante se ha comido los Donuts");
+                PiaXXI.getMapa().get(6).setObjetos(null);
+            }
+        }
+
+        if (cuentaMoveAlien % 2 == 0) {
             int posR = (int) (Math.random() * 8);
             Bargalien.setPosicion(posR);
             System.out.println("Test-Alien movido");
         }
         if (Bargalien.getPosicion() == Bond.getPosicion()) {
-            System.out.println("Test-Alien en el mismo lugar que el Comandante");
+            if (!Bargalien.getAlteradoTranquilo()) {
+                System.out.println("¡Cuidado! Se ha oido algo muy oscuro en esta sala, miremos...");
+                Thread.sleep(1500);
+                System.out.println("Aquí hay alguien mas, no estoy solo.");
+                Thread.sleep(1500);
+                System.out.println("El Alien!!! No puedo huir");
+                for (int inv = 0; inv < Bond.getInventarioComandante().size(); inv++) {
+                    if (!Bond.getInventarioComandante().get(inv).getNombreHerramienta().equalsIgnoreCase("Donuts")) {
+                        if (!Bond.getInventarioComandante().get(inv).getNombreHerramienta().equalsIgnoreCase("Destornillador")) {
+                            System.out.println("Has muerto, no tienes ni los Donuts ni el Destornillador");
+                            menuPrincipal();
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -798,10 +889,12 @@ public class Main {
                 if (Bond.getInventarioComandante().get(i).getNombreHerramienta().equalsIgnoreCase(usarobjeto)) {
                     if (usarobjeto.equalsIgnoreCase("Tarjeta") || usarobjeto.equalsIgnoreCase("tarjetatripulante")) {
                         if (Bond.getPosicion() == PiaXXI.getMapa().get(2).getZona()) {
-                            System.out.println("Puedes abrir:" + PiaXXI.getMapa().get(3).getNombreHabitacions());
-                            Thread.sleep(3500);
+                            if(usarobjeto.equalsIgnoreCase("tarjetatripulante")){
+                                //Falta jorderle la vida...
+                                System.out.println("HiHall-Se que esta no es tu tarjeta, no me gusta que la gente utilize otras tarjetas así que no voy a ayudarte mucho...");
+                            }
                             if (!PiaXXI.getMapa().get(3).getPuerta()) {
-                                System.out.println("Abriendo puerta...");
+                                System.out.println("Abriendo..." + PiaXXI.getMapa().get(3).getNombreHabitacions());
                                 PiaXXI.getMapa().get(3).setPuerta(true);
                                 Thread.sleep(1500);
                             } else {
@@ -830,12 +923,22 @@ public class Main {
                         }
                     }
                     if (usarobjeto.equalsIgnoreCase("Traje")) {
+                        //Debere hacer que se lo quite...
                         if(!Bond.getVestido()) {
                             System.out.println("Vistiendote...");
                             Bond.setVestido(true);
                             Thread.sleep(1500);
                             System.out.println("Vestido");
                             Thread.sleep(1500);
+                            for(int traje = 0; traje < Bond.getInventarioComandante().size(); traje++) {
+                                if (Bond.getInventarioComandante().get(traje).getNombreHerramienta().equalsIgnoreCase("Traje")) {
+                                    ArrInventario.remove(Bond.getInventarioComandante().get(traje));
+                                    Bond.setInventarioComandante(ArrInventario);
+                                    System.out.println("T-Eliminado item");
+                                }
+                            }
+                        } else {
+                            System.out.println("Ya estas vestido.");
                         }
                     }
                     if (usarobjeto.equalsIgnoreCase("Donuts")) {
@@ -843,11 +946,19 @@ public class Main {
                             if(!Bargalien.getAlteradoTranquilo()) {
                                 System.out.println("Das de comer al Alien para que se tranquilize...");
                                 Bargalien.setAlteradoTranquilo(true);
+                                for(int donut = 0; donut < Bond.getInventarioComandante().size(); donut++) {
+                                    if (Bond.getInventarioComandante().get(donut).getNombreHerramienta().equalsIgnoreCase("Donuts")) {
+                                        ArrInventario.remove(Bond.getInventarioComandante().get(donut));
+                                        Bond.setInventarioComandante(ArrInventario);
+                                        System.out.println("T-Eliminado item");
+                                    }
+                                }
                                 Thread.sleep(1500);
                             }
                         }
                     }
                     if (usarobjeto.equalsIgnoreCase("Destornillador")) {
+                        //Para atacar al Alien
                         if(Bargalien.getPosicion() == Bond.getPosicion()) {
                             //True si esta alterado
                             if (Bargalien.getAlteradoTranquilo()) {
@@ -861,14 +972,17 @@ public class Main {
                                 Thread.sleep(3500);
                                 System.out.println("El alien se ha colado por tu garganta...");
                                 Thread.sleep(2500);
-                                cuentaAtras = 0;
+                                cuentaAtrasAlien = 0;
                             }
                         }
+                        //Para reparar nave
                         if(Bond.getPosicion() == PiaXXI.getMapa().get(8).getZona()) {
                             for(int traje = 0; traje < Bond.getInventarioComandante().size(); traje++) {
                                 if (Bond.getInventarioComandante().get(traje).getNombreHerramienta().equalsIgnoreCase("Traje")) {
                                     System.out.println("Saliendo a reparar los motores...");
                                     PiaXXI.setReparado(true);
+                                    Thread.sleep(4500);
+                                    System.out.println("Motores reparados, vuelva al Comandamiento a poner en marcha la nave");
                                 }
                             }
                         }
@@ -878,23 +992,74 @@ public class Main {
         }
     }
 
-    public void Hablar(){
+    public void charlaDormilon() throws InterruptedException {
+        boolean charlaStart = false;
+        boolean charlaSecond = false;
         //Conversación entre Tripulante y Comandante
+        ArrFrasesBond.add(0,"Despierta,Despierta,Despierta. Necesito de tu ayuda!!");
         ArrFrasesDormilon.add(0,"Espero que me hayas despertado para algo razonable");
         ArrFrasesDormilon.add(1,"Que quieres? dejame seguir durmiendo!");
-        ArrFrasesDormilon.add(2,"Mi tarjeta? Para que?");
-        ArrFrasesDormilon.add(3,"Espero que soluciones esto, anda toma, que me marcho a dar vueltas por la nave");
-        ArrFrasesDormilon.add(4,"Ya te he dado lo que necesitabas, no quiero hablar más necesito aire libre");
-        ArrFrasesBond.add(0,"Despierta,Despierta,Despierta. Necesito de tu ayuda!!");
         ArrFrasesBond.add(1,"Necesito tu tarjeta y te dejare en paz");
+        ArrFrasesDormilon.add(2,"Mi tarjeta? Para que?");
         ArrFrasesBond.add(2,"No encuentro mi tarjeta y necesito abrir las puertas, tengo un encargo pendiente en la nave");
+        ArrFrasesDormilon.add(3,"Espero que soluciones esto, anda toma, que me marcho a dar vueltas por la nave");
         ArrFrasesBond.add(3,"Gracias, ya te dejo tranquilo! Voy a seguir con mi encargo");
-        ArrFrasesBond.add(4,"Vale, vale. Tranquilo");
+        while(!charlaStart) {
+            Thread.sleep(750);
+            System.out.println(Ansi.ITALIC+Ansi.BLACK+ArrFrasesBond.get(0));
+            Thread.sleep(2750);
+            Dormilon.setDormidoDespierto(true);
+            System.out.println(Ansi.ITALIC+Ansi.YELLOW+ArrFrasesDormilon.get(0));
+            Thread.sleep(2750);
+            System.out.println(Ansi.ITALIC+Ansi.YELLOW+ArrFrasesDormilon.get(1));
+            Thread.sleep(2750);
+            System.out.println(Ansi.ITALIC+Ansi.BLACK+ArrFrasesBond.get(1));
+            Thread.sleep(2750);
+            System.out.println(Ansi.ITALIC+Ansi.YELLOW+ArrFrasesDormilon.get(2));
+            Thread.sleep(2750);
+            System.out.println(Ansi.ITALIC+Ansi.BLACK+ArrFrasesBond.get(2));
+            Thread.sleep(2750);
+            System.out.println(Ansi.ITALIC+Ansi.YELLOW+ArrFrasesDormilon.get(3));
+            ArrInventario.add(Dormilon.getObjetosTripulante());
+            Bond.setInventarioComandante(ArrInventario);
+            Thread.sleep(2750);
+            System.out.println(Ansi.BLUE+"Has cogido " +Ansi.HIGH_INTENSITY+Ansi.YELLOW+Ansi.UNDERLINE+Dormilon.getObjetosTripulante().getNombreHerramienta());
+            Thread.sleep(4500);
+            System.out.println(Ansi.SANE+Ansi.ITALIC+Ansi.BLACK+ArrFrasesBond.get(3)+Ansi.SANE);
+            Thread.sleep(2750);
+            moveAlienTripulante();
+            charlaStart = true;
+        }
+
+        ArrFrasesDormilon.add(4,"Ya te he dado lo que necesitabas, no quiero hablar más necesito aire libre");
+        ArrFrasesBond.add(4,"Vale, vale. Tranquilo,no te digo nada mas");
+        if(charlaSecond) {
+            System.out.println(ArrFrasesDormilon.get(4));
+            Thread.sleep(1500);
+            System.out.println(ArrFrasesBond.get(4));
+        }
+        charlaSecond = true;
+    }
+
+    public void charlaHiHall() {
         //Conversación entre HiHall y Comandante
         ArrFrasesHiHall.add(0,"Bond, Bond,Bond!! Despierta, esto es una emergencia!!");
         ArrFrasesBond.add(5,"Que pasa HiHall? Que necesitas de mi, espero que me hayas despertado por una buena razón");
         ArrFrasesHiHall.add(1,"Hay un problema con la nave, necesitamos de ti para que puedas repararlo");
         ArrFrasesBond.add(6,"Espero que sea verdad lo que digas, guiame!");
         ArrFrasesHiHall.add(2,"Creeme, sin ti esto no podria solucionarse");
+    }
+
+    public void finalJuego() throws InterruptedException {
+        System.out.println("La nave ha sido reparada correctamente, pongamos en marcha la nave");
+        System.out.println("Poniendo en marcha la nave...");
+        Thread.sleep(2500);
+        System.out.println("La nave ya funciona,nos vamos!!");
+        Thread.sleep(3500);
+        System.out.println("Gracias por haber jugado a este juego");
+        System.out.println("Ha sido creado por: Sergi Gonzalez Lloria");
+        Thread.sleep(3500);
+        System.out.println("Has terminado la partida");
+        return;
     }
 }
