@@ -1,4 +1,5 @@
 import Clases.*;
+import jdk.swing.interop.SwingInterOpUtils;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -45,7 +46,7 @@ public class Main {
                 opcion = sc.nextInt();
                 switch (opcion) {
                     case 1 -> startGame();
-                    case 2 -> System.out.println("Null");
+                    case 2 -> Creditos();
                     case 3 -> {
                         salir = true;
                         System.out.println("El Juego de Aventura a Finalizado correctamente.");
@@ -187,6 +188,19 @@ public class Main {
                 sc.next();
             }
         }
+    }
+
+    public void Creditos() throws InterruptedException {
+        System.out.println(Ansi.BLACK+"Espero que le guste el videojuego");
+        Thread.sleep(1750);
+        System.out.println("Ha sido creado para que lo disfrutes");
+        Thread.sleep(1750);
+        System.out.println("by Sergi Gonzalez,\n");
+        Thread.sleep(1750);
+        System.out.println("Alias TheHypnoo");
+        Thread.sleep(1750);
+        System.out.println("https://github.com/TheHypnoo/");
+        Thread.sleep(4500);
     }
 
     //Creacion
