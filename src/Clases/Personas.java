@@ -3,25 +3,22 @@ package Clases;
 import java.util.ArrayList;
 
 public class Personas {
-    protected String NombrePersona = "";
-    protected int VivoMuerto = 0;
+    protected String NombrePersona;
+    protected boolean VivoMuerto;
     protected ArrayList<String> FrasesPersonas = new ArrayList<>();
-    protected int Posicion = 0;
+    protected int Posicion;
 
-    public Personas(String NombrePersona, int VivoMuerto, ArrayList<String> FrasesPersonas, int Posicion){
+    public Personas(String NombrePersona, boolean VivoMuerto, ArrayList<String> FrasesPersonas, int Posicion){
         this.NombrePersona = NombrePersona;
         this.VivoMuerto = VivoMuerto;
         this.FrasesPersonas = FrasesPersonas;
         this.Posicion = Posicion;
     }
 
-    public Personas(String NombrePersona, int VivoMuerto, int Posicion){
+    public Personas(String NombrePersona, boolean VivoMuerto, int Posicion){
         this.NombrePersona = NombrePersona;
         this.VivoMuerto = VivoMuerto;
         this.Posicion = Posicion;
-    }
-
-    public Personas() {
     }
 
     //Establezco el nombre de la persona
@@ -33,11 +30,11 @@ public class Personas {
         return NombrePersona;
     }
     //Establezco si esta vivo o muerto
-    public void setVivoMuerto(int VivoMuerto){
+    public void setVivoMuerto(boolean VivoMuerto){
         this.VivoMuerto = VivoMuerto;
     }
     //Consigo saber si esta vivo o muerto
-    public int getVivoMuerto(){
+    public boolean getVivoMuerto(){
         return VivoMuerto;
     }
     //Establezco las frases de cada persona

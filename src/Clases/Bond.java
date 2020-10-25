@@ -1,28 +1,17 @@
 package Clases;
 
-import Clases.Herramientas;
-import Clases.Personas;
-
 import java.util.ArrayList;
 
 public class Bond extends Personas {
 
     protected ArrayList<Herramientas> InventarioComandante = new ArrayList<>();
-    protected ArrayList<String> FrasesComandante = new ArrayList<>();
+    protected ArrayList<String> FrasesComandante;
     protected boolean Vestido;
 
-    public Bond(String NombrePersona, int VivoMuerto, ArrayList<String> FrasesPersonas, int Posicion) {
+    public Bond(String NombrePersona, boolean VivoMuerto, ArrayList<String> FrasesPersonas, int Posicion) {
         super(NombrePersona, VivoMuerto, FrasesPersonas, Posicion);
         this.FrasesComandante = FrasesPersonas;
     }
-    /*
-    //Sin frases
-    public Clases.Bond(String NombrePersona, int VivoMuerto, int Posicion, ArrayList<Clases.Herramientas> InventarioComandante) {
-        super(NombrePersona, VivoMuerto, Posicion);
-        this.InventarioComandante = InventarioComandante;
-        this.FrasesComandante = FrasesPersonas;
-    }
-*/
 
     //Establezco los objetos del comandante
     public void setInventarioComandante(ArrayList<Herramientas> InventarioComandante){
@@ -32,12 +21,12 @@ public class Bond extends Personas {
     public ArrayList<Herramientas> getInventarioComandante() {
         return InventarioComandante;
     }
-
-    public boolean getVestido() {
-        return Vestido;
-    }
-
+    //Le pongo el traje o no
     public void setVestido(boolean vestido) {
         Vestido = vestido;
+    }
+    //Consigo saber si tiene el traje o no
+    public boolean getVestido() {
+        return Vestido;
     }
 }

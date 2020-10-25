@@ -11,10 +11,13 @@ public class Main {
     ArrayList<Herramientas> ArrInventario = new ArrayList<>();
     ArrayList<String> ArrFrasesBond = new ArrayList<>();
     ArrayList<String> ArrFrasesDormilon = new ArrayList<>();
-    ArrayList<String> ArrFrasesHiHall = new ArrayList<>();
     int cuentaMoveAlien;
     int cuentaAtrasAlien = -1;
     int cuentaMoveTripulante;
+    int posLinterna;
+    boolean linternaCogible;
+    boolean charlaStartDormilon;
+    boolean HiHallJodiendo;
     Alien Bargalien;
     Bond Bond;
     Tripulantes Dormilon;
@@ -51,7 +54,7 @@ public class Main {
                     default -> System.out.println(Ansi.RED + Ansi.HIGH_INTENSITY + "Error, vuelve a introducir el modo nuevamente.");
                 }
 
-            } catch (InputMismatchException e) {
+            } catch (InputMismatchException | InterruptedException e) {
                 System.out.println(Ansi.RED + Ansi.HIGH_INTENSITY + "Debes insertar un número correspondiente al que se te indica.");
                 sc.next();
             }
@@ -120,38 +123,34 @@ public class Main {
         }
     }
 
-    public void startGame() {
+    public void startGame() throws InterruptedException {
         crearHerramientas();
         crearHabitaciones();
         Bond = creaComandante();
         Bargalien = creaAlien();
         Dormilon = creaTripulantes();
         PiaXXI = creaNave();
-        posLinterna();
-/*
-        //Texto en modo prueba
-            System.out.println(Colores.ANSI_BLACK+"Any 2120 D.C.\n" +
-                    Colores.ANSI_GREEN+"La nau PiaXXII explora l’espai inhòspit en direcció al planeta SUMMEM on es creu que hi poden haver les\n" +
-                    "condicions idònies per arrelar una nova vida, que ja no es possible dur a terme en el planeta Pia.\n" +
-                    "Després d’un llarg període d’hivernació provocada pel llarg viatge al planeta SUMMEM, el cap de la tripulació\n" +
-                    "de la PiaXXII es desperta del son induït. L’ordinador de la nau iHall ha detectat una anomalia en el sistema i\n" +
-                    "necessita de la intervenció del cap de la tripulació per resoldre’l.");
+        creaLinterna();
+        //Historia Conversacional
+            System.out.println(Ansi.BLACK+"Año 2120 D.C.\n" +
+                    Ansi.GREEN+"La nave PiaXXII explora el espacio inhospito en direccion al planeta SUMMEM donde se cree que pueden haber las \n" +
+                    "condiciones ideales para comenzar una nueva vida, ya que no es posible seguir viviendo en el planeta Pia.\n" +
+                    "Después de un largo periodo de hinvernación provocado por el largo viaje al planeta SUMMEM, el jefe de la tripulación\n" +
+                    "se despierta del sueño inducido. El ordenador de la nave iHall ha detectado una anomalia en el sistema\n" +
+                    "y necesita la intervención del jefe de la tripulación para resolverlo");
             Thread.sleep(17500);
 
-            System.out.println(Colores.ANSI_BLACK+"HiHall: " +Colores.ANSI_RED+ "Que tal ha dormit capità Bond?. Em sap greu destorbar-lo però he detectat una anomalia a la nau.\n" +
-                                "Sembla ser que se’ns gira feina.");
+            System.out.println(Ansi.BLACK+"HiHall: " +Ansi.RED+ "Que tal ha dormido capitan Bond?. Siento molestarle pero he detectado una anomalia en la nave.\n" +
+                "Parece ser que hay faena.");
             Thread.sleep(8950);
-            System.out.println(Colores.ANSI_BLACK+"Capita Bond: "+Colores.ANSI_CYAN+"Espero que hagi estat indispensable haver-me destorbat el són!. \n" +
-                    "Sinó preparat per que et programi unes quantes sessions de Treball cooperatiu amb un tal Lago....");
+            System.out.println(Ansi.BLACK+"Capitan Bond: "+Ansi.CYAN+"Espero que sea indispensable haberme despertado del sueño!. \n" +
+                    "Sinó preparate porque te programare unas cuantas sesiones de trabajo coperativo con un tal Lago.... ");
             Thread.sleep(8950);
-            System.out.println(Colores.ANSI_BLACK+"HiHall: "+Colores.ANSI_RED+"Li garanteixo Capità Bond que no és una falsa alarma, no m’arriscaria a patir un càstig similar...");
+            System.out.println(Ansi.BLACK+"HiHall: "+Ansi.RED+"Le prometo Capitan Bond que no es una falsa alarma, no me arriesgaria a recibir un castigo como ese....");
             Thread.sleep(8950);
-            System.out.println(Colores.ANSI_BLACK+"Capita Bond: "+Colores.ANSI_CYAN+ "Està bé iHall, donem l’informe de la situació i... anem per feina!, que vull tornar a agafar el son.");
+            System.out.println(Ansi.BLACK+"Capitan Bond: "+Ansi.CYAN+ "Esta bien iHall, dame el informe de la situación y vamos por faena, que quiero volver a dormirme.");
             Thread.sleep(13000);
-        //Texto finalizado
-*/
-        //Alien.PosAlien();
-        //Alien.InfoAlien();
+            //Fin de la historia conversacional
         menuSecundario();
     }
 
@@ -172,7 +171,7 @@ public class Main {
                 opcion = sc.next();
                 switch (opcion.toUpperCase()) {
                     case "HIHALL" -> {
-                        System.out.println("Mira no funciona y punto.");
+                        charlaHiHall();
                         salir = true;
                     }
                     case "TRIPULANTE" -> {
@@ -211,16 +210,15 @@ public class Main {
     }
 
     public void crearHabitaciones() {
-        //Dormitorio con Linterna prueba..
-        Habitaciones Dormitorio = new Habitaciones("Dormitorio", crearHerramientas().get(1), true, 0, 1, -1, -1, 1, true, "La sala donde duerme la tripulacion");
-        Habitaciones Banyos = new Habitaciones("Baños", null, true, 1, -1, 1, -1, 1, true, "Son los unicos baños de la nave y no estan muy limpios...");
-        Habitaciones Oficinas = new Habitaciones("Oficinas", crearHerramientas().get(3), false, 2, 1, 1, 1, 1, true, "La sala donde estan todos los documentos de la nave");
-        Habitaciones Taller = new Habitaciones("Taller", crearHerramientas().get(0), false, 3, -1, 1, -1, -1, false, "Zona donde estan las herramientas de la nave");
-        Habitaciones Comandamiento = new Habitaciones("Comandamiento", null, true, 4, 1, -1, -1, -1, true, "Sala donde se controla totalmente toda la nave");
-        Habitaciones Vestuario = new Habitaciones("Vestuario", crearHerramientas().get(2), false, 5, -1, 1, 1, -1, true, "Lugar donde se cambia la tripulación");
-        Habitaciones Cocina = new Habitaciones("Cocina", crearHerramientas().get(5), false, 6, 1, -1, 1, -1, true, "Zona donde se cocina para los tripulantes");
-        Habitaciones Comedor = new Habitaciones("Comedor", null, true, 7, -1, 1, 1, 1, true, "Sala donde la tripulación come");
-        Habitaciones Salida = new Habitaciones("Salida", null, true, 8, 1, -1, -1, -1, true, "La salida de la nave");
+        Habitaciones Dormitorio = new Habitaciones("Dormitorio", null, true, 0,true, "La sala donde duerme la tripulacion");
+        Habitaciones Banyos = new Habitaciones("Baños", null, true, 1,  true,"Son los unicos baños de la nave y no estan muy limpios...");
+        Habitaciones Oficinas = new Habitaciones("Oficinas", crearHerramientas().get(3), false, 2, true, "La sala donde estan todos los documentos de la nave");
+        Habitaciones Taller = new Habitaciones("Taller", crearHerramientas().get(0), false, 3, false, "Zona donde estan las herramientas de la nave");
+        Habitaciones Comandamiento = new Habitaciones("Comandamiento", null, true, 4, true, "Sala donde se controla totalmente toda la nave");
+        Habitaciones Vestuario = new Habitaciones("Vestuario", crearHerramientas().get(2), false, 5, true, "Lugar donde se cambia la tripulación");
+        Habitaciones Cocina = new Habitaciones("Cocina", crearHerramientas().get(5), false, 6, true, "Zona donde se cocina para los tripulantes");
+        Habitaciones Comedor = new Habitaciones("Comedor", null, true, 7, true, "Sala donde la tripulación come");
+        Habitaciones Salida = new Habitaciones("Salida", null, true, 8, true, "La salida de la nave");
 
         ArrHabitaciones.add(0, Dormitorio);
         ArrHabitaciones.add(1, Banyos);
@@ -239,17 +237,15 @@ public class Main {
     }
 
     public Bond creaComandante() {
-        return new Bond("Bond", 1, ArrFrasesBond, 0);
+        return new Bond("Bond", true, ArrFrasesBond, 0);
     }
 
-    //En modo prueba el tripulante
     public Tripulantes creaTripulantes() {
-        return new Tripulantes("Tripulante", 1, ArrFrasesDormilon, 0, false, crearHerramientas().get(4));
+        return new Tripulantes("Tripulante", true, ArrFrasesDormilon, 0, false, crearHerramientas().get(4));
     }
 
-    //En modo prueba el Alien
     public Alien creaAlien() {
-        return new Alien("Bergalian", 1, ArrFrasesBond, 8, 0, true);
+        return new Alien("Bergalian", true, 8, true);
     }
 
     //Movimiento
@@ -270,9 +266,9 @@ public class Main {
 
     public void desdeDormitorio() throws InterruptedException {
 
-        System.out.println("Lugares donde puedes ir:");
-        System.out.println(PiaXXI.getMapa().get(1).getNombreHabitacions());//Baño
-        System.out.println(PiaXXI.getMapa().get(7).getNombreHabitacions());//Comedor
+        System.out.println(Ansi.YELLOW+"Lugares donde puedes ir:");
+        System.out.println(Ansi.WHITE+Ansi.HIGH_INTENSITY+Ansi.UNDERLINE+PiaXXI.getMapa().get(1).getNombreHabitaciones());//Baño
+        System.out.println(PiaXXI.getMapa().get(7).getNombreHabitaciones());//Comedor
 
         String pregunta = sc.next();
 
@@ -281,7 +277,7 @@ public class Main {
             if (Bond.getPosicion() == PiaXXI.getMapa().get(0).getZona()) {
                 if (PiaXXI.getMapa().get(1).getLuzHabitacion()) {
                     if (PiaXXI.getMapa().get(1).getPuerta()) {
-                        System.out.println("Te has movido a Baños");
+                        System.out.println(Ansi.SANE+Ansi.BLUE+"Te has movido a "+ Ansi.HIGH_INTENSITY+Ansi.UNDERLINE+"Baños"+Ansi.SANE);
                         Bond.setPosicion(1);
                         cuentaMoveAlien++;
                         if(Dormilon.getDormidoDespierto()) {
@@ -290,7 +286,7 @@ public class Main {
                         moveAlienTripulante();
                         Thread.sleep(3750);
                     } else {
-                        System.out.println("La puerta esta cerrada.");
+                        System.out.println(Ansi.SANE+Ansi.RED+"La puerta esta cerrada."+Ansi.SANE);
                         Thread.sleep(2750);
                     }
                 }
@@ -299,7 +295,7 @@ public class Main {
             if (pregunta.equalsIgnoreCase("Comedor")) {
                 if (Bond.getPosicion() == PiaXXI.getMapa().get(0).getZona()) {
                     if (PiaXXI.getMapa().get(7).getPuerta()) {
-                        System.out.println("Te has movido al Comedor");
+                        System.out.println(Ansi.SANE+Ansi.BLUE+"Te has movido a "+ Ansi.HIGH_INTENSITY+Ansi.UNDERLINE+"Comedor"+Ansi.SANE);
                         Bond.setPosicion(7);
                         cuentaMoveAlien++;
                         if(Dormilon.getDormidoDespierto()) {
@@ -308,7 +304,7 @@ public class Main {
                         moveAlienTripulante();
                         Thread.sleep(3750);
                     } else {
-                        System.out.println("La puerta esta cerrada");
+                        System.out.println(Ansi.SANE+Ansi.RED+"La puerta esta cerrada."+Ansi.SANE);
                     }
                 }
             }
@@ -317,16 +313,16 @@ public class Main {
 
     public void desdeBanyos() throws InterruptedException {
 
-        System.out.println("Lugares donde puedes ir:");
-        System.out.println(PiaXXI.getMapa().get(2).getNombreHabitacions());//Oficina
-        System.out.println(PiaXXI.getMapa().get(0).getNombreHabitacions());//Dormitorio
+        System.out.println(Ansi.YELLOW+"Lugares donde puedes ir:");
+        System.out.println(Ansi.WHITE+Ansi.HIGH_INTENSITY+Ansi.UNDERLINE+PiaXXI.getMapa().get(2).getNombreHabitaciones());//Oficina
+        System.out.println(PiaXXI.getMapa().get(0).getNombreHabitaciones());//Dormitorio
 
         String pregunta = sc.next();
 
         if (pregunta.equalsIgnoreCase("Oficina") || pregunta.equalsIgnoreCase("Oficinas")) {
             if (Bond.getPosicion() == PiaXXI.getMapa().get(1).getZona()) {
                 if (PiaXXI.getMapa().get(2).getPuerta()) {
-                    System.out.println("Te has movido a la Oficina");
+                    System.out.println(Ansi.SANE+Ansi.BLUE+"Te has movido a "+ Ansi.HIGH_INTENSITY+Ansi.UNDERLINE+"Oficina"+Ansi.SANE);
                     Bond.setPosicion(2);
                     cuentaMoveAlien++;
                     if(Dormilon.getDormidoDespierto()) {
@@ -335,7 +331,7 @@ public class Main {
                     moveAlienTripulante();
                     Thread.sleep(3750);
                 } else {
-                    System.out.println("La puerta esta cerrada");
+                    System.out.println(Ansi.SANE+Ansi.RED+"La puerta esta cerrada."+Ansi.SANE);
                     Thread.sleep(2750);
                 }
             }
@@ -343,7 +339,7 @@ public class Main {
             if (pregunta.equalsIgnoreCase("Dormitorio")) {
                 if (Bond.getPosicion() == PiaXXI.getMapa().get(1).getZona()) {
                     if (PiaXXI.getMapa().get(0).getPuerta()) {
-                        System.out.println("Te has movido al Dormitorio");
+                        System.out.println(Ansi.SANE+Ansi.BLUE+"Te has movido a "+ Ansi.HIGH_INTENSITY+Ansi.UNDERLINE+"Dormitorio"+Ansi.SANE);
                         Bond.setPosicion(0);
                         cuentaMoveAlien++;
                         if(Dormilon.getDormidoDespierto()) {
@@ -352,7 +348,7 @@ public class Main {
                         moveAlienTripulante();
                         Thread.sleep(3750);
                     } else {
-                        System.out.println("La puerta esta cerrada");
+                        System.out.println(Ansi.SANE+Ansi.RED+"La puerta esta cerrada."+Ansi.SANE);
                         Thread.sleep(2750);
                     }
                 }
@@ -361,11 +357,11 @@ public class Main {
     }
 
     public void desdeOficinas() throws InterruptedException {
-        System.out.println("Lugares donde puedes ir:");
-        System.out.println(PiaXXI.getMapa().get(3).getNombreHabitacions());//Taller
-        System.out.println(PiaXXI.getMapa().get(4).getNombreHabitacions());//Comandamiento
-        System.out.println(PiaXXI.getMapa().get(5).getNombreHabitacions());//Vestuario
-        System.out.println(PiaXXI.getMapa().get(1).getNombreHabitacions());//Baños
+        System.out.println(Ansi.YELLOW+"Lugares donde puedes ir:");
+        System.out.println(Ansi.WHITE+Ansi.HIGH_INTENSITY+Ansi.UNDERLINE+PiaXXI.getMapa().get(3).getNombreHabitaciones());//Taller
+        System.out.println(PiaXXI.getMapa().get(4).getNombreHabitaciones());//Comandamiento
+        System.out.println(PiaXXI.getMapa().get(5).getNombreHabitaciones());//Vestuario
+        System.out.println(PiaXXI.getMapa().get(1).getNombreHabitaciones());//Baños
 
         String pregunta = sc.next();
 
@@ -373,7 +369,7 @@ public class Main {
         if (pregunta.equalsIgnoreCase("Taller")) {
             if (Bond.getPosicion() == PiaXXI.getMapa().get(2).getZona()) {
                 if (PiaXXI.getMapa().get(3).getPuerta()) {
-                    System.out.println("Te has movido al Taller");
+                    System.out.println(Ansi.SANE+Ansi.BLUE+"Te has movido a "+ Ansi.HIGH_INTENSITY+Ansi.UNDERLINE+"Taller"+Ansi.SANE);
                     Bond.setPosicion(3);
                     cuentaMoveAlien++;
                     if(Dormilon.getDormidoDespierto()) {
@@ -382,7 +378,7 @@ public class Main {
                     moveAlienTripulante();
                     Thread.sleep(3750);
                 } else {
-                    System.out.println("La puerta esta cerrada.");
+                    System.out.println(Ansi.SANE+Ansi.RED+"La puerta esta cerrada."+Ansi.SANE);
                     Thread.sleep(2750);
                 }
             }
@@ -390,7 +386,7 @@ public class Main {
             if (pregunta.equalsIgnoreCase("Comandamiento")) {
                 if (Bond.getPosicion() == PiaXXI.getMapa().get(2).getZona()) {
                     if (PiaXXI.getMapa().get(4).getPuerta()) {
-                        System.out.println("Te has movido al Comandamiento");
+                        System.out.println(Ansi.SANE+Ansi.BLUE+"Te has movido a "+ Ansi.HIGH_INTENSITY+Ansi.UNDERLINE+"Comandamiento"+Ansi.SANE);
                         Bond.setPosicion(4);
                         cuentaMoveAlien++;
                         if(Dormilon.getDormidoDespierto()) {
@@ -399,7 +395,7 @@ public class Main {
                         moveAlienTripulante();
                         Thread.sleep(3750);
                     } else {
-                        System.out.println("La puerta esta cerrada.");
+                        System.out.println(Ansi.SANE+Ansi.RED+"La puerta esta cerrada."+Ansi.SANE);
                         Thread.sleep(2750);
                     }
                 }
@@ -407,7 +403,7 @@ public class Main {
                 if (pregunta.equalsIgnoreCase("Vestuario")) {
                     if (Bond.getPosicion() == PiaXXI.getMapa().get(2).getZona()) {
                         if (PiaXXI.getMapa().get(5).getPuerta()) {
-                            System.out.println("Te has movido al Vestuario");
+                            System.out.println(Ansi.SANE+Ansi.BLUE+"Te has movido a "+ Ansi.HIGH_INTENSITY+Ansi.UNDERLINE+"Vestuario"+Ansi.SANE);
                             Bond.setPosicion(5);
                             cuentaMoveAlien++;
                             if(Dormilon.getDormidoDespierto()) {
@@ -416,7 +412,7 @@ public class Main {
                             moveAlienTripulante();
                             Thread.sleep(3750);
                         } else {
-                            System.out.println("La puerta esta cerrada");
+                            System.out.println(Ansi.SANE+Ansi.RED+"La puerta esta cerrada."+Ansi.SANE);
                             Thread.sleep(2750);
                         }
                     }
@@ -424,7 +420,7 @@ public class Main {
                     if (pregunta.equalsIgnoreCase("Baños")) {
                         if (Bond.getPosicion() == PiaXXI.getMapa().get(2).getZona()) {
                             if (PiaXXI.getMapa().get(1).getPuerta()) {
-                                System.out.println("Te has movido a Baños");
+                                System.out.println(Ansi.SANE+Ansi.BLUE+"Te has movido a "+ Ansi.HIGH_INTENSITY+Ansi.UNDERLINE+"Baños"+Ansi.SANE);
                                 Bond.setPosicion(1);
                                 cuentaMoveAlien++;
                                 if(Dormilon.getDormidoDespierto()) {
@@ -433,7 +429,7 @@ public class Main {
                                 moveAlienTripulante();
                                 Thread.sleep(3750);
                             } else {
-                                System.out.println("La puerta esta cerrada");
+                                System.out.println(Ansi.SANE+Ansi.RED+"La puerta esta cerrada."+Ansi.SANE);
                                 Thread.sleep(2750);
                             }
                         }
@@ -445,8 +441,8 @@ public class Main {
 
     public void desdeTaller() throws InterruptedException {
 
-        System.out.println("Lugares donde puedes ir:");
-        System.out.println(PiaXXI.getMapa().get(2).getNombreHabitacions());//Oficinas
+        System.out.println(Ansi.YELLOW+"Lugares donde puedes ir:");
+        System.out.println(Ansi.WHITE+Ansi.HIGH_INTENSITY+Ansi.UNDERLINE+PiaXXI.getMapa().get(2).getNombreHabitaciones());//Oficinas
 
         String pregunta = sc.next();
 
@@ -454,7 +450,7 @@ public class Main {
         if (pregunta.equalsIgnoreCase("Oficina") || pregunta.equalsIgnoreCase("Oficinas")) {
             if (Bond.getPosicion() == PiaXXI.getMapa().get(3).getZona()) {
                 if (PiaXXI.getMapa().get(2).getPuerta()) {
-                    System.out.println("Te has movido a la Oficina");
+                    System.out.println(Ansi.SANE+Ansi.BLUE+"Te has movido a "+ Ansi.HIGH_INTENSITY+Ansi.UNDERLINE+"Oficina"+Ansi.SANE);
                     Bond.setPosicion(2);
                     cuentaMoveAlien++;
                     if(Dormilon.getDormidoDespierto()) {
@@ -463,7 +459,7 @@ public class Main {
                     moveAlienTripulante();
                     Thread.sleep(3750);
                 } else {
-                    System.out.println("La puerta esta cerrada");
+                    System.out.println(Ansi.SANE+Ansi.RED+"La puerta esta cerrada."+Ansi.SANE);
                     Thread.sleep(2750);
                 }
             }
@@ -472,8 +468,8 @@ public class Main {
 
     public void desdeComandamiento() throws InterruptedException {
 
-        System.out.println("Lugares donde puedes ir:");
-        System.out.println(PiaXXI.getMapa().get(2).getNombreHabitacions());//Oficinas
+        System.out.println(Ansi.YELLOW+"Lugares donde puedes ir:");
+        System.out.println(Ansi.WHITE+Ansi.HIGH_INTENSITY+Ansi.UNDERLINE+PiaXXI.getMapa().get(2).getNombreHabitaciones());//Oficinas
 
         String pregunta = sc.next();
 
@@ -481,7 +477,7 @@ public class Main {
         if (pregunta.equalsIgnoreCase("Oficina") || pregunta.equalsIgnoreCase("Oficinas")) {
             if (Bond.getPosicion() == PiaXXI.getMapa().get(4).getZona()) {
                 if (PiaXXI.getMapa().get(2).getPuerta()) {
-                    System.out.println("Te has movido a la Oficina");
+                    System.out.println(Ansi.SANE+Ansi.BLUE+"Te has movido a "+ Ansi.HIGH_INTENSITY+Ansi.UNDERLINE+"Oficina"+Ansi.SANE);
                     Bond.setPosicion(2);
                     cuentaMoveAlien++;
                     if(Dormilon.getDormidoDespierto()) {
@@ -490,7 +486,7 @@ public class Main {
                     moveAlienTripulante();
                     Thread.sleep(3750);
                 } else {
-                    System.out.println("La puerta esta cerrada");
+                    System.out.println(Ansi.SANE+Ansi.RED+"La puerta esta cerrada."+Ansi.SANE);
                     Thread.sleep(2750);
                 }
             }
@@ -499,9 +495,9 @@ public class Main {
 
     public void desdeVestuario() throws InterruptedException {
 
-        System.out.println("Lugares donde puedes ir:");
-        System.out.println(PiaXXI.getMapa().get(6).getNombreHabitacions());//Cocina
-        System.out.println(PiaXXI.getMapa().get(2).getNombreHabitacions());//Oficinas
+        System.out.println(Ansi.YELLOW+"Lugares donde puedes ir:");
+        System.out.println(Ansi.WHITE+Ansi.HIGH_INTENSITY+Ansi.UNDERLINE+PiaXXI.getMapa().get(6).getNombreHabitaciones());//Cocina
+        System.out.println(PiaXXI.getMapa().get(2).getNombreHabitaciones());//Oficinas
 
         String pregunta = sc.next();
 
@@ -509,7 +505,7 @@ public class Main {
         if (pregunta.equalsIgnoreCase("Cocina")) {
             if (Bond.getPosicion() == PiaXXI.getMapa().get(5).getZona()) {
                 if (PiaXXI.getMapa().get(6).getPuerta()) {
-                    System.out.println("Te has movido a Cocina");
+                    System.out.println(Ansi.SANE+Ansi.BLUE+"Te has movido a "+ Ansi.HIGH_INTENSITY+Ansi.UNDERLINE+"Cocina"+Ansi.SANE);
                     Bond.setPosicion(6);
                     cuentaMoveAlien++;
                     if(Dormilon.getDormidoDespierto()) {
@@ -518,7 +514,7 @@ public class Main {
                     moveAlienTripulante();
                     Thread.sleep(3750);
                 } else {
-                    System.out.println("La puerta esta cerrada");
+                    System.out.println(Ansi.SANE+Ansi.RED+"La puerta esta cerrada."+Ansi.SANE);
                     Thread.sleep(2750);
                 }
             }
@@ -526,7 +522,7 @@ public class Main {
             if (pregunta.equalsIgnoreCase("Oficinas")) {
                 if (Bond.getPosicion() == PiaXXI.getMapa().get(5).getZona()) {
                     if (PiaXXI.getMapa().get(2).getPuerta()) {
-                        System.out.println("Te has movido a Oficinas");
+                        System.out.println(Ansi.SANE+Ansi.BLUE+"Te has movido a "+ Ansi.HIGH_INTENSITY+Ansi.UNDERLINE+"Oficina"+Ansi.SANE);
                         Bond.setPosicion(2);
                         cuentaMoveAlien++;
                         if(Dormilon.getDormidoDespierto()) {
@@ -535,7 +531,7 @@ public class Main {
                         moveAlienTripulante();
                         Thread.sleep(3750);
                     } else {
-                        System.out.println("La puerta esta cerrada");
+                        System.out.println(Ansi.SANE+Ansi.RED+"La puerta esta cerrada."+Ansi.SANE);
                         Thread.sleep(2750);
                     }
                 }
@@ -544,9 +540,9 @@ public class Main {
     }
 
     public void desdeCocina() throws InterruptedException {
-        System.out.println("Lugares donde puedes ir:");
-        System.out.println(PiaXXI.getMapa().get(7).getNombreHabitacions());//Comedor
-        System.out.println(PiaXXI.getMapa().get(5).getNombreHabitacions());//Vestuario
+        System.out.println(Ansi.YELLOW+"Lugares donde puedes ir:");
+        System.out.println(Ansi.WHITE+Ansi.HIGH_INTENSITY+Ansi.UNDERLINE+PiaXXI.getMapa().get(7).getNombreHabitaciones());//Comedor
+        System.out.println(PiaXXI.getMapa().get(5).getNombreHabitaciones());//Vestuario
 
         String pregunta = sc.next();
 
@@ -554,7 +550,7 @@ public class Main {
         if (pregunta.equalsIgnoreCase("Comedor")) {
             if (Bond.getPosicion() == PiaXXI.getMapa().get(6).getZona()) {
                 if (PiaXXI.getMapa().get(7).getPuerta()) {
-                    System.out.println("Te has movido al Comedor");
+                    System.out.println(Ansi.SANE+Ansi.BLUE+"Te has movido a "+ Ansi.HIGH_INTENSITY+Ansi.UNDERLINE+"Comedor"+Ansi.SANE);
                     Bond.setPosicion(7);
                     cuentaMoveAlien++;
                     if(Dormilon.getDormidoDespierto()) {
@@ -563,7 +559,7 @@ public class Main {
                     moveAlienTripulante();
                     Thread.sleep(3750);
                 } else {
-                    System.out.println("La puerta esta cerrada");
+                    System.out.println(Ansi.SANE+Ansi.RED+"La puerta esta cerrada."+Ansi.SANE);
                     Thread.sleep(2750);
                 }
             }
@@ -571,7 +567,7 @@ public class Main {
             if (pregunta.equalsIgnoreCase("Vestuario")) {
                 if (Bond.getPosicion() == PiaXXI.getMapa().get(6).getZona()) {
                     if (PiaXXI.getMapa().get(5).getPuerta()) {
-                        System.out.println("Te has movido al Vestuario");
+                        System.out.println(Ansi.SANE+Ansi.BLUE+"Te has movido a "+ Ansi.HIGH_INTENSITY+Ansi.UNDERLINE+"Vestuario"+Ansi.SANE);
                         Bond.setPosicion(5);
                         cuentaMoveAlien++;
                         if(Dormilon.getDormidoDespierto()) {
@@ -580,7 +576,7 @@ public class Main {
                         moveAlienTripulante();
                         Thread.sleep(3750);
                     } else {
-                        System.out.println("La puerta esta cerrada");
+                        System.out.println(Ansi.SANE+Ansi.RED+"La puerta esta cerrada."+Ansi.SANE);
                         Thread.sleep(2750);
                     }
                 }
@@ -589,10 +585,10 @@ public class Main {
     }
 
     public void desdeComedor() throws InterruptedException {
-        System.out.println("Lugares donde puedes ir:");
-        System.out.println(PiaXXI.getMapa().get(8).getNombreHabitacions());//Salida
-        System.out.println(PiaXXI.getMapa().get(0).getNombreHabitacions());//Dormitorio
-        System.out.println(PiaXXI.getMapa().get(6).getNombreHabitacions());//Cocina
+        System.out.println(Ansi.YELLOW+"Lugares donde puedes ir:");
+        System.out.println(Ansi.WHITE+Ansi.HIGH_INTENSITY+Ansi.UNDERLINE+PiaXXI.getMapa().get(8).getNombreHabitaciones());//Salida
+        System.out.println(PiaXXI.getMapa().get(6).getNombreHabitaciones());//Cocina
+        System.out.println(PiaXXI.getMapa().get(0).getNombreHabitaciones());//Dormitorio
 
         String pregunta = sc.next();
 
@@ -600,7 +596,7 @@ public class Main {
         if (pregunta.equalsIgnoreCase("Salida")) {
             if (Bond.getPosicion() == PiaXXI.getMapa().get(7).getZona()) {
                 if (PiaXXI.getMapa().get(8).getPuerta()) {
-                    System.out.println("Te has movido a la Salida");
+                    System.out.println(Ansi.SANE+Ansi.BLUE+"Te has movido a "+ Ansi.HIGH_INTENSITY+Ansi.UNDERLINE+"Salida"+Ansi.SANE);
                     Bond.setPosicion(8);
                     cuentaMoveAlien++;
                     if(Dormilon.getDormidoDespierto()) {
@@ -609,7 +605,7 @@ public class Main {
                     moveAlienTripulante();
                     Thread.sleep(3750);
                 } else {
-                    System.out.println("La puerta esta cerrada");
+                    System.out.println(Ansi.SANE+Ansi.RED+"La puerta esta cerrada."+Ansi.SANE);
                     Thread.sleep(2750);
                 }
             }
@@ -617,7 +613,7 @@ public class Main {
             if (pregunta.equalsIgnoreCase("Dormitorio")) {
                 if (Bond.getPosicion() == PiaXXI.getMapa().get(7).getZona()) {
                     if (PiaXXI.getMapa().get(0).getPuerta()) {
-                        System.out.println("Te has movido al Dormitorio");
+                        System.out.println(Ansi.SANE+Ansi.BLUE+"Te has movido a "+ Ansi.HIGH_INTENSITY+Ansi.UNDERLINE+"Dormitorio"+Ansi.SANE);
                         Bond.setPosicion(0);
                         cuentaMoveAlien++;
                         if(Dormilon.getDormidoDespierto()) {
@@ -625,7 +621,7 @@ public class Main {
                         }
                         Thread.sleep(3750);
                     } else {
-                        System.out.println("La puerta esta cerrada");
+                        System.out.println(Ansi.SANE+Ansi.RED+"La puerta esta cerrada."+Ansi.SANE);
                         Thread.sleep(2750);
                     }
                 }
@@ -633,7 +629,7 @@ public class Main {
                 if (pregunta.equalsIgnoreCase("Cocina")) {
                     if (Bond.getPosicion() == PiaXXI.getMapa().get(7).getZona()) {
                         if (PiaXXI.getMapa().get(6).getPuerta()) {
-                            System.out.println("Te has movido a la Cocina");
+                            System.out.println(Ansi.SANE+Ansi.BLUE+"Te has movido a "+ Ansi.HIGH_INTENSITY+Ansi.UNDERLINE+"Cocina"+Ansi.SANE);
                             Bond.setPosicion(6);
                             cuentaMoveAlien++;
                             if(Dormilon.getDormidoDespierto()) {
@@ -641,7 +637,7 @@ public class Main {
                             }
                             Thread.sleep(3750);
                         } else {
-                            System.out.println("La puerta esta cerrada");
+                            System.out.println(Ansi.SANE+Ansi.RED+"La puerta esta cerrada."+Ansi.SANE);
                             Thread.sleep(2750);
                         }
                     }
@@ -652,8 +648,8 @@ public class Main {
 
     public void desdeSalida() throws InterruptedException {
 
-        System.out.println("Lugares donde puedes ir:");
-        System.out.println(PiaXXI.getMapa().get(7).getNombreHabitacions());//Comedor
+        System.out.println(Ansi.YELLOW+"Lugares donde puedes ir:");
+        System.out.println(Ansi.WHITE+Ansi.HIGH_INTENSITY+Ansi.UNDERLINE+PiaXXI.getMapa().get(7).getNombreHabitaciones());//Comedor
 
         String pregunta = sc.next();
 
@@ -661,7 +657,7 @@ public class Main {
         if (pregunta.equalsIgnoreCase("Comedor")) {
             if (Bond.getPosicion() == PiaXXI.getMapa().get(8).getZona()) {
                 if (PiaXXI.getMapa().get(7).getPuerta()) {
-                    System.out.println("Te has movido al Comedor");
+                    System.out.println(Ansi.SANE+Ansi.BLUE+"Te has movido a "+ Ansi.HIGH_INTENSITY+Ansi.UNDERLINE+"Comedor"+Ansi.SANE);
                     Bond.setPosicion(7);
                     cuentaMoveAlien++;
                     if(Dormilon.getDormidoDespierto()) {
@@ -670,7 +666,7 @@ public class Main {
                     moveAlienTripulante();
                     Thread.sleep(3750);
                 } else {
-                    System.out.println("La puerta esta cerrada");
+                    System.out.println(Ansi.SANE+Ansi.RED+"La puerta esta cerrada."+Ansi.SANE);
                     Thread.sleep(2750);
                 }
             }
@@ -705,13 +701,13 @@ public class Main {
                 if (PiaXXI.getMapa().get(x).getObjetos() != null) {
                     if (Bond.getPosicion() == PiaXXI.getMapa().get(x).getZona()) {
                         if (PiaXXI.getMapa().get(x).getLuzHabitacion()) {
-                            System.out.println(Ansi.BLUE+"Hay estos objetos: " +Ansi.HIGH_INTENSITY+Ansi.YELLOW+Ansi.UNDERLINE+ PiaXXI.getMapa().get(x).getObjetos().getNombreHerramienta());
-                            aux = x;
-                            encontrado = true;
+                                System.out.println(Ansi.BLUE+"Hay estos objetos: " +Ansi.HIGH_INTENSITY+Ansi.YELLOW+Ansi.UNDERLINE+ PiaXXI.getMapa().get(x).getObjetos().getNombreHerramienta());
+                                aux = x;
+                                encontrado = true;
                         } else {
-                            System.out.println(Ansi.SANE+Ansi.RED+"Como vas a cojer algo sin ver nada");
-                            Thread.sleep(1750);
-                            coje = false;
+                                System.out.println(Ansi.SANE+Ansi.RED+"Como vas a cojer algo sin ver nada");
+                                Thread.sleep(1750);
+                                coje = false;
                         }
                     }
                 }
@@ -727,14 +723,13 @@ public class Main {
                 objeto = PiaXXI.getMapa().get(aux).getObjetos().getNombreHerramienta();
             }
             if (coger.equalsIgnoreCase(objeto) && coje) {
-                System.out.println(Ansi.BLUE+"Has cogido " +Ansi.HIGH_INTENSITY+Ansi.YELLOW+Ansi.UNDERLINE+PiaXXI.getMapa().get(aux).getObjetos().getNombreHerramienta());
+                System.out.println(Ansi.BLUE+"Has cogido " +Ansi.HIGH_INTENSITY+Ansi.YELLOW+Ansi.UNDERLINE+PiaXXI.getMapa().get(aux).getObjetos().getNombreHerramienta()+Ansi.SANE);
                 ArrInventario.add(0, PiaXXI.getMapa().get(aux).getObjetos());
                 Bond.setInventarioComandante(ArrInventario);
                 PiaXXI.getMapa().get(aux).setObjetos(null);
             }
             Thread.sleep(1750);
         }
-        System.out.println(Ansi.SANE);
     }
 
     public void dejaObjeto() throws InterruptedException {
@@ -759,37 +754,35 @@ public class Main {
                     System.out.println(Ansi.SANE+Ansi.MAGENTA+"Elige que objeto quieres dejar");
                     buscadejar = sc.next();
                     if (Bond.getInventarioComandante().get(aux).getNombreHerramienta().equalsIgnoreCase(buscadejar)) {
-                        System.out.println(Ansi.SANE+Ansi.BLUE+"Has dejado " +Ansi.HIGH_INTENSITY+Ansi.YELLOW+Ansi.UNDERLINE+ Bond.getInventarioComandante().get(aux).getNombreHerramienta());
+                        System.out.println(Ansi.SANE+Ansi.BLUE+"Has dejado " +Ansi.HIGH_INTENSITY+Ansi.YELLOW+Ansi.UNDERLINE+ Bond.getInventarioComandante().get(aux).getNombreHerramienta()+Ansi.SANE);
                         Thread.sleep(1750);
                         PiaXXI.getMapa().get(aux).setObjetos(Bond.getInventarioComandante().get(aux));
                         ArrInventario.remove(Bond.getInventarioComandante().get(aux));
                     } else {
-                        System.out.println(Ansi.SANE+Ansi.RED+"No es igual a lo que tienes en tu mochila");
+                        System.out.println(Ansi.SANE+Ansi.RED+"No es igual a lo que tienes en tu mochila"+Ansi.SANE);
                         Thread.sleep(1750);
                     }
                 }
             }
         } else {
-            System.out.println(Ansi.SANE+Ansi.RED+"Dentro de la habitación hay cosas, no podemos meter mas cosas");
+            System.out.println(Ansi.SANE+Ansi.RED+"Dentro de la habitación hay cosas, no podemos meter mas cosas"+Ansi.SANE);
             Thread.sleep(1750);
         }
-        System.out.println(Ansi.SANE);
     }
 
     public void infoComandante() throws InterruptedException {
-        System.out.println(Ansi.BLACK + "Nombre del Comandante: " + Ansi.WHITE + Bond.getNombrePersona());
-        //Lo siguiente sera por vidas..
-        if (Bond.getVivoMuerto() == 1) {
-            System.out.println(Ansi.BLACK + "Estado del Comandante:" + Ansi.WHITE + " Vivo");
+        System.out.println(Ansi.BLACK + "Nombre: " + Ansi.WHITE + Bond.getNombrePersona());
+        if (Bond.getVivoMuerto()) {
+            System.out.println(Ansi.BLACK + "Estado:" + Ansi.WHITE + " Vivo");
         } else {
-            System.out.println(Ansi.BLACK + "Estado del Comandante:" + Ansi.WHITE + " Muerto");
+            System.out.println(Ansi.BLACK + "Estado:" + Ansi.RED + " Muerto");
         }
 
-        System.out.println(Ansi.BLACK + "Lugar: " + Ansi.WHITE + PiaXXI.getMapa().get(Bond.getPosicion()).getNombreHabitacions());
+        System.out.println(Ansi.BLACK + "Lugar: " + Ansi.WHITE + PiaXXI.getMapa().get(Bond.getPosicion()).getNombreHabitaciones());
         if (PiaXXI.getMapa().get(Bond.getPosicion()).getLuzHabitacion()) {
-            System.out.println(Ansi.BLACK + "Luz:" + Ansi.WHITE + " Encendida");
+            System.out.println(Ansi.BLACK + "Luz:" + Ansi.BLACK + " Encendida");
         } else {
-            System.out.println(Ansi.BLACK + "Luz:" + Ansi.WHITE + " Apagada");
+            System.out.println(Ansi.BLACK + "Luz:" + Ansi.RED + " Apagada");
         }
 
         for (int x = 0; x < Bond.getInventarioComandante().size(); x++) {
@@ -798,33 +791,27 @@ public class Main {
             }
         }
         if (Bond.getInventarioComandante().size() == 0) {
-            System.out.println(Ansi.WHITE + "No hay nada en el Inventario del Comandante");
+            System.out.println(Ansi.RED + "No hay nada en el Inventario del Comandante");
         }
-        System.out.println("T-MoveAlien: " + cuentaMoveAlien);
         Thread.sleep(4750);
     }
 
     public void moveAlienTripulante() throws InterruptedException {
-        //Solucionar Movimiento del Tripulante
-        /*
-         El company es mourà de forma aleatòria
-         entre sales però el seu moviment serà d’una sala per tirada i només pot anar a les sales que estan al costat de la que es trobi en aquell moment.
-         */
-        //Solucionar Movimiento Alien
-        if (cuentaMoveTripulante % 1 == 0) {
+        if (Dormilon.getDormidoDespierto()) {
+        if (cuentaMoveTripulante >= 1) {
             int posR = (int) (Math.random() * 8);
             Dormilon.setPosicion(posR);
-            System.out.println("Test-Tripulante movido");
             System.out.println(Dormilon.getPosicion());
         }
+    }
         if (Bargalien.getPosicion() == Dormilon.getPosicion()) {
-            System.out.println("El Alien ha encontrado al Tripulante, ha terminado la partida.");
+            System.out.println(Ansi.RED+"El Alien ha encontrado al Tripulante, ha terminado la partida.");
             menuPrincipal();
         }
 
         if (Dormilon.getPosicion() == PiaXXI.getMapa().get(6).getZona()) {
             if (PiaXXI.getMapa().get(6).getObjetos() != null) {
-                System.out.println("El tripulante se ha comido los Donuts");
+                System.out.println(Ansi.RED+"El tripulante se ha comido los Donuts");
                 PiaXXI.getMapa().get(6).setObjetos(null);
             }
         }
@@ -832,19 +819,18 @@ public class Main {
         if (cuentaMoveAlien % 2 == 0) {
             int posR = (int) (Math.random() * 8);
             Bargalien.setPosicion(posR);
-            System.out.println("Test-Alien movido");
         }
         if (Bargalien.getPosicion() == Bond.getPosicion()) {
             if (!Bargalien.getAlteradoTranquilo()) {
-                System.out.println("¡Cuidado! Se ha oido algo muy oscuro en esta sala, miremos...");
+                System.out.println(Ansi.RED+"¡Cuidado! Se ha oido algo muy oscuro en esta sala, miremos...");
                 Thread.sleep(1500);
-                System.out.println("Aquí hay alguien mas, no estoy solo.");
+                System.out.println(Ansi.RED+"Aquí hay alguien mas, no estoy solo.");
                 Thread.sleep(1500);
-                System.out.println("El Alien!!! No puedo huir");
+                System.out.println(Ansi.RED+"El Alien!!! No puedo huir");
                 for (int inv = 0; inv < Bond.getInventarioComandante().size(); inv++) {
                     if (!Bond.getInventarioComandante().get(inv).getNombreHerramienta().equalsIgnoreCase("Donuts")) {
                         if (!Bond.getInventarioComandante().get(inv).getNombreHerramienta().equalsIgnoreCase("Destornillador")) {
-                            System.out.println("Has muerto, no tienes ni los Donuts ni el Destornillador");
+                            System.out.println(Ansi.RED+"Has muerto, no tienes ni los Donuts ni el Destornillador");
                             menuPrincipal();
                         }
                     }
@@ -853,10 +839,13 @@ public class Main {
         }
     }
 
-    public void posLinterna() {
-        int posR = (int) (Math.random() * 8);
-        if (PiaXXI.getMapa().get(posR).getObjetos() == null) {
-            PiaXXI.getMapa().get(posR).setObjetos(crearHerramientas().get(1));
+    public void creaLinterna() {
+        while (!linternaCogible) {
+            posLinterna = (int) Math.floor(Math.random()*(-8 +1)+8);
+            if (PiaXXI.getMapa().get(posLinterna).getObjetos() == null && PiaXXI.getMapa().get(posLinterna).getLuzHabitacion() && PiaXXI.getMapa().get(posLinterna).getPuerta()) {
+                PiaXXI.getMapa().get(posLinterna).setObjetos(crearHerramientas().get(1));
+                linternaCogible = true;
+            }
         }
     }
 
@@ -875,11 +864,11 @@ public class Main {
 
         //Posibles errores que pueden suceder
         if (Bond.getInventarioComandante() == null) {
-            System.out.println("No puedes utilizar nada que no tienes");
+            System.out.println(Ansi.RED+"No puedes utilizar nada que no tienes");
             usar = false;
         }
         if (Bond.getInventarioComandante().size() == 0) {
-            System.out.println(Ansi.WHITE + "No hay nada en el Inventario que podamos utilizar");
+            System.out.println(Ansi.RED+"No hay nada en el Inventario que podamos utilizar");
             usar = false;
         }
         //Sino, se usa...
@@ -887,22 +876,23 @@ public class Main {
             usarobjeto = sc.next();
             for (int i = 0; i < Aux.size(); i++) {
                 if (Bond.getInventarioComandante().get(i).getNombreHerramienta().equalsIgnoreCase(usarobjeto)) {
-                    if (usarobjeto.equalsIgnoreCase("Tarjeta") || usarobjeto.equalsIgnoreCase("tarjetatripulante")) {
+                    if (usarobjeto.equalsIgnoreCase("Tarjeta") || usarobjeto.equalsIgnoreCase("TarjetaTripulante")) {
                         if (Bond.getPosicion() == PiaXXI.getMapa().get(2).getZona()) {
                             if(usarobjeto.equalsIgnoreCase("tarjetatripulante")){
                                 //Falta jorderle la vida...
-                                System.out.println("HiHall-Se que esta no es tu tarjeta, no me gusta que la gente utilize otras tarjetas así que no voy a ayudarte mucho...");
+                                System.out.println(Ansi.BLACK+"HiHall-Se que esta no es tu tarjeta, no me gusta que la gente utilize otras tarjetas así que no voy a ayudarte mucho...");
+                                HiHallJodiendo = true;
                             }
                             if (!PiaXXI.getMapa().get(3).getPuerta()) {
-                                System.out.println("Abriendo..." + PiaXXI.getMapa().get(3).getNombreHabitacions());
+                                System.out.println(Ansi.BLUE+"Abriendo... " + PiaXXI.getMapa().get(3).getNombreHabitaciones());
                                 PiaXXI.getMapa().get(3).setPuerta(true);
                                 Thread.sleep(1500);
                             } else {
-                                System.out.println("La puerta ya esta abierta");
+                                System.out.println(Ansi.RED+"La puerta ya esta abierta");
                                 Thread.sleep(1500);
                             }
                         } else {
-                            System.out.println("No hay nada que puedas utilizar con la tarjeta");
+                            System.out.println(Ansi.RED+"No hay nada que puedas utilizar con la tarjeta");
                             Thread.sleep(1500);
                         }
                     }
@@ -962,17 +952,18 @@ public class Main {
                         if(Bargalien.getPosicion() == Bond.getPosicion()) {
                             //True si esta alterado
                             if (Bargalien.getAlteradoTranquilo()) {
-                                System.out.println("El alien esta en la misma posición que tu y esta muy alterado");
+                                System.out.println(Ansi.RED+"El alien esta en la misma posición que tu y esta muy alterado");
                                 if(Bond.getInventarioComandante().get(i).getNombreHerramienta().equalsIgnoreCase("Donuts")){
-                                    System.out.println("Puedes darle los donuts para que se tranquilice");
+                                    System.out.println(Ansi.BLUE+"Puedes darle los donuts para que se tranquilice");
+                                } else {
+                                    System.out.println(Ansi.RED+"No puedes huir, deberas atacarle con el destornillador");
+                                    Thread.sleep(1500);
+                                    System.out.println(Ansi.RED+"Atacando...");
+                                    Thread.sleep(3500);
+                                    System.out.println(Ansi.RED+"El alien se ha colado por tu garganta...");
+                                    Thread.sleep(2500);
+                                    cuentaAtrasAlien = 0;
                                 }
-                                System.out.println("No puedes huir, deberas atacarle con el destornillador");
-                                Thread.sleep(1500);
-                                System.out.println("Atacando...");
-                                Thread.sleep(3500);
-                                System.out.println("El alien se ha colado por tu garganta...");
-                                Thread.sleep(2500);
-                                cuentaAtrasAlien = 0;
                             }
                         }
                         //Para reparar nave
@@ -993,18 +984,24 @@ public class Main {
     }
 
     public void charlaDormilon() throws InterruptedException {
-        boolean charlaStart = false;
-        boolean charlaSecond = false;
         //Conversación entre Tripulante y Comandante
-        ArrFrasesBond.add(0,"Despierta,Despierta,Despierta. Necesito de tu ayuda!!");
-        ArrFrasesDormilon.add(0,"Espero que me hayas despertado para algo razonable");
-        ArrFrasesDormilon.add(1,"Que quieres? dejame seguir durmiendo!");
-        ArrFrasesBond.add(1,"Necesito tu tarjeta y te dejare en paz");
-        ArrFrasesDormilon.add(2,"Mi tarjeta? Para que?");
-        ArrFrasesBond.add(2,"No encuentro mi tarjeta y necesito abrir las puertas, tengo un encargo pendiente en la nave");
-        ArrFrasesDormilon.add(3,"Espero que soluciones esto, anda toma, que me marcho a dar vueltas por la nave");
-        ArrFrasesBond.add(3,"Gracias, ya te dejo tranquilo! Voy a seguir con mi encargo");
-        while(!charlaStart) {
+        if(charlaStartDormilon) {
+            ArrFrasesDormilon.add(4,"Ya te he dado lo que necesitabas, no quiero hablar más necesito aire libre");
+            ArrFrasesBond.add(4,"Vale, vale. Tranquilo,no te digo nada mas");
+            System.out.println(Ansi.ITALIC+Ansi.YELLOW+ArrFrasesDormilon.get(4));
+            Thread.sleep(2500);
+            System.out.println(Ansi.ITALIC+Ansi.BLACK+ArrFrasesBond.get(4));
+            Thread.sleep(1750);
+        }
+        if(!charlaStartDormilon) {
+            ArrFrasesBond.add(0,"Despierta,Despierta,Despierta. Necesito de tu ayuda!!");
+            ArrFrasesDormilon.add(0,"Espero que me hayas despertado para algo razonable");
+            ArrFrasesDormilon.add(1,"Que quieres? dejame seguir durmiendo!");
+            ArrFrasesBond.add(1,"Necesito tu tarjeta y te dejare en paz");
+            ArrFrasesDormilon.add(2,"Mi tarjeta? Para que?");
+            ArrFrasesBond.add(2,"No encuentro mi tarjeta y necesito abrir las puertas, tengo un encargo pendiente en la nave");
+            ArrFrasesDormilon.add(3,"Espero que soluciones esto, anda toma, que me marcho a dar vueltas por la nave");
+            ArrFrasesBond.add(3,"Gracias, ya te dejo tranquilo! Voy a seguir con mi encargo");
             Thread.sleep(750);
             System.out.println(Ansi.ITALIC+Ansi.BLACK+ArrFrasesBond.get(0));
             Thread.sleep(2750);
@@ -1028,26 +1025,39 @@ public class Main {
             System.out.println(Ansi.SANE+Ansi.ITALIC+Ansi.BLACK+ArrFrasesBond.get(3)+Ansi.SANE);
             Thread.sleep(2750);
             moveAlienTripulante();
-            charlaStart = true;
+            charlaStartDormilon = true;
         }
-
-        ArrFrasesDormilon.add(4,"Ya te he dado lo que necesitabas, no quiero hablar más necesito aire libre");
-        ArrFrasesBond.add(4,"Vale, vale. Tranquilo,no te digo nada mas");
-        if(charlaSecond) {
-            System.out.println(ArrFrasesDormilon.get(4));
-            Thread.sleep(1500);
-            System.out.println(ArrFrasesBond.get(4));
-        }
-        charlaSecond = true;
     }
 
     public void charlaHiHall() {
-        //Conversación entre HiHall y Comandante
-        ArrFrasesHiHall.add(0,"Bond, Bond,Bond!! Despierta, esto es una emergencia!!");
-        ArrFrasesBond.add(5,"Que pasa HiHall? Que necesitas de mi, espero que me hayas despertado por una buena razón");
-        ArrFrasesHiHall.add(1,"Hay un problema con la nave, necesitamos de ti para que puedas repararlo");
-        ArrFrasesBond.add(6,"Espero que sea verdad lo que digas, guiame!");
-        ArrFrasesHiHall.add(2,"Creeme, sin ti esto no podria solucionarse");
+        int NumberJoder = (int) Math.floor(Math.random()*(-10 +1)+10);
+        System.out.println(Ansi.BLACK+"LINTERNA");
+        System.out.println(Ansi.BLACK+"ALIEN");
+        String option = sc.next();
+        switch(option.toUpperCase()){
+            case "ALIEN" -> {
+                if (HiHallJodiendo) {
+                    if (NumberJoder >= 5) {
+                        System.out.println(Ansi.BLACK + "Posición del Alien: " + Ansi.UNDERLINE + Ansi.MAGENTA + PiaXXI.getMapa().get(Bargalien.getPosicion()).getNombreHabitaciones() + Ansi.SANE);
+                    } else {
+                        System.out.println("Lo siento, has utilizado la tarjeta del tripulante, no te voy a ayudar");
+                    }
+                } else {
+                    System.out.println(Ansi.BLACK+"Posición del Alien: "+Ansi.UNDERLINE+Ansi.MAGENTA+PiaXXI.getMapa().get(Bargalien.getPosicion()).getNombreHabitaciones()+Ansi.SANE);
+                }
+            }
+            case "LINTERNA" -> {
+                if (HiHallJodiendo) {
+                    if (NumberJoder >= 5) {
+                        System.out.println(Ansi.BLACK+"Posición de la Linterna: "+Ansi.UNDERLINE+Ansi.MAGENTA+PiaXXI.getMapa().get(posLinterna).getNombreHabitaciones()+Ansi.SANE);
+                    } else {
+                        System.out.println("Lo siento, has utilizado la tarjeta del tripulante, no te voy a ayudar");
+                    }
+                } else {
+                    System.out.println(Ansi.BLACK+"Posición de la Linterna: "+Ansi.UNDERLINE+Ansi.MAGENTA+PiaXXI.getMapa().get(posLinterna).getNombreHabitaciones()+Ansi.SANE);
+                }
+            }
+        }
     }
 
     public void finalJuego() throws InterruptedException {
@@ -1060,6 +1070,5 @@ public class Main {
         System.out.println("Ha sido creado por: Sergi Gonzalez Lloria");
         Thread.sleep(3500);
         System.out.println("Has terminado la partida");
-        return;
     }
 }

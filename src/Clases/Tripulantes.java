@@ -1,23 +1,17 @@
 package Clases;
 
-import Clases.Personas;
-
 import java.util.ArrayList;
 
 public class Tripulantes extends Personas {
     protected Boolean DormidoDespierto;
     protected Herramientas ObjetosTripulante;
 
-    public Tripulantes(String NombrePersona, int VivoMuerto, ArrayList<String> FrasesPersonas, int Posicion, Boolean DormidoDespierto, Herramientas ObjetosTripulante) {
+    public Tripulantes(String NombrePersona, boolean VivoMuerto, ArrayList<String> FrasesPersonas, int Posicion, Boolean DormidoDespierto, Herramientas ObjetosTripulante) {
         super(NombrePersona, VivoMuerto, FrasesPersonas, Posicion);
         this.DormidoDespierto = DormidoDespierto;
         this.ObjetosTripulante = ObjetosTripulante;
     }
 
-    public Tripulantes(String NombrePersona, int VivoMuerto, int Posicion, Boolean DormidoDespierto) {
-        super(NombrePersona, VivoMuerto, Posicion);
-        this.DormidoDespierto = DormidoDespierto;
-    }
 
     //Establece Si el tripulante esta dormido o despierto
     public void setDormidoDespierto(Boolean DormidoDespierto){

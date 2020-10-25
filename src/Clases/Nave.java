@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Nave {
     private String NombreNave;
-    private ArrayList<Habitaciones> mapaHabitaciones = new ArrayList<>();
+    private ArrayList<Habitaciones> mapaHabitaciones;
     private boolean Reparado;
 
     public Nave (String NombreNave, ArrayList<Habitaciones> mapaHabitaciones, boolean Reparado)
@@ -31,12 +31,12 @@ public class Nave {
     public ArrayList<Habitaciones> getMapa (){
         return this.mapaHabitaciones;
     }
-
-    public boolean getReparado() {
-        return Reparado;
-    }
-
+    //Establezco si esta reparado o no
     public void setReparado(boolean reparado) {
         Reparado = reparado;
+    }
+    //Consigo saber si esta reparado o no
+    public boolean getReparado() {
+        return Reparado;
     }
 }
